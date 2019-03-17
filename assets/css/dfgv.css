@@ -58,7 +58,8 @@
 .wd-80{	width: 80% !important;}
 .wd-90{	width: 90% !important;}
 .wd-100{width: 100% !important;}
-
+.float-left{float:left}
+.float-right{float: right}
 .inline-block
 {
 	display: inline-block;
@@ -69,4 +70,8 @@
 	color:red;
 	font-weight: 600;
 }
-
+.login-page
+{
+    overflow: hidden;
+    background: linear-gradient(-5deg, rgb(0, 180, 219) 53%, rgb(0, 131, 176) 53%) !important;
+}
