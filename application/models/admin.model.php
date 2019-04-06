@@ -99,6 +99,23 @@ class admin extends main
 			echo 'Something went wrong!<br>Error: '.$e->getMessage();
 		}
 	}
+
+	public function showEditEmployee($edit)
+	{
+		$result = array();
+		$sql = $this->conn->prepare("SELECT * FROM employee e INNER JOIN users u USING(userID) WHERE u.userID = ?");
+		$sql->bindParam(1, $edit);
+		$sql->execute();
+		if(!empty($sql->rowCount()))
+		{
+			while($row = $sql->fetch(PDO::FETCH_ASSOC))
+				{
+					$result[] = $row;
+				}
+		}
+		
+		return $result;
+	}
 }
 
 $admin = new admin;

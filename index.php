@@ -5,13 +5,14 @@ require_once('application/models/admin.model.php');
 		{
 			require('application/views/layouts/header.php');
 			require('application/views/layouts/sidebar.php');
-				if(isset($_GET['employee']))
-				{
+				if(isset($_GET['employee'])) {
 					require_once('application/views/admin/employee.php');
-				}elseif(isset($_GET['addEmployee']))
-				{
+				} else if(isset($_GET['addEmployee'])) {
 					require_once('application/views/admin/addEmployee.php');
+				} else if(isset($_GET['editEmployee'])) {
+					require_once('application/views/admin/editEmployee.php');
 				}
+
 			require('application/views/layouts/footer.php');
 		}
 		else

@@ -1,4 +1,3 @@
-<?php require_once('application/views/admin/modals/editEmployee.modal.php');?>
 <section class="content">
 	<div class="box box-info">
 		<div class="box-header with-border">
@@ -27,7 +26,7 @@
 							<td><?php echo ucfirst($employee['address'])?></td>
 							<td><?php echo (!empty($employee['email']) || $employee == null ? $employee['email'] : 'Not given')?></td>
 							<td class="text-center">
-								<a href="#edit-employee-modal" class="empEdit" id="<?php echo $employee['userID'];?>" data-toggle="modal"> <i class="fa fa-edit fa-lg"></i></a> 
+								<a href="?editEmployee=<?php echo $employee['userID'];?>" class="empEdit" id="<?php echo $employee['userID'];?>" data-toggle="modal"> <i class="fa fa-edit fa-lg"></i></a> 
 								&nbsp;| &nbsp;
 								<a href="javascript:;" class="empDel" id="<?php echo $employee['userID'];?>"> <i class="fa fa-trash fa-lg text-danger"></i></a>
 							</td>
@@ -35,7 +34,7 @@
 						<?php endforeach;?>
 						<?php else:?>
 							<tr>
-								<td colspan="5"> No data available.</td>
+								<td colspan="6"> No data available.</td>
 							</tr>
 						<?php endif; ?>
 					</tbody>

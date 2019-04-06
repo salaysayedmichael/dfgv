@@ -76,6 +76,7 @@ class main
 	{
 		try
 		{
+			$result = array();
 			$sql = $this->conn->prepare('SELECT * FROM employee WHERE userID = ?');
 			$sql->bindParam(1, $user_id);
 			$sql->execute();
@@ -96,7 +97,8 @@ class main
 	{
 		try
 		{	
-			$sql = $this->conn->prepare('SELECT * FROM employee');
+			$result = array();
+			$sql = $this->conn->prepare('SELECT * FROM employee WHERE deleted = 0 ORDER BY created DESC');
 			$sql->execute();
 			if(!empty($sql->rowCount()))
 			{
