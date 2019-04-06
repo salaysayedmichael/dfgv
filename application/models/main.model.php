@@ -11,8 +11,10 @@ class main
 	function __construct()
 	{
 		$this->connection();
-		// $this->getAllEmployees();
+		// $this->checkUserDupli('123');
 	}
+
+
 	public function connection()
 	{
 		try
@@ -78,7 +80,7 @@ class main
 			$sql->bindParam(1, $user_id);
 			$sql->execute();
 			$row = $sql->fetch(PDO::FETCH_ASSOC);
-			if($sql->rowCount() == 1)
+			if(!empty($sql->rowCount()))
 			{
 				$result[] = $row;
 			}
@@ -120,7 +122,6 @@ class main
 			header("Location: .");
 		}
 	}
-
 }
 $main = new main;
 $main->logout();

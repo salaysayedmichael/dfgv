@@ -7,11 +7,12 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel">
       <div class="pull-left image">
-        <img src="assets/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-      </div>
-      <div class="pull-left info">
         <?php if(!empty($main->getUser($_SESSION['uid']))) :?>
         <?php foreach($main->getUser($_SESSION['uid']) as $user) :?>
+        <img src="<?php echo 'assets/imgs/'.$user['gender'].'.png'?>" class="img-circle" alt="User Image">
+      </div>
+      <div class="pull-left info">
+        
         <p><?php echo ucfirst($user['fName']).' '.mb_substr($user['mName'], 0, 1, 'utf-8').'. '.' '.ucfirst($user['lName']);?></p>
         <?php endforeach;?>
         <?php endif;?>
@@ -36,7 +37,7 @@
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">HEADER</li>
       <!-- Optionally, you can add icons to the links -->
-      <li class="active"><a href="?addEmployee"><i class="fa fa-link"></i> <span>Employee</span></a></li>
+      <li class="active"><a href="?employee"><i class="fa fa-link"></i> <span>Employee</span></a></li>
       <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
       <li class="treeview">
         <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
@@ -46,7 +47,7 @@
             </a>
         <ul class="treeview-menu">
           <li><a href="#">Link in level 2</a></li>
-          <li><a href="#">Link in level 2</a></li>
+          <li><a href="?">Link in level 2</a></li>
         </ul>
       </li>
     </ul>
