@@ -3,15 +3,8 @@ require_once('../models/main.model.php');
 
 $result = array();
 $action = (isset($_POST['action']) ? trim($_POST['action']) : null);
-<<<<<<< Updated upstream
-switch ($action) {
-	case 'login':
-		# code...
-		$result = array();
-=======
 switch($action){
 	case "login":
->>>>>>> Stashed changes
 		$result['message'] = 'Error occured please contact the system administrator.';
 		$result['error'] = true;
 		$user_id = trim($_POST['user_id']);
@@ -38,16 +31,6 @@ switch($action){
 				$result['message'] = 'Access denied.';
 			}
 		}
-<<<<<<< Updated upstream
-
-		echo json_encode($result);
-		break;
-	
-	default:
-		# code...
-		break;
-}
-=======
 		break;
 	case "addBorrower":
 		$columns = [];
@@ -97,4 +80,3 @@ switch($action){
 
 echo json_encode($result);
 ?>
->>>>>>> Stashed changes

@@ -37,12 +37,8 @@
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">HEADER</li>
       <!-- Optionally, you can add icons to the links -->
-<<<<<<< Updated upstream
-      <li class="active"><a href="?employee"><i class="fa fa-link"></i> <span>Employee</span></a></li>
-=======
       <li  class="<?php echo isset($_GET['addEmployee'])?"active":"" ?>"><a href="?addEmployee"><i class="fa fa-link"></i> <span>Employee</span></a></li>
       <li class="<?php echo isset($_GET['addBorrower'])?"active":"" ?>"><a href="?addBorrower"><i class="fa fa-link"></i> <span>Borrower</span></a></li>
->>>>>>> Stashed changes
       <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
       <li class="treeview">
         <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
