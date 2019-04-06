@@ -31,7 +31,6 @@ $(document).ready(function(){
 			alertify.alert(title, message);
 		}
 	}
-	//Login
 	function lazyData(columns, parent){
 		data = {}
 		errors = []
