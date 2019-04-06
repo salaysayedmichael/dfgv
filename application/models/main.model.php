@@ -29,7 +29,26 @@ class main
 			echo 'Something went wrong!<br>Error: '.$e->getMessage();
 		}
 	}
-
+	public function getOne($query,$data){ //added by Joe Apr 6, 2019
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute($data);
+		$rows = $stmt->fetch(PDO::FETCH_ASSOC);
+		if(!empty($rows)){
+			foreach($rows as $row){
+                return $row;
+            }
+		}
+		return null;
+	}
+	public function getAll($query,$data){ //added by Joe Apr 6, 2019
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute($data);
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+	public function perf($query,$data){ //added by Joe Apr 6, 2019
+		$stmt = $this->conn->prepare($query);
+		return $stmt->execute($data);
+	}
 	public function login($user_id, $password)
 	{
 		try
@@ -97,8 +116,12 @@ class main
 	{
 		try
 		{	
+
 			$result = array();
 			$sql = $this->conn->prepare('SELECT * FROM employee WHERE deleted = 0 ORDER BY created DESC');
+
+			$sql = $this->conn->prepare('SELECT * FROM employee WHERE deleted = 0');
+
 			$sql->execute();
 			if(!empty($sql->rowCount()))
 			{
@@ -114,7 +137,48 @@ class main
 			echo 'Something went wrong!<br> Error: '.$e->getMessage();
 		}
 	}
-
+	public function getAllBorrowers()
+	{
+		try
+		{	
+			$sql = $this->conn->prepare('SELECT * FROM borrower');
+			$sql->execute();
+			$result = [];
+			if(!empty($sql->rowCount()))
+			{
+				while($row = $sql->fetch(PDO::FETCH_ASSOC))
+				{
+					$result[] = $row;
+				}
+			}
+			return $result;
+		}
+		catch(PDOException $e)
+		{
+			echo 'Something went wrong!<br> Error: '.$e->getMessage();
+		}
+	}
+	public function getAllComakers()
+	{
+		try
+		{	
+			$sql = $this->conn->prepare('SELECT * FROM comaker');
+			$sql->execute();
+			$result = [];
+			if(!empty($sql->rowCount()))
+			{
+				while($row = $sql->fetch(PDO::FETCH_ASSOC))
+				{
+					$result[] = $row;
+				}
+			}
+			return $result;
+		}
+		catch(PDOException $e)
+		{
+			echo 'Something went wrong!<br> Error: '.$e->getMessage();
+		}
+	}
 	public function logout()
 	{
 		$logout = (isset($_GET['logout']) ? $_GET['logout'] : null);

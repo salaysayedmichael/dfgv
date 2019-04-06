@@ -64,3 +64,24 @@
 .inline-block{display: inline-block;}
 .red-info{font-size: 11px;color:red;font-weight: 600;}
 .login-page{overflow: hidden;background: linear-gradient(-5deg, rgb(0, 180, 219) 53%, rgb(0, 131, 176) 53%) !important;}
+.inline-block
+{
+	display: inline-block;
+}
+.red-info
+{
+	font-size: 11px;
+	color:red;
+	font-weight: 600;
+}
+.login-page
+{
+    overflow: hidden;
+    background: linear-gradient(-5deg, rgb(0, 180, 219) 53%, rgb(0, 131, 176) 53%) !important;
+}
+.editBorrowerBtn{ /* added by Joe */
+    cursor: pointer;
+}
+.deleteBorrowerBtn{ /* added by Joe */
+    cursor: pointer;
+}

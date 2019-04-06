@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	
 	function returnAJAX(method, url, data)
 	{
 		return $.ajax({
@@ -30,7 +31,40 @@ $(document).ready(function(){
 			alertify.alert(title, message);
 		}
 	}
-	//Login
+	function lazyData(columns, parent){
+		data = {}
+		errors = []
+		$.each(columns,function(index,val){
+			placeholder = $(`${parent} #${val}`).attr("placeholder")
+			type = $(`${parent} #${val}`).attr("type")
+			value = $(`${parent} #${val}`).val()
+			if(type!="date"){
+				if(type=="text"){
+					if(value.trim()==="" || value.trim()===null){
+						errors.push(placeholder)
+						return false;
+					}
+				}else{
+					if(value === "" || value === null){
+						errors.push(placeholder)
+						return false;
+					}
+				}
+				
+			}else{
+				if (!Date.parse(value)) {
+					errors.push(placeholder)
+					return false;
+				}
+			}
+			data[val] = value;
+		})
+		if (errors.length !== 0) {
+			alert(`${errors.join()} field should be set.`)
+			return {}
+		}
+		return data
+	}
 	$('#login').on('click',function(e){
 		e.preventDefault();
 		var user_id  = $('#user-id').val();
@@ -118,6 +152,11 @@ $(document).ready(function(){
 
 	});
 
+	//Update Employee info
+	$('body').on('click','.empEdit',function(){
+		var id = $(this).attr('id');
+		$('#lName').val(id);
+	});
 	//Soft Delete Employee
 	$('body').on('click','.empDel',function(){
 		var id   = $(this).attr('id');
@@ -133,5 +172,91 @@ $(document).ready(function(){
 		});
 		
 	});
+	$('#addBorrower').on('click',function(e){
+		e.preventDefault();
+		var columns = [`fName`, `mName`, `lName`, `bDay`, `civilStatus`, `gender`, `presentAddr`, `homeAddr`, `ownHouse`, `renting`, `lengthOfStay`, `noOfChildren`, `occupation`, `contactNo`, `validID`, `loanCount`, `comakerID`]
+		data = lazyData(columns,'#add-borrower-modal')
+		if($.isEmptyObject(data)){
+			return
+		}
+		data["action"] = "addBorrower";
+		url      = 'application/controllers/main.controller.php';
+		$('#addBorrower').prop("disabled",true)
+		$('#addBorrower').text("Adding..")
+		$.when(returnAJAX('POST', url, data)).done(function(response){
+			response = JSON.parse(response);
+			if(response){
+				alert("Borrower successfully added!");
+			}else{
+				alert("Error occured!");
+			}
+			$('#addBorrower').prop("disabled",false)
+			$('#addBorrower').text("Add Borrower")
+			setTimeout(() => {
+				location.reload();
+			}, 2000);
+		});
+	});
+	$('.editBorrowerBtn').on('click',function(e){
+		data = {}
+		data["action"] = "getBorrower";
+		data["id"] = $(this).data("id")
+		url      = 'application/controllers/main.controller.php';
+		$.when(returnAJAX('POST', url, data)).done(function(response){
+			response = JSON.parse(response);
+			$.each(response,function(key,value){
+				$.each(value,function(index,val){
+					$(`#${index}`).val(val)
+				})
+			})
+			$("#edit-borrower-modal").modal("show")
+		});
+	});
+	$('.deleteBorrowerBtn').on('click',function(e){
+		data = {}
+		data["action"] = "deleteBorrower"
+		data["id"] = $(this).data("id")
+		var deleteMessage = confirm("Do you really want to delete this?");
+		if (deleteMessage == true) {
+			url      = 'application/controllers/main.controller.php';
+			$.when(returnAJAX('POST', url, data)).done(function(response){
+				response = JSON.parse(response);
+				if(response){
+					alert("Borrower data has been deleted!");
+				}else{
+					alert("Error occured!");
+				}
+				setTimeout(() => {
+					location.reload();
+				}, 2000);
+			});
+		}
+	});
+	$('#saveBorrower').on('click',function(e){
+		e.preventDefault();
+		var columns = [`borrowerID`,`fName`, `mName`, `lName`, `bDay`, `civilStatus`, `gender`, `presentAddr`, `homeAddr`, `ownHouse`, `renting`, `lengthOfStay`, `noOfChildren`, `occupation`, `contactNo`, `validID`, `loanCount`, `comakerID`]
+		data = lazyData(columns,'#edit-borrower-modal')
+		if($.isEmptyObject(data)){
+			return
+		}
+		data["action"] = "saveBorrower";
+		url      = 'application/controllers/main.controller.php';
+		$('#saveBorrower').prop("disabled",true)
+		$('#saveBorrower').text("Saving..")
+		$.when(returnAJAX('POST', url, data)).done(function(response){
+			response = JSON.parse(response);
+			if(response){
+				alert("Changes successfully saved!");
+			}else{
+				alert("Error occured!");
+			}
+			$('#saveBorrower').prop("disabled",false)
+			$('#saveBorrower').text("Save Changes")
+			setTimeout(() => {
+				location.reload();
+			}, 2000);
+		});
+	});
+	$('#tbl-empList').DataTable();
 });
 //Tables

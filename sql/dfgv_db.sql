@@ -3,7 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
+
 -- Generation Time: Apr 06, 2019 at 08:16 PM
+
+-- Generation Time: Apr 06, 2019 at 05:25 PM
+
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.2.0
 
@@ -284,6 +288,7 @@ CREATE TABLE `employee` (
   `deleted` tinyint(2) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
 --
 -- Dumping data for table `employee`
 --
@@ -291,6 +296,7 @@ CREATE TABLE `employee` (
 INSERT INTO `employee` (`empID`, `fName`, `mName`, `lName`, `gender`, `position`, `address`, `email`, `birthdate`, `marital_status`, `home_phone`, `personal_phone`, `userID`, `created`, `deleted`) VALUES
 (1, 'John', 'Dave', 'Omandam', 'male', 'admin', 'Lipata', 'itsmedaveomandam@gmail.com', '2019-04-01', 'single', '0909462782', '09094627892', '123', '2019-04-06 15:47:08', 0),
 (2, 'Joe', 'June', 'Labajo', 'male', 'admin', 'Tisa', 'itsmejoejune@gmail.com', '2019-04-08', 'Single', '09094627892', '09094627892', '456', '2019-04-06 17:59:18', 0);
+
 
 -- --------------------------------------------------------
 
@@ -397,6 +403,7 @@ CREATE TABLE `users` (
   `deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
 --
 -- Dumping data for table `users`
 --
@@ -404,6 +411,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`userID`, `password`, `userType`, `deleted`) VALUES
 ('123', 'password', 'admin', 0),
 ('456', 'password', 'admin', 0);
+
 
 -- --------------------------------------------------------
 
@@ -550,7 +558,11 @@ ALTER TABLE `weekly_payment`
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
+
   MODIFY `empID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+  MODIFY `empID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
 
 --
 -- Constraints for dumped tables
