@@ -28,10 +28,10 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
+    <a href="#"><b>CAMOTES</b> DFGV<br>LENDING CORPORATION</a>
   </div>
   <!-- /.login-logo -->
-  <div class="login-box-body">
+  <div class="login-box-body login-style">
     <p class="login-box-msg">Sign in to start your session</p>
       <div class="form-group has-feedback">
         <input type="text" id="user-id" class="form-control" placeholder="User ID">
