@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2019 at 06:10 AM
+-- Generation Time: Apr 06, 2019 at 05:25 PM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.2.0
 
@@ -271,23 +271,18 @@ CREATE TABLE `employee` (
   `fName` varchar(50) NOT NULL,
   `mName` varchar(50) DEFAULT NULL,
   `lName` varchar(50) NOT NULL,
+  `gender` varchar(100) NOT NULL,
   `position` varchar(50) NOT NULL,
   `address` varchar(250) NOT NULL,
   `email` varchar(100) NOT NULL,
   `birthdate` date NOT NULL,
   `marital_status` varchar(100) NOT NULL,
-  `contactNo` varchar(15) DEFAULT NULL,
+  `home_phone` varchar(20) NOT NULL,
+  `personal_phone` varchar(15) DEFAULT NULL,
   `userID` varchar(50) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted` tinyint(2) NOT NULL
+  `deleted` tinyint(2) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `employee`
---
-
-INSERT INTO `employee` (`empID`, `fName`, `mName`, `lName`, `position`, `address`, `email`, `birthdate`, `marital_status`, `contactNo`, `userID`, `created`, `deleted`) VALUES
-(1, 'John', 'Dave', 'Omandam', 'Developer', 'Lipata', 'dave@devs.com', '0000-00-00', '', '09094627892', '123', '2019-03-12 17:53:47', 0);
 
 -- --------------------------------------------------------
 
@@ -390,15 +385,9 @@ CREATE TABLE `spouse` (
 CREATE TABLE `users` (
   `userID` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `userType` varchar(50) NOT NULL
+  `userType` varchar(50) NOT NULL,
+  `deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`userID`, `password`, `userType`) VALUES
-('123', 'password', 'admin');
 
 -- --------------------------------------------------------
 
@@ -545,7 +534,7 @@ ALTER TABLE `weekly_payment`
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `empID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `empID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables

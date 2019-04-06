@@ -118,6 +118,11 @@ $(document).ready(function(){
 
 	});
 
+	//Update Employee info
+	$('body').on('click','.empEdit',function(){
+		var id = $(this).attr('id');
+		$('#lName').val(id);
+	});
 	//Soft Delete Employee
 	$('body').on('click','.empDel',function(){
 		var id   = $(this).attr('id');

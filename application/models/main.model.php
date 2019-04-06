@@ -96,7 +96,7 @@ class main
 	{
 		try
 		{	
-			$sql = $this->conn->prepare('SELECT * FROM employee');
+			$sql = $this->conn->prepare('SELECT * FROM employee WHERE deleted = 0');
 			$sql->execute();
 			if(!empty($sql->rowCount()))
 			{
