@@ -101,13 +101,17 @@
 
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <script src="assets/plugins/datatables/dataTables.responsive.js"></script>
+<script src="assets/plugins/select2/select2.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
+<script src="assets/plugins/validateJS/jquery.validate.min.js"></script>
+<script src="assets/plugins/datepicker/bootstrap-datepicker.min.js"></script>
 
 <!-- AdminLTE App -->
 <script src="assets/dist/js/adminlte.min.js"></script>
 <script src="assets/js/dfgv_2.js"></script>
 <script src="assets/js/dfgv.js"></script>
-
+<script src="assets/js/dfgv_table.js"></script>
+<script src="assets/js/dfgv_validate.js"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
