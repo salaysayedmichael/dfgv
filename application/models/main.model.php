@@ -49,12 +49,12 @@ class main
 		$stmt = $this->conn->prepare($query);
 		return $stmt->execute($data);
 	}
-	public function login($user_id, $password)
+	public function login($user_id, $password)//added by Dave day_one
 	{
 		try
 		{
 			$result = false;
-			$sql = $this->conn->prepare('SELECT * FROM users WHERE userID = ? AND password = ?');
+			$sql = $this->conn->prepare('SELECT * FROM users WHERE userID = ? AND password = ? AND users_deleted = 0');
 			$sql->bindParam(1, $user_id);
 			$sql->bindParam(2, $password);
 			$sql->execute();
@@ -73,7 +73,7 @@ class main
 		}
 	}
 
-	public function knowUserType()
+	public function knowUserType() //added by Dave, day one
 	{
 		switch ($_SESSION['user_type']) {
 			case 1:
@@ -91,7 +91,7 @@ class main
 		}
 	}
 
-	public function getUser($user_id)
+	public function getUser($user_id) //added by Dave, day one
 	{
 		try
 		{
@@ -112,16 +112,13 @@ class main
 		}
 	}
 
-	public function getAllEmployees()
+	public function getAllEmployees() //added by Dave, day one
 	{
 		try
 		{	
 
 			$result = array();
-			$sql = $this->conn->prepare('SELECT * FROM employee WHERE deleted = 0 ORDER BY created DESC');
-
-			$sql = $this->conn->prepare('SELECT * FROM employee WHERE deleted = 0');
-
+			$sql = $this->conn->prepare('SELECT * FROM employee WHERE employee_deleted = 0 ORDER BY created DESC');
 			$sql->execute();
 			if(!empty($sql->rowCount()))
 			{
@@ -179,7 +176,7 @@ class main
 			echo 'Something went wrong!<br> Error: '.$e->getMessage();
 		}
 	}
-	public function logout()
+	public function logout() // added by Dave, day one
 	{
 		$logout = (isset($_GET['logout']) ? $_GET['logout'] : null);
 		if($logout == 1)

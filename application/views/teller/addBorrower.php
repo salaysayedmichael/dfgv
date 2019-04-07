@@ -34,10 +34,19 @@
 						<?php endforeach;?>
 						<?php else:?>
 							<tr>
-								<td colspan="5"> No data available.</td>
+								<td colspan="5" class="text-center"> No data available.</td>
 							</tr>
 						<?php endif; ?>
 					</tbody>
+					<tfoot>
+						<tr>
+							<th>#</th>
+							<th>Name</th>
+							<th>Occupation</th>
+							<th>Address</th>
+							<th>Action</th>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
 		</div>

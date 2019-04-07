@@ -5,7 +5,7 @@ $result = array();
 $action = (isset($_POST['action']) ? trim($_POST['action']) : null);
 switch($action){
 	case "login":
-		$result['message'] = 'Error occured please contact the system administrator.';
+		$result['message'] = 'Error occured, please contact the system administrator.';
 		$result['error'] = true;
 		$user_id = trim($_POST['user_id']);
 		$password = $_POST['password'];

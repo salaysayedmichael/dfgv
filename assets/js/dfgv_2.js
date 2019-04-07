@@ -65,6 +65,8 @@ $(document).ready(function(){
 		}
 		return data
 	}
+
+	
 	$('#login').on('click',function(e){
 		e.preventDefault();
 		var user_id  = $('#user-id').val();
@@ -76,7 +78,6 @@ $(document).ready(function(){
 
 		$.when(returnAJAX('POST', url, data)).done(function(response){
 			data = JSON.parse(response);
-			console.log(data);
 			if(!data.error)
 			{
 				$('#login').val('Please wait....');
@@ -86,9 +87,12 @@ $(document).ready(function(){
 			}
 			else
 			{
-				alert(data.message);
+				alertify.error(data.message);
 			}
 		});
+		// columns = [`user-id`,`password`];
+		// data = easyData(columns, '');
+		// console.log(data);
 	});
 
 	//Add Employee
@@ -153,10 +157,62 @@ $(document).ready(function(){
 	});
 
 	//Update Employee info
-	$('body').on('click','.empEdit',function(){
-		var id = $(this).attr('id');
-		$('#lName').val(id);
+	$('#btn-editEmployee').on('click',function(e){
+		e.preventDefault();
+		var lName         = $('#edit-lName').val();
+		var fName         = $('#edit-fName').val();
+		var mName         = $('#edit-mName').val();
+		var address       = $('#edit-address').val();
+		var email         = $('#edit-email').val();
+		var per_phone     = $('#edit-personal-phone').val();
+		var home_phone    = $('#edit-home-phone').val();
+		var position      = $('#edit-position').val();
+		var birthdate     = $('#edit-birthdate').val();
+		var gender        = $('#edit-gender').val();
+		var status        = $('#edit-status').val();
+		var user_id       = $('#edit-user-id').val();
+		var password      = $('#edit-password').val();
+		var cpassword     = $('#edit-cpassword').val();
+		var url           = 'application/controllers/admin.controller.php';
+		var data          = {
+						  	'lName':lName, 'fName':fName, 'mName':mName,
+		                  	'address':address, 'email':email, 'per_phone':per_phone,
+		                  	'home_phone':home_phone, 'position':position, 'birthdate':birthdate,
+		                  	'gender':gender, 'status':status, 'user_id':user_id,
+		                  	'password':password, 'cpassword':cpassword, 'action':'editEmployee'
+		                    };
+		$.when(returnAJAX('POST', url, data)).done(function(response) {
+			result = JSON.parse(response);
+			if(result.error)
+			{
+				// dfgvAlert('<i class="fa fa-warning"></i> Warning', 'alert', '<div class="alert alert-warning">'+result.message+'</div>');
+				alertify.error(result.message);
+				if(result.type == 'personal_info')
+				{
+					$('a[href="#personal-info"]').addClass('shake animated');
+				}
+				else if(result.type == 'login_details')
+				{
+					$('a[href="#login-details"]').addClass('shake animated');
+				}
+				setTimeout(function(){
+					$('a[href="#login-details"],a[href="#personal-info"]').removeClass('shake animated');
+				},1000);
+			}
+			else
+			{
+				alertify.alert('<i class="fa fa-check"></i> Success', '<div class="alert alert-success">'+result.message+'</div>',function(){
+					alertify.success('Redirecting to employee list...');
+					setTimeout(function(){
+						location.href = "?employee";
+					},2000);
+				});
+				
+			}
+		});
+
 	});
+
 	//Soft Delete Employee
 	$('body').on('click','.empDel',function(){
 		var id   = $(this).attr('id');
@@ -164,8 +220,28 @@ $(document).ready(function(){
 		var url  = 'application/controllers/admin.controller.php';
 
 		alertify.confirm('<i class="fa fa-check"></i> Warning','<div class="alert alert-warning">Do you really want to delete this employee?</div>',function(){
-			$.when(returnAJAX('POST', url, data)).done(function(respsonse){
+			$.when(returnAJAX('POST', url, data)).done(function(response){
 				result = JSON.parse(response);
+				alertify.notify('Deleting Employee...');
+				setTimeout(function(){
+					if(!result.error)
+					{
+						alertify.alert('<i class="fa fa-check"></i> Success','<div class="alert alert-success">'+result.message+'</div>',function() {
+							alertify.success('Refreshing...');
+							setTimeout(function(){
+								location.reload();
+							},1500);
+						});
+					}else {
+						alertify.alert('<i class="fa fa-check"></i> Danger','<div class="alert alert-danger">'+result.message+'</div>',function() {
+							alertify.success('Refreshing...');
+							setTimeout(function(){
+								location.reload();
+							},1500);
+						});
+					}
+				},1500);
+				
 			});
 		},function(){
 			alertify.notify('Cancel');
@@ -235,7 +311,7 @@ $(document).ready(function(){
 	$('#saveBorrower').on('click',function(e){
 		e.preventDefault();
 		var columns = [`borrowerID`,`fName`, `mName`, `lName`, `bDay`, `civilStatus`, `gender`, `presentAddr`, `homeAddr`, `ownHouse`, `renting`, `lengthOfStay`, `noOfChildren`, `occupation`, `contactNo`, `validID`, `loanCount`, `comakerID`]
-		data = lazyData(columns,'#edit-borrower-modal')
+		data = lazyData(columns,'#edit-borrower-modal');
 		if($.isEmptyObject(data)){
 			return
 		}

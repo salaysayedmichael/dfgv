@@ -128,6 +128,7 @@
 				</div>
 			</div>
 		</div>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small class="text-danger">Please be informed that avoid mistake on inputting User ID because it cannot be updated.</small>
 		<div class="box-footer">
 			<div class="col-md-2">
 				<button type="submit" id="btn-addEmployee" class="btn btn-block btn-info btn-flat"><i class="fa fa-user-plus"></i> Employee</button>

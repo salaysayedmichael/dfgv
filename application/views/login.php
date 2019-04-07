@@ -53,6 +53,7 @@
 </div>
 </body>
 <!-- jQuery 3 -->
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
 <script src="assets/bower_components/jquery/dist/jquery.min.js"></script>
 <script src="assets/js/dfgv_2.js"></script>
 </html>

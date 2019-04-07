@@ -3,11 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
-
--- Generation Time: Apr 06, 2019 at 08:16 PM
-
--- Generation Time: Apr 06, 2019 at 05:25 PM
-
+-- Generation Time: Apr 07, 2019 at 07:39 PM
 -- Server version: 10.1.29-MariaDB
 -- PHP Version: 7.2.0
 
@@ -184,7 +180,8 @@ CREATE TABLE `borrower` (
   `contactNo` varchar(15) NOT NULL,
   `validID` varchar(50) NOT NULL,
   `loanCount` int(11) DEFAULT NULL,
-  `comakerID` int(11) NOT NULL
+  `comakerID` int(11) NOT NULL,
+  `borrower_deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -261,7 +258,8 @@ CREATE TABLE `comaker` (
   `homeAddr` varchar(100) NOT NULL,
   `occupation` varchar(50) DEFAULT NULL,
   `salaryOrIncome` decimal(10,2) DEFAULT NULL,
-  `employerID` int(11) NOT NULL
+  `employerID` int(11) NOT NULL,
+  `comaker_deleted` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -285,18 +283,16 @@ CREATE TABLE `employee` (
   `personal_phone` varchar(15) DEFAULT NULL,
   `userID` varchar(50) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `deleted` tinyint(2) NOT NULL DEFAULT '0'
+  `employee_deleted` tinyint(2) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 
 --
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`empID`, `fName`, `mName`, `lName`, `gender`, `position`, `address`, `email`, `birthdate`, `marital_status`, `home_phone`, `personal_phone`, `userID`, `created`, `deleted`) VALUES
-(1, 'John', 'Dave', 'Omandam', 'male', 'admin', 'Lipata', 'itsmedaveomandam@gmail.com', '2019-04-01', 'single', '0909462782', '09094627892', '123', '2019-04-06 15:47:08', 0),
-(2, 'Joe', 'June', 'Labajo', 'male', 'admin', 'Tisa', 'itsmejoejune@gmail.com', '2019-04-08', 'Single', '09094627892', '09094627892', '456', '2019-04-06 17:59:18', 0);
-
+INSERT INTO `employee` (`empID`, `fName`, `mName`, `lName`, `gender`, `position`, `address`, `email`, `birthdate`, `marital_status`, `home_phone`, `personal_phone`, `userID`, `created`, `employee_deleted`) VALUES
+(1, 'John', 'Dave', 'Omandam', 'male', 'admin', 'Lipata', 'itsmedaveomandam@gmail.com', '2019-04-01', 'Single', '0909462782', '09094627892', '123', '2019-04-06 15:47:08', 0),
+(2, 'Joenel', 'June', 'Labajo', 'male', 'admin', 'Tisa', 'itsmejoejune@gmail.com', '2019-04-08', 'Single', '09094627892', '09094627892', '456', '2019-04-06 17:59:18', 1);
 
 -- --------------------------------------------------------
 
@@ -308,7 +304,8 @@ CREATE TABLE `employer` (
   `employerID` int(11) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
-  `contactNo` varchar(15) DEFAULT NULL
+  `contactNo` varchar(15) DEFAULT NULL,
+  `employer_deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -400,18 +397,16 @@ CREATE TABLE `users` (
   `userID` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `userType` varchar(50) NOT NULL,
-  `deleted` tinyint(11) NOT NULL DEFAULT '0'
+  `users_deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userID`, `password`, `userType`, `deleted`) VALUES
+INSERT INTO `users` (`userID`, `password`, `userType`, `users_deleted`) VALUES
 ('123', 'password', 'admin', 0),
-('456', 'password', 'admin', 0);
-
+('456', 'password', 'admin', 1);
 
 -- --------------------------------------------------------
 
@@ -558,11 +553,7 @@ ALTER TABLE `weekly_payment`
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-
-  MODIFY `empID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
-  MODIFY `empID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
+  MODIFY `empID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
