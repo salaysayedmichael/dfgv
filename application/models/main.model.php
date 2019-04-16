@@ -49,7 +49,15 @@ class main
 		$stmt = $this->conn->prepare($query);
 		return $stmt->execute($data);
 	}
-	public function login($user_id, $password)//added by Dave day_one
+	public function perfBind($query,$data){ //added by Joe Apr 16, 2019
+		$stmt = $this->conn->prepare($query);
+		foreach($data as $key => $value){
+			$bindName = str_replace(" ", '', $key);
+			$stmt->bindValue(":$bindName", $value);
+		}
+		return $stmt->execute();
+	}
+	public function login($user_id, $password)
 	{
 		try
 		{
@@ -93,6 +101,7 @@ class main
 
 	public function getUser($user_id) //added by Dave, day one
 	{
+		$result = [];
 		try
 		{
 			$result = array();
@@ -114,6 +123,7 @@ class main
 
 	public function getAllEmployees() //added by Dave, day one
 	{
+		$result = [];
 		try
 		{	
 
@@ -176,7 +186,28 @@ class main
 			echo 'Something went wrong!<br> Error: '.$e->getMessage();
 		}
 	}
-	public function logout() // added by Dave, day one
+	public function getAllEmployers()
+	{
+		try
+		{	
+			$sql = $this->conn->prepare('SELECT * FROM employer');
+			$sql->execute();
+			$result = [];
+			if(!empty($sql->rowCount()))
+			{
+				while($row = $sql->fetch(PDO::FETCH_ASSOC))
+				{
+					$result[] = $row;
+				}
+			}
+			return $result;
+		}
+		catch(PDOException $e)
+		{
+			echo 'Something went wrong!<br> Error: '.$e->getMessage();
+		}
+	}
+	public function logout()
 	{
 		$logout = (isset($_GET['logout']) ? $_GET['logout'] : null);
 		if($logout == 1)

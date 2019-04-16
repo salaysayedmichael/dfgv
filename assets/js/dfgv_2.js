@@ -31,42 +31,6 @@ $(document).ready(function(){
 			alertify.alert(title, message);
 		}
 	}
-	function lazyData(columns, parent){
-		data = {}
-		errors = []
-		$.each(columns,function(index,val){
-			placeholder = $(`${parent} #${val}`).attr("placeholder")
-			type = $(`${parent} #${val}`).attr("type")
-			value = $(`${parent} #${val}`).val()
-			if(type!="date"){
-				if(type=="text"){
-					if(value.trim()==="" || value.trim()===null){
-						errors.push(placeholder)
-						return false;
-					}
-				}else{
-					if(value === "" || value === null){
-						errors.push(placeholder)
-						return false;
-					}
-				}
-				
-			}else{
-				if (!Date.parse(value)) {
-					errors.push(placeholder)
-					return false;
-				}
-			}
-			data[val] = value;
-		})
-		if (errors.length !== 0) {
-			alert(`${errors.join()} field should be set.`)
-			return {}
-		}
-		return data
-	}
-
-	
 	$('#login').on('click',function(e){
 		e.preventDefault();
 		var user_id  = $('#user-id').val();
@@ -248,29 +212,114 @@ $(document).ready(function(){
 		});
 		
 	});
-	$('#addBorrower').on('click',function(e){
+	function lazyData(element,getError = false){
+		data = {}
+		errors = []
+		tobeReturned = []
+		$(`${element} .form-control`).each(function(){
+			placeholder = $(this).attr("placeholder")
+			type = $(this).attr("type")
+			value = $(this).val()
+			if(type!="date"){
+				if(type=="text"){
+					if(value.trim()==="" || value.trim()===null){
+						errors.push(placeholder)
+						return false;
+					}
+				}else{
+					if(value === "" || value === null){
+						errors.push(placeholder)
+						return false;
+					}
+				}
+				
+			}else{
+				if (!Date.parse(value)) {
+					errors.push(placeholder)
+					return false;
+				}
+			}
+			data[placeholder] = value;
+		})
+		if (errors.length !== 0) {
+			if(getError){
+				tobeReturned.error = `${errors.join()} field should be set.`
+				tobeReturned.data = {}
+				return tobeReturned
+			}
+			alert(`${errors.join()} field should be set.`)
+			return {}
+		}
+		if(getError){
+			tobeReturned.data = data
+			return tobeReturned
+		}
+		return data
+	}
+	$("#addComakerModalBtn").on("click",function(e){
 		e.preventDefault();
-		var columns = [`fName`, `mName`, `lName`, `bDay`, `civilStatus`, `gender`, `presentAddr`, `homeAddr`, `ownHouse`, `renting`, `lengthOfStay`, `noOfChildren`, `occupation`, `contactNo`, `validID`, `loanCount`, `comakerID`]
-		data = lazyData(columns,'#add-borrower-modal')
+		$("#add-comaker-modal").modal("show")
+	})
+	$('#addComakerBtn').on('click',function(e){
+		e.preventDefault();
+		arrayOfData = {}
+		arrayOfData["comaker"] = lazyData("#add-comaker-modal #comakerInfo")
 		if($.isEmptyObject(data)){
 			return
 		}
-		data["action"] = "addBorrower";
+		arrayOfData["action"] = "addComaker";
 		url      = 'application/controllers/main.controller.php';
-		$('#addBorrower').prop("disabled",true)
-		$('#addBorrower').text("Adding..")
-		$.when(returnAJAX('POST', url, data)).done(function(response){
+		$('#addComakerBtn').prop("disabled",true)
+		$('#addComakerBtn').text("Adding..")
+		$.when(returnAJAX('POST', url, arrayOfData)).done(function(response){
 			response = JSON.parse(response);
-			if(response){
-				alert("Borrower successfully added!");
+			if(response.success){
+				alert("Comaker successfully added!");
 			}else{
 				alert("Error occured!");
 			}
-			$('#addBorrower').prop("disabled",false)
-			$('#addBorrower').text("Add Borrower")
-			setTimeout(() => {
-				location.reload();
-			}, 2000);
+			$('#addComakerBtn').prop("disabled",false)
+			$('#addComakerBtn').text("Add Comaker")
+			$("#add-comaker-modal").modal("hide")
+			$("#addBorrower [placeholder='Comaker']").append(`
+				<option value="${response.id}">${response.name}</option>
+			`)
+		});
+	});
+	$('#addBorrowerBtn').on('click',function(e){
+		e.preventDefault();
+		arrayOfData = {}
+		getData = []
+		categories = ['borrower','income','expenses','comaker']
+		error = ""
+		$.each(categories,function(index,val){
+			getData[`${val}`] = lazyData(`#addBorrower #${val}Info`,true)
+			arrayOfData[`${val}`] = getData[`${val}`]["data"]
+			if(getData[`${val}`]["error"] !== undefined){
+				error += getData[`${val}`]["error"]+"\r\n";
+			}
+		})
+		isThereEmpty = ($.isEmptyObject(arrayOfData["borrower"]))||($.isEmptyObject(arrayOfData["income"]))||($.isEmptyObject(arrayOfData["expenses"]))||($.isEmptyObject(arrayOfData["comaker"]))
+		if($("#addBorrower #spouseInfo [placeholder='Name of Spouse']").val()!=""){
+			getData["spouse"] = lazyData("#addBorrower #spouseInfo",true)
+			arrayOfData["spouse"] = getData["spouse"]["data"]
+			if(getData[`spouse`]["error"] !== undefined){
+				error += getData[`spouse`]["error"];
+			}
+			isThereEmpty = ($.isEmptyObject(arrayOfData["borrower"]))||($.isEmptyObject(arrayOfData["income"]))||($.isEmptyObject(arrayOfData["expenses"]))||($.isEmptyObject(arrayOfData["comaker"]))||($.isEmptyObject(arrayOfData["spouse"]))
+		}
+		if(isThereEmpty){
+			alert(error)
+			return
+		}
+		arrayOfData["action"] = "addBorrower";
+		url      = 'application/controllers/main.controller.php';
+		console.log(arrayOfData)
+		$('#addBorrowerBtn').prop("disabled",true)
+		$('#addBorrowerBtn').text("Adding..")
+		$.when(returnAJAX('POST', url, arrayOfData)).done(function(response){
+			response = JSON.parse(response);
+			window.location.replace("?p=borrowers");
 		});
 	});
 	$('.editBorrowerBtn').on('click',function(e){
@@ -333,6 +382,48 @@ $(document).ready(function(){
 			}, 2000);
 		});
 	});
+	function calculate(){
+		totalIncome = 0
+		totalExpenses = 0
+		$("#incomeInfo input[type=number]:not(#netIncome)").each(function(){
+			val = $(this).val()
+			if(val == ""){
+				val = 0
+			}
+			totalIncome = totalIncome + parseInt(val)
+		})
+		$("#expensesInfo input[type=number]").each(function(){
+			val = $(this).val()
+			if(val == ""){
+				val = 0
+			}
+			totalExpenses = totalExpenses + parseInt(val)
+		})
+		netIncome = Number(totalIncome - totalExpenses)
+		$("#totalExpensesText").text("")
+		$("#totalExpensesText").text(totalExpenses)
+		$("#totalIncomeText").text("")
+		$("#totalIncomeText").text(totalIncome)
+		$("#netIncome").val("")
+		$("#netIncome").val(netIncome)
+	}
+	$("#incomeInfo input[type=number]").each(function(){
+		$(this).on('keyup',function(){
+			calculate()
+		})
+	})
+	$("#expensesInfo input[type=number]").each(function(){
+		$(this).on('keyup',function(){
+			calculate()
+		})
+	})
+
 	$('#tbl-empList').DataTable();
+	$.fn.dataTable.ext.errMode = 'none';
+	$('#borrowerTbl')
+		.on( 'error.dt', function ( e, settings, techNote, message ) {
+			console.log( 'An error has been reported by DataTables: ', message );
+		} )
+		.DataTable();
 });
 //Tables

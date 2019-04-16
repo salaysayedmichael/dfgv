@@ -42,7 +42,7 @@
 			</div>
 		</div>
 		<div class="box-footer clearfix">
-			<a class="btn btn-info btn-lg float-right btn-flat" href="?addEmployee">
+			<a class="btn btn-info btn-lg float-right btn-flat" href="?p=addEmployee">
             	<i class="fa fa-user-plus"></i> Employee
           	</a>
 		</div>

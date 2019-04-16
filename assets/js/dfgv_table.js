@@ -5,3 +5,6 @@ $('#tbl-empList').DataTable();
 $('#birthdate').datepicker({
 	format: "mm-dd-yy"
 });
+$('.text-date').datepicker({
+	format: "yyyy-mm-dd"
+});

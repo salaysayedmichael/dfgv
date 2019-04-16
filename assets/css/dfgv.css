@@ -85,3 +85,19 @@
 .deleteBorrowerBtn{ /* added by Joe */
     cursor: pointer;
 }
+#addBorrower .form-control{
+    margin-bottom:15px;
+}
+.padding-top{
+    padding-top:6px;
+}
+.btn-round{
+    width:40px !important;
+    border-radius: 50% !important;
+}
+#add-comaker-modal .modal-body{
+    max-height: 100%;
+}
+#add-comaker-modal .form-control{
+    margin-bottom: 10px;
+}

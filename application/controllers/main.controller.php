@@ -33,24 +33,23 @@ switch($action){
 		}
 		break;
 	case "addBorrower":
-		$columns = [];
-		$values = [];
-		$data = [];
-		$columns[] = "borrowerID";
+		$query1 = "INSERT INTO `borrower` (`borrowerID`, `fName`, `mName`, `lName`, `bDay`, `civilStatus`, `gender`, `presentAddr`, `homeAddr`, `ownHouse`, `renting`, `lengthOfStay`, `noOfChildren`, `occupation`, `contactNo`, `validID`, `loanCount`, `comakerID`) VALUES (:borrowerID, :FirstName, :MiddleName, :LastName, :Birthdate, :CivilStatus, :Gender, :PresentAddress, :HomeAddress, :HouseOwner, :Renting, :LengthOfStay, :NumberofChildren, :Occupation, :ContactNumber, :ValidID,:NoofLoans, :Comaker)";
 		$lastId = $main->getOne("SELECT borrowerID FROM borrower ORDER BY borrowerID DESC",array());
-		$data[] = (is_numeric($lastId)?$lastId:0) + 1;
-		$values[] = "?";
-		foreach($_POST as $key => $val){
-			if($key!="action"){
-				$columns[] = "`$key`";
-				$data[] = $val;
-				$values[] = "?";
-			}
-		}
-		$columns = implode(",",$columns);
-		$values = implode(",",$values);
-		$query = "INSERT INTO `borrower` ($columns) VALUES ($values)";
-		$result = $main->perf($query,$data);
+		$_POST["borrower"]["borrowerID"] = (is_numeric($lastId)?$lastId:0) + 1;
+		$_POST["borrower"]["Comaker"] = $_POST["comaker"]["Comaker"];
+		$query2 = "INSERT INTO `borrower_income` (`borrowerID`, `incomeOrSalary`, `otherIncome`, `otherIncomeDetails`, `netIncome`) VALUES (:borrowerID, :IncomeorSalary, :OtherIncome, :OtherIncomeDetails, :NetIncome)";
+		$_POST["income"]["borrowerID"] = $_POST["borrower"]["borrowerID"];
+		$query3 = "INSERT INTO `borrower_expense` (`borrowerID`, `food`, `bills`, `education`, `rental`, `repairMaintenance`, `misc`) VALUES (:borrowerID, :Food, :Bills, :Education, :Rentals, :RepairorMaintenance, :Miscellaneous)";
+		$_POST["expenses"]["borrowerID"] = $_POST["borrower"]["borrowerID"];
+		$result = $main->perfBind($query1,$_POST["borrower"])&&$main->perfBind($query2,$_POST["income"])&&$main->perfBind($query3,$_POST["expenses"]);
+		break;
+	case "addComaker":
+		$query = "INSERT INTO `comaker` (`comakerID`, `fName`, `midName`, `lName`, `bDay`, `civilStatus`, `contactNo`, `presentAddr`, `homeAddr`, `occupation`, `salaryOrIncome`, `employerID`) VALUES (:comakerID, :FirstName, :MiddleName, :LastName, :Birthdate, :CivilStatus, :ContactNumber, :PresentAddress, :HomeAddress, :Occupation, :SalaryorIncome, :Employer)";
+		$lastId = $main->getOne("SELECT comakerID FROM comaker ORDER BY comakerID DESC",array());
+		$_POST["comaker"]["comakerID"] = (is_numeric($lastId)?$lastId:0) + 1;
+		$result["id"] = $_POST["comaker"]["comakerID"];
+		$result["name"] = $_POST["comaker"]["First Name"]." ".$_POST["comaker"]["Middle Name"]." ".$_POST["comaker"]['Last Name'];
+		$result["success"] = $main->perfBind($query,$_POST["comaker"]);
 		break;
 	case "getBorrower":
 		$id = isset($_POST["id"])?$_POST["id"]:0;
@@ -73,7 +72,7 @@ switch($action){
 		break;
 	case "deleteBorrower":
 		$id = isset($_POST["id"])?$_POST["id"]:0;
-		$query = "DELETE FROM borrower WHERE borrowerID = ?";
+		$query = "UPDATE borrower SET borrower_deleted = 1 WHERE borrowerID = ?";
 		$result = $main->perf($query,array($id));
 		break;
 }
