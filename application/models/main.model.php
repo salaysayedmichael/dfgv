@@ -148,7 +148,7 @@ class main
 	{
 		try
 		{	
-			$sql = $this->conn->prepare('SELECT * FROM borrower');
+			$sql = $this->conn->prepare('SELECT * FROM borrower WHERE borrower_deleted != 1');
 			$sql->execute();
 			$result = [];
 			if(!empty($sql->rowCount()))
