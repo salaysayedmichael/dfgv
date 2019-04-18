@@ -32,40 +32,40 @@ $(document).ready(function(){
 		}
 	}
 	
-	function lazyData(columns, parent){
-		data = {}
-		errors = []
-		$.each(columns,function(index,val){
-			placeholder = $(`${parent} #${val}`).attr("placeholder")
-			type = $(`${parent} #${val}`).attr("type")
-			value = $(`${parent} #${val}`).val()
-			if(type!="date"){
-				if(type=="text"){
-					if(value.trim()==="" || value.trim()===null){
-						errors.push(placeholder)
-						return false;
-					}
-				}else{
-					if(value === "" || value === null){
-						errors.push(placeholder)
-						return false;
-					}
-				}
+	// function lazyData(columns, parent){
+	// 	data = {}
+	// 	errors = []
+	// 	$.each(columns,function(index,val){
+	// 		placeholder = $(`${parent} #${val}`).attr("placeholder")
+	// 		type = $(`${parent} #${val}`).attr("type")
+	// 		value = $(`${parent} #${val}`).val()
+	// 		if(type!="date"){
+	// 			if(type=="text"){
+	// 				if(value.trim()==="" || value.trim()===null){
+	// 					errors.push(placeholder)
+	// 					return false;
+	// 				}
+	// 			}else{
+	// 				if(value === "" || value === null){
+	// 					errors.push(placeholder)
+	// 					return false;
+	// 				}
+	// 			}
 				
-			}else{
-				if (!Date.parse(value)) {
-					errors.push(placeholder)
-					return false;
-				}
-			}
-			data[val] = value;
-		})
-		if (errors.length !== 0) {
-			alert(`${errors.join()} field should be set.`)
-			return {}
-		}
-		return data
-	}
+	// 		}else{
+	// 			if (!Date.parse(value)) {
+	// 				errors.push(placeholder)
+	// 				return false;
+	// 			}
+	// 		}
+	// 		data[val] = value;
+	// 	})
+	// 	if (errors.length !== 0) {
+	// 		alert(`${errors.join()} field should be set.`)
+	// 		return {}
+	// 	}
+	// 	return data
+	// }
 	
 	//Show password
 	$('i#sw-password').on('click',function(){
