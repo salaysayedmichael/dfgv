@@ -10,9 +10,6 @@
 					<li>
 						<a href="#personal-info" data-toggle="tab" aria-expanded="true">Personal Information</a>
 					</li>
-					<li>
-						<a href="#login-details" data-toggle="tab" aria-expanded="true">Login Details</a>
-					</li>
 				</ul>
 				<div class="tab-content">
 					<div class="tab-pane active" id="personal-info">
@@ -103,7 +100,17 @@
 							</div>
 						</div>
 					</div>
-					<div class="tab-pane" id="login-details">
+					
+				</div>
+			</div>
+			<div class="nav-tabs-custom">
+				<ul class="nav nav-tabs">
+					<li>
+						<a href="#login-details" data-toggle="tab" aria-expanded="true">Login Details</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="login-details">
 						<div class="row">
 							<div class="col-md-4">
 								<div class="input-group">
@@ -115,12 +122,15 @@
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-lock"></i></span>
                 					<input type="password" class="form-control" placeholder="Password" id="password">
+                					<span class="input-group-addon"><i class="fa fa-eye" id="sw-password"></i><i class="fa fa-eye-slash hide" id="hd-password"></i></span>
               					</div>
+
 							</div>
 							<div class="col-md-4">
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-lock"></i></span>
                 					<input type="password" class="form-control" placeholder="Confirm Password" id="cpassword">
+                					<span class="input-group-addon"><i class="fa fa-eye" id="sw-cpassword"></i><i class="fa fa-eye-slash hide" id="hd-cpassword"></i></span>
               					</div>
 							</div>
 						</div>
@@ -128,7 +138,7 @@
 				</div>
 			</div>
 		</div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small class="text-danger">Please be informed that avoid mistake on inputting User ID because it cannot be updated.</small>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small class="text-danger">Please be informed to avoid mistake on inputting User ID because it cannot be updated.</small>
 		<div class="box-footer">
 			<div class="col-md-2">
 				<button type="submit" id="btn-addEmployee" class="btn btn-block btn-info btn-flat"><i class="fa fa-user-plus"></i> Employee</button>

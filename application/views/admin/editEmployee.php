@@ -9,9 +9,7 @@
 					<li>
 						<a href="#personal-info" data-toggle="tab" aria-expanded="true">Personal Information</a>
 					</li>
-					<li>
-						<a href="#login-details" data-toggle="tab" aria-expanded="true">Login Details</a>
-					</li>
+					
 				</ul>
 				<div class="tab-content">
 					<?php if(!empty($admin->showEditEmployee($_GET['editEmployee']))):?>
@@ -114,7 +112,16 @@
 							</div>
 						</div>
 					</div>
-					<div class="tab-pane" id="login-details">
+				</div>
+			</div>
+			<div class="nav-tabs-custom">
+				<ul class="nav nav-tabs">
+					<li>
+						<a href="#login-details" data-toggle="tab" aria-expanded="true">Login Details</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active" id="login-details">
 						<div class="row">
 							<div class="col-md-4">
 								<div class="input-group">
@@ -126,20 +133,22 @@
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-lock"></i></span>
                 					<input type="password" class="form-control" placeholder="Password" id="edit-password" value="<?php echo $employee['password']?>">
+                					<span class="input-group-addon"><i class="fa fa-eye" id="sw-password"></i><i class="fa fa-eye-slash hide" id="hd-password"></i></span>
               					</div>
 							</div>
 							<div class="col-md-4">
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-lock"></i></span>
                 					<input type="password" class="form-control" placeholder="Confirm Password" id="edit-cpassword" value="<?php echo $employee['password']?>">
+                					<span class="input-group-addon"><i class="fa fa-eye" id="sw-cpassword"></i><i class="fa fa-eye-slash hide" id="hd-cpassword"></i></span>
               					</div>
 							</div>
 						</div>
 					</div>
-					<?php endforeach;?>
-					<?php endif;?>
 				</div>
 			</div>
+			<?php endforeach;?>
+			<?php endif;?>
 		</div>
 		<div class="box-footer">
 			<div class="col-md-2">

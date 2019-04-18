@@ -31,6 +31,67 @@ $(document).ready(function(){
 			alertify.alert(title, message);
 		}
 	}
+	
+	function lazyData(columns, parent){
+		data = {}
+		errors = []
+		$.each(columns,function(index,val){
+			placeholder = $(`${parent} #${val}`).attr("placeholder")
+			type = $(`${parent} #${val}`).attr("type")
+			value = $(`${parent} #${val}`).val()
+			if(type!="date"){
+				if(type=="text"){
+					if(value.trim()==="" || value.trim()===null){
+						errors.push(placeholder)
+						return false;
+					}
+				}else{
+					if(value === "" || value === null){
+						errors.push(placeholder)
+						return false;
+					}
+				}
+				
+			}else{
+				if (!Date.parse(value)) {
+					errors.push(placeholder)
+					return false;
+				}
+			}
+			data[val] = value;
+		})
+		if (errors.length !== 0) {
+			alert(`${errors.join()} field should be set.`)
+			return {}
+		}
+		return data
+	}
+	
+	//Show password
+	$('i#sw-password').on('click',function(){
+		$('#password,#edit-password').prop('type','text');
+		$('#hd-password').removeClass('hide');
+		$(this).addClass('hide');
+	});
+	$('i#sw-cpassword').on('click',function(){
+		$('#cpassword,#edit-cpassword').prop('type','text');
+		$('#hd-cpassword').removeClass('hide');
+		$(this).addClass('hide');
+	});
+
+	//Hide Password
+	$('i#hd-password').on('click',function(){
+		$('#password,#edit-password').prop('type','password');
+		$('#sw-password').removeClass('hide');
+		$(this).addClass('hide');
+	});
+	$('i#hd-cpassword').on('click',function(){
+		$('#cpassword,#edit-cpassword').prop('type','password');
+		$('#sw-cpassword').removeClass('hide');
+		$(this).addClass('hide');
+	});
+
+	//Login 
 	$('#login').on('click',function(e){
 		e.preventDefault();
 		var user_id  = $('#user-id').val();
@@ -54,9 +115,6 @@ $(document).ready(function(){
 				alertify.error(data.message);
 			}
 		});
-		// columns = [`user-id`,`password`];
-		// data = easyData(columns, '');
-		// console.log(data);
 	});
 
 	//Add Employee
