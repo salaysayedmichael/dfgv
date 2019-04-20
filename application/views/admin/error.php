@@ -1,20 +1,27 @@
-<?php 
-// require_once('application/views/modals/editBorrower.modal.php');
-// require_once('application/views/modals/addBorrower.modal.php');
-?>
 <section class="content">
-	<div class="box box-info">
-		<div class="box-header with-border">
-			<h3 class="box-title">List of Borrower</h3>
-		</div>
-		<div class="box-body">
-            <h1>ERROR</h1>
-            <h3>Page Not Found</h3>
-		</div>
-		<div class="box-footer clearfix">
-			<a href="?addBorrower" class="btn btn-info btn-lg float-right btn-flat">
-            	<i class="fa fa-user-plus"></i> Borrower
-          	</a>
-		</div>
-	</div>
+	<div class="error-page">
+        <h2 class="headline text-yellow"> 404</h2>
+
+        <div class="error-content">
+          <h3><i class="fa fa-warning text-yellow"></i> Oops! Page not found.</h3>
+
+          <p>
+            We could not find the page you were looking for.
+            Meanwhile, you may <a href="?p=employee">return to dashboard</a> or try using the search form.
+          </p>
+
+          <form class="search-form">
+            <div class="input-group">
+              <input type="text" name="search" class="form-control" placeholder="Search">
+
+              <div class="input-group-btn">
+                <button type="submit" name="submit" class="btn btn-warning btn-flat"><i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.input-group -->
+          </form>
+        </div>
+        <!-- /.error-content -->
+      </div>
 </section>

@@ -63,8 +63,11 @@ class main
 		{
 			$result = false;
 			$sql = $this->conn->prepare('SELECT * FROM users WHERE userID = ? AND password = ? AND users_deleted = 0');
-			$sql->bindParam(1, $user_id);
-			$sql->bindParam(2, $password);
+			$columns = array();
+			$data = array(1=>$user_id, 2=>$password);
+			foreach($data as $key => $value) {
+				$sql->bindValue($key, $value);
+			}
 			$sql->execute();
 			$row = $sql->fetch(PDO::FETCH_ASSOC);
 			if($sql->rowCount() > 0)
@@ -81,23 +84,6 @@ class main
 		}
 	}
 
-	public function knowUserType() //added by Dave, day one
-	{
-		switch ($_SESSION['user_type']) {
-			case 1:
-				# code...
-			    return 'admin';
-				break;
-			case 2:
-				#code
-				return 'teller';
-				break;
-			default:
-				# code...
-				header('Location: ?logout=1');
-				break;
-		}
-	}
 
 	public function getUser($user_id) //added by Dave, day one
 	{
@@ -121,14 +107,16 @@ class main
 		}
 	}
 
-	public function getAllEmployees() //added by Dave, day one
+	public function getAllEmployees($type) //added by Dave, day one
 	{
 		$result = [];
 		try
 		{	
-
+			$collector = 'SELECT * FROM employee WHERE position = "collector" AND employee_deleted = 0 ORDER BY created DESC';
+			$allEmp = 'SELECT * FROM employee WHERE employee_deleted = 0 ORDER BY created DESC';
+			$stmt = $type == "all_emp"? $type = $allEmp : $type = $collector;
 			$result = array();
-			$sql = $this->conn->prepare('SELECT * FROM employee WHERE employee_deleted = 0 ORDER BY created DESC');
+			$sql = $this->conn->prepare("$stmt");
 			$sql->execute();
 			if(!empty($sql->rowCount()))
 			{

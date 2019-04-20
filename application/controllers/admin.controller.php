@@ -62,6 +62,18 @@ switch ($action) {
 				$result['message'] = 'Failed to add employee. If you think this is wrong, please do contact the System Administrator.';
 			}
 		}
+		} elseif (empty($_POST["userID"]) && $_POST['position'] == "collector") {
+			$employee = $admin->addEmployee($empData);
+				if($employee)
+				{
+					$result['message'] = ucfirst($empData['lName']).', '.ucfirst($empData['fName']).' '.mb_substr($empData['mName'], 0, 1, 'utf-8').'.'.' is now an offical employee of DFGV.';
+					$result['error'] = false;
+				}
+				else
+				{
+					$result['message'] = 'Failed to add employee. If you think this is wrong, please do contact the System Administrator.';
+					$removeUser = $admin->removeUser($userData['user_id']);
+				}
 		}
 		
 
@@ -175,29 +187,33 @@ switch ($action) {
 			$result['message'] = 'Status is required.';
 			$result['type'] = 'personal_info';
 		}
-		elseif(empty($userData['user_id']))
+		elseif($empData["position"] != "collector")
 		{
-			$result['message'] = 'User ID is required.';
-			$result['type'] = 'login_details';
-		}
-		elseif(empty($userData['password']))
-		{
-			$result['message'] = 'Password is required.';
-			$result['type'] = 'login_details';
-		}
-		elseif(empty($userData['cpassword']))
-		{
-			$result['message'] = 'Confirm Password is required.';
-			$result['type'] = 'login_details';
-		}
-		elseif(!empty($userData['password']))
-		{
-			if($userData['password'] != $userData['cpassword'])
+			if(empty($userData['user_id']))
 			{
-				$result['message'] = 'Password does not match.';
+				$result['message'] = 'User ID is required.';
 				$result['type'] = 'login_details';
 			}
+			elseif(empty($userData['password']))
+			{
+				$result['message'] = 'Password is required.';
+				$result['type'] = 'login_details';
+			}
+			elseif(empty($userData['cpassword']))
+			{
+				$result['message'] = 'Confirm Password is required.';
+				$result['type'] = 'login_details';
+			}
+			elseif(!empty($userData['password']))
+			{
+				if($userData['password'] != $userData['cpassword'])
+				{
+					$result['message'] = 'Password does not match.';
+					$result['type'] = 'login_details';
+				}
+			}
 		}
+		
 		return $result;
 	}
 ?>

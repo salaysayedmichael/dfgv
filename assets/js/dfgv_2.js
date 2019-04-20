@@ -117,6 +117,21 @@ $(document).ready(function(){
 		});
 	});
 
+	//Disabling Login details when employee is collector
+	$('#edit-position,#position').on('change',function(){
+		if($('#edit-position,#position').val() == "collector") {
+			$(".login-tab").hide().fadeOut();
+		} else {
+			$(".login-tab").show().fadeIn();
+		}
+	});
+
+	if($('#edit-position').val() == "collector") {
+		$(".login-tab").hide().fadeOut();
+	} else {
+		$(".login-tab").show().fadeIn();
+	}
+
 	//Add Employee
 	$('#btn-addEmployee').on('click',function(e){
 		e.preventDefault();
@@ -169,7 +184,7 @@ $(document).ready(function(){
 				},function(){
 					alertify.success('Redirecting to employee list...');
 					setTimeout(function(){
-						location.href = "?employee";
+						location.href = "?p=employee";
 					},2000);
 				});
 				
@@ -226,7 +241,7 @@ $(document).ready(function(){
 				alertify.alert('<i class="fa fa-check"></i> Success', '<div class="alert alert-success">'+result.message+'</div>',function(){
 					alertify.success('Redirecting to employee list...');
 					setTimeout(function(){
-						location.href = "?employee";
+						location.href = "?p=employee";
 					},2000);
 				});
 				

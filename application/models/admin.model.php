@@ -122,7 +122,7 @@ class admin extends main
 		try
 		{
 			$result = false;
-			$sql = $this->conn->prepare('UPDATE employee SET employee_deleted = 1 WHERE userID = ?');
+			$sql = $this->conn->prepare('UPDATE employee SET employee_deleted = 1 WHERE empID = ?');
 			$sql2 = $this->conn->prepare('UPDATE users SET users_deleted = 1 WHERE userID = ?');
 			$sql->bindParam(1,$user_id);
 			$sql2->bindParam(1,$user_id);
@@ -143,8 +143,9 @@ class admin extends main
 	public function showEditEmployee($edit)
 	{
 		$result = array();
-		$sql = $this->conn->prepare("SELECT * FROM employee e INNER JOIN users u USING(userID) WHERE u.userID = ?");
-		$sql->bindParam(1, $edit);
+		$sql = $this->conn->prepare("SELECT * FROM employee e LEFT JOIN users u USING(userID) WHERE e.empID = ?");
+		$decode_edit = base64_decode($edit);
+		$sql->bindParam(1, $decode_edit);
 		$sql->execute();
 		if(!empty($sql->rowCount()))
 		{

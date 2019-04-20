@@ -73,6 +73,7 @@
                 						<option value="">Select position...</option>
                 						<option value="admin">Admin</option>
                 						<option value="teller">Teller</option>
+                						<option value="collector">Collector</option>
                 					</select>
               					</div>
 							</div>
@@ -103,7 +104,7 @@
 					
 				</div>
 			</div>
-			<div class="nav-tabs-custom">
+			<div class="nav-tabs-custom login-tab">
 				<ul class="nav nav-tabs">
 					<li>
 						<a href="#login-details" data-toggle="tab" aria-expanded="true">Login Details</a>

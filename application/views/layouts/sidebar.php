@@ -37,20 +37,51 @@
     <ul class="sidebar-menu" data-widget="tree">
       <li class="header">HEADER</li>
       <!-- Optionally, you can add icons to the links -->
-      <li  class="<?php echo isset($_GET['employee'])?"active":"" ?>"><a href="?p=employee"><i class="fa fa-black-tie"></i> <span>Employees</span></a></li>
-      <li class="<?php echo isset($_GET['borrowers'])?"active":"" ?>"><a href="?p=borrowers"><i class="fa fa-users"></i> <span>Borrowers</span></a></li>
-      <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-      <li class="treeview">
-        <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-        <ul class="treeview-menu">
-          <li><a href="#">Link in level 2</a></li>
-          <li><a href="?">Link in level 2</a></li>
-        </ul>
-      </li>
+      <?php if(!empty($main->getUser($_SESSION['uid']))):?>
+        <?php $a = array();?>
+        <?php $a = $main->getUser($_SESSION['uid']);?>
+          <?php if($a[0]["position"] == "admin"):?>
+            <?php $actions = array('employee'=>'fa-black-tie','borrowers'=>'fa-users','collector'=>'fa-truck');?>
+            <?php foreach($actions as $action => $fa):?>
+            <li  class="<?php echo isset($_GET["$action"])?"active":"" ?>">
+              <a href="?p=<?php echo $action;?>">
+                <i class="fa <?php echo $fa?>"></i> <span><?php echo ucfirst($action);?></span>
+              </a>
+            </li><!--Employee Menu-->
+            <?php endforeach;?>
+            <li class="treeview">
+              <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                  </a>
+              <ul class="treeview-menu">
+                <li><a href="#">Link in level 2</a></li>
+                <li><a href="?">Link in level 2</a></li>
+              </ul>
+            </li>
+            <?php else:?>
+              <?php $actions = array('borrowers'=>'fa-users','collector'=>'fa-truck');?>
+            <?php foreach($actions as $action => $fa):?>
+            <li  class="<?php echo isset($_GET["$action"])?"active":"" ?>">
+              <a href="?p=<?php echo $action;?>">
+                <i class="fa <?php echo $fa?>"></i> <span><?php echo ucfirst($action);?></span>
+              </a>
+            </li><!--Employee Menu-->
+            <?php endforeach;?>
+              <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+                      <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                      </span>
+                    </a>
+                <ul class="treeview-menu">
+                  <li><a href="#">Link in level 2</a></li>
+                  <li><a href="?">Link in level 2</a></li>
+                </ul>
+              </li>
+            <?php endif;?>
+          <?php endif;?>
     </ul>
     <!-- /.sidebar-menu -->
   </section>
