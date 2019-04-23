@@ -9,7 +9,7 @@
                 <div class="col-md-6" id="borrowerInfo">
                     <h3>Borrower's Information</h3>
                     <div class="col-md-12">
-                        <input type="text" class="form-control" placeholder="First Name">
+                        <input type="text" v-required class="form-control" placeholder="First Name">
                     </div>
                     <div class="col-md-12">
                         <input type="text" class="form-control" placeholder="Middle Name">
@@ -41,24 +41,24 @@
                     <div class="col-md-12">
                         <input type="text" class="form-control" placeholder="Home Address">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <select class="form-control" placeholder="House Owner">
                             <option value="" selected disabled>House Owner</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <select class="form-control" placeholder="Renting">
                             <option value="" selected disabled>Renting</option>
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <input type="number" class="form-control" placeholder="Length Of Stay">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <input type="number" class="form-control" placeholder="Number of Children">
                     </div>
                     <div class="col-md-12">
@@ -70,7 +70,7 @@
                     <div class="col-md-4">
                         <input type="text" class="form-control" placeholder="Contact Number">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <input type="number" class="form-control" placeholder="No of Loans">
                     </div>
                 </div>
@@ -135,22 +135,22 @@
                 </div>
                 <div class="col-md-6" id="expensesInfo">
                     <h3>Expenses</h3>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <input type="number" class="form-control" placeholder="Food">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <input type="number" class="form-control" placeholder="Bills">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <input type="number" class="form-control" placeholder="Education">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <input type="number" class="form-control" placeholder="Rentals">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <input type="number" class="form-control" placeholder="Repair or Maintenance">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <input type="number" class="form-control" placeholder="Miscellaneous">
                     </div>
                 </div>

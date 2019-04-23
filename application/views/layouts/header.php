@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/semantic.min.css"/>
   <!-- Select2 -->
   <link rel="stylesheet" type="text/css" href="assets/plugins/select2/select2.min.css">
-
+  <link rel="stylesheet" type="text/css" href='assets/css/v-required.css'>
 </head>
 <body class="skin-blue sidebar-mini">
   <div class="wrapper">

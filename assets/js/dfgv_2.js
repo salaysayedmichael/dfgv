@@ -285,12 +285,29 @@ $(document).ready(function(){
 		});
 		
 	});
+
+	$(`#addBorrower .form-control`).each(function(){
+		placeholder = $(this).attr("placeholder")
+		$(this).attr("placeholder","")
+		$(this).val(placeholder)
+		$(this).parent().prepend(`<span>${placeholder}</span>`)
+		$(this).children(":disabled").remove()
+		// $(placeholder).insertBefore($(this))
+	})
+	$("#add-comaker-modal .form-control").each(function(){
+		placeholder = $(this).attr("placeholder")
+		$(this).attr("placeholder","")
+		$(this).data("placeholder",placeholder)
+		$(this).parent().prepend(`<span>${placeholder}</span>`)
+		$(this).children(":disabled").remove()
+		// $(placeholder).insertBefore($(this))
+	})
 	function lazyData(element,getError = false){
 		data = {}
 		errors = []
 		tobeReturned = []
 		$(`${element} .form-control`).each(function(){
-			placeholder = $(this).attr("placeholder")
+			placeholder = $(this).parent().children("span").text()
 			type = $(this).attr("type")
 			value = $(this).val()
 			if(type!="date"){
@@ -337,7 +354,7 @@ $(document).ready(function(){
 		e.preventDefault();
 		arrayOfData = {}
 		arrayOfData["comaker"] = lazyData("#add-comaker-modal #comakerInfo")
-		if($.isEmptyObject(data)){
+		if($.isEmptyObject(arrayOfData["comaker"])){
 			return
 		}
 		arrayOfData["action"] = "addComaker";
@@ -354,7 +371,7 @@ $(document).ready(function(){
 			$('#addComakerBtn').prop("disabled",false)
 			$('#addComakerBtn').text("Add Comaker")
 			$("#add-comaker-modal").modal("hide")
-			$("#addBorrower [placeholder='Comaker']").append(`
+			$("#addBorrower span:contains('Comaker')").parent().children(".form-control").append(`
 				<option value="${response.id}">${response.name}</option>
 			`)
 		});

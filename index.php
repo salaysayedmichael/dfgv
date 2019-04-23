@@ -15,16 +15,6 @@ require_once('application/models/admin.model.php');
 				}else{
 					require_once("application/views/admin/error.php");
 				}
-				// if(isset($_GET['employee']))
-				// {
-				// 	require_once('application/views/admin/employee.php');
-				// }elseif(isset($_GET['addEmployee']))
-				// {
-				// 	require_once('application/views/admin/addEmployee.php');
-				// }else
-				// if(isset($_GET['borrowers']))
-				// {
-				// 	require_once('application/views/admin/borrowers.php');
 				// }
 			require('application/views/layouts/footer.php');
 		}
