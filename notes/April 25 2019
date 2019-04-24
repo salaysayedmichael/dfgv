@@ -1,0 +1,24 @@
+Last touch : 
+
+
+        addBorrower2.php - vue
+
+
+To do : 
+
+    Borrower
+        Remove addBorrower.php 
+        Rename addBorrower2.php  to addBorrower.php 
+        Add empID foreign key to borrower table
+        Finalize the addBorrower.php 
+            Import axios pkg 
+            Make an axios call to in select fields:
+                - Employers
+                - Comakers
+            Convert the Jquery ajax to vue-axios in adding Borrower, and Comakers
+            Instead of Modal, use SPA for adding Comaker via Borrower
+        Add Action button in borrower.php -> View Collection btn
+
+        
+    
+    

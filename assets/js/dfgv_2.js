@@ -259,22 +259,6 @@ $(document).ready(function(){
 		
 	});
 
-	$(`#addBorrower .form-control`).each(function(){
-		placeholder = $(this).attr("placeholder")
-		$(this).attr("placeholder","")
-		$(this).val(placeholder)
-		$(this).parent().prepend(`<span>${placeholder}</span>`)
-		$(this).children(":disabled").remove()
-		// $(placeholder).insertBefore($(this))
-	})
-	$("#add-comaker-modal .form-control").each(function(){
-		placeholder = $(this).attr("placeholder")
-		$(this).attr("placeholder","")
-		$(this).data("placeholder",placeholder)
-		$(this).parent().prepend(`<span>${placeholder}</span>`)
-		$(this).children(":disabled").remove()
-		// $(placeholder).insertBefore($(this))
-	})
 	function lazyData(element,getError = false){
 		data = {}
 		errors = []

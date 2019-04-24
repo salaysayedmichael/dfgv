@@ -1,13 +1,24 @@
 Vue.directive('required', {
-  bind: function(el){
+  bind: function(el, binding){
       checkInput = function(){
+          if(binding.arg == 'is'){
+            if(!binding.value){
+                return
+            }
+          }
           value = ""
           event = ""
           if(el.tagName=="INPUT"){
               event = 'input' 
               if(el.getAttribute("type")=="text"){
-                  value = el.value
-              }   
+                value = el.value
+              }else if(el.getAttribute("type")=="date"){
+                event = 'change' 
+                value = el.value
+              }else{
+                event = 'input' 
+                value = el.value
+              }
           }else
           if(el.tagName=="SELECT"){
               event = 'change'  
