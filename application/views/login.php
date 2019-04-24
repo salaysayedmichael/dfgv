@@ -31,7 +31,7 @@
     <a href="#"><b>CAMOTES</b> DFGV<br>LENDING CORPORATION</a>
   </div>
   <!-- /.login-logo -->
-  <div class="login-box-body login-style">
+  <div class="login-box-body login-style" id="login-form">
     <p class="login-box-msg">Sign in to start your session</p>
       <div class="form-group has-feedback">
         <input type="text" id="user-id" class="form-control" placeholder="User ID">

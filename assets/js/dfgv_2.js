@@ -32,41 +32,6 @@ $(document).ready(function(){
 		}
 	}
 	
-	// function lazyData(columns, parent){
-	// 	data = {}
-	// 	errors = []
-	// 	$.each(columns,function(index,val){
-	// 		placeholder = $(`${parent} #${val}`).attr("placeholder")
-	// 		type = $(`${parent} #${val}`).attr("type")
-	// 		value = $(`${parent} #${val}`).val()
-	// 		if(type!="date"){
-	// 			if(type=="text"){
-	// 				if(value.trim()==="" || value.trim()===null){
-	// 					errors.push(placeholder)
-	// 					return false;
-	// 				}
-	// 			}else{
-	// 				if(value === "" || value === null){
-	// 					errors.push(placeholder)
-	// 					return false;
-	// 				}
-	// 			}
-				
-	// 		}else{
-	// 			if (!Date.parse(value)) {
-	// 				errors.push(placeholder)
-	// 				return false;
-	// 			}
-	// 		}
-	// 		data[val] = value;
-	// 	})
-	// 	if (errors.length !== 0) {
-	// 		alert(`${errors.join()} field should be set.`)
-	// 		return {}
-	// 	}
-	// 	return data
-	// }
-	
 	//Show password
 	$('i#sw-password').on('click',function(){
 		$('#password,#edit-password').prop('type','text');
@@ -92,8 +57,7 @@ $(document).ready(function(){
 	});
 
 	//Login 
-	$('#login').on('click',function(e){
-		e.preventDefault();
+	function login(){ //modified by Joe Apr 24 2019 (so that we can reuse the login function)
 		var user_id  = $('#user-id').val();
 		var password = $('#password').val();
 		var data     = {'user_id' :user_id,
@@ -115,6 +79,15 @@ $(document).ready(function(){
 				alertify.error(data.message);
 			}
 		});
+	}
+	$('#login-form input').on('keypress',function(e){
+		if(e.which == 13) {
+			login()
+		}
+	});
+	$('#login').on('click',function(e){
+		e.preventDefault();
+		login()
 	});
 
 	//Disabling Login details when employee is collector
