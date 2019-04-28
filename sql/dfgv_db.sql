@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 07, 2019 at 07:39 PM
--- Server version: 10.1.29-MariaDB
--- PHP Version: 7.2.0
+-- Generation Time: Apr 28, 2019 at 11:25 AM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -180,6 +180,7 @@ CREATE TABLE `borrower` (
   `contactNo` varchar(15) NOT NULL,
   `validID` varchar(50) NOT NULL,
   `loanCount` int(11) DEFAULT NULL,
+  `empID` int(11) NOT NULL,
   `comakerID` int(11) NOT NULL,
   `borrower_deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
