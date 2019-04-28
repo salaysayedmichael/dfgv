@@ -1,14 +1,101 @@
 var app = new Vue({
     el: '#addBorrower',
+    computed: {
+        netIncome: function(){
+            totalIncome = Number(this.contents.income.fields.incomeorsalary.value) + Number(this.contents.income.fields.otherincome.value)
+
+            totalExpenses = Number(this.contents.expense.fields.food.value) + Number(this.contents.expense.fields.bills.value) + Number(this.contents.expense.fields.education.value) + Number(this.contents.expense.fields.rentals.value) + Number(this.contents.expense.fields.repairormaintenance.value) + Number(this.contents.expense.fields.miscellaneous.value)
+
+            this.contents.income.fields.netincome.text = `[Total Income (${totalIncome}.00) - Total Expenses (${totalExpenses}.00)] =`
+            this.contents.income.fields.netincome.value = Number(totalIncome) - Number(totalExpenses)
+        }
+    },
+    methods: {
+        setUpWatchers(array,name) {
+            for (let i in array) {
+                let key = `contents.${name}.fields.${i}.value`;
+                this.$watch(key, function() {
+                    this.netIncome
+                });
+            }
+        },
+        checkTheRequireds(string){
+            for (var key in this["contents"][string]["fields"]) {
+                if(this["contents"][string]["fields"][key]["required"] != false){
+                    if(this["contents"][string]["fields"][key]["value"] == ""){
+                        return false
+                    }
+                }
+            }
+            return true
+        },
+        addBorrower(){
+            this.proceedText = "Adding borrower.."
+            this.proceedDisabled = true
+        },
+        next(){
+            if(this.turn == 'Borrower'){
+                if(this.checkTheRequireds('borrower')){
+                    this.turn = 'Spouse'
+                    this.proceedText = "Next"
+                }else{
+                    alertify.notify("You need to fill in the required fields.","error")
+                }
+            }else
+            if(this.turn == 'Spouse'){
+                if(this.spouse){
+                    if(this.checkTheRequireds('spouse')){
+                        this.turn = 'IncomeExpense'
+                        this.proceedText = "Finish";
+                    }else{
+                        alertify.notify("You need to fill in the required fields.","error")
+                    }
+                }else{
+                    this.turn = 'IncomeExpense'
+                    this.proceedText = "Finish"
+                }
+            }else 
+            if(this.turn == 'IncomeExpense'){
+                if(this.checkTheRequireds('income')&&this.checkTheRequireds('expense')){
+                    this.addBorrower()
+                }else{
+                    alertify.notify("You need to fill in the required fields.","error")
+                }
+            }
+        },
+        back(){
+            if(this.turn == 'Spouse'){
+                this.turn = 'Borrower'
+                this.proceedText = "Next";
+            }else 
+            if(this.turn == 'IncomeExpense'){
+                this.turn = 'Spouse'
+                this.proceedText = "Next";
+            }else 
+            if(this.turn == 'Finish'){
+                this.turn = 'IncomeExpense'
+                this.proceedText = "Finish";
+            }
+        }
+    },
+    created() {
+        this.setUpWatchers(this.contents.income.fields,'income');
+        this.setUpWatchers(this.contents.expense.fields,'expense');
+    },
     data: function (){
         return {
+        spouse:false,
+        turn: 'Borrower',
+        proceedText: 'Next',
+        proceedDisabled: false,
         contents : {
             borrower : {
                 display: `Borrower's Information`,
                 fields: {
                     firstname :{
                         text : 'First Name',
-                        value : ''
+                        value : '',
+                        db: ''
                     },
                     middlename :{
                         text : 'Middle Name',
@@ -23,7 +110,7 @@ var app = new Vue({
                         value : '',
                         placeholder: 'YYYY-MM-DD',
                         type : 'date',
-                        size: '12'
+                        size: '3'
                     },
                     gender :{
                         text : 'Gender',
@@ -39,7 +126,7 @@ var app = new Vue({
                                 display: 'Female'
                             }
                         },
-                        size: '6'
+                        size: '2'
                     },
                     civilstatus :{
                         text : 'Civil Status',
@@ -59,11 +146,12 @@ var app = new Vue({
                                 display: 'Widow'
                             }
                         },
-                        size: '6'
+                        size: '3'
                     },
                     presentaddress :{
                         text : 'Present Address',
-                        value : ''
+                        value : '',
+                        size: '4'
                     },
                     homeaddress :{
                         text : 'Home Address',
@@ -83,7 +171,7 @@ var app = new Vue({
                                 display: 'No'
                             }
                         },
-                        size: '6'
+                        size: '2'
                     },
                     renting :{
                         text : 'Renting?',
@@ -99,19 +187,19 @@ var app = new Vue({
                                 display: 'No'
                             }
                         },
-                        size: '6'
+                        size: '2'
                     },
                     lengthofstay :{
                         text : 'Length Of Stay',
                         value : '',
                         type : 'number',
-                        size: '6'
+                        size: '2'
                     },
                     numberofchildren :{
                         text : 'Number Of Children',
                         value : '',
                         type : 'number',
-                        size: '6'
+                        size: '2'
                     },
                     occupation :{
                         text : 'Occupation',
@@ -123,7 +211,38 @@ var app = new Vue({
                     },
                     contactnumber :{
                         text : 'Contact Number',
+                        value : ''
+                    },
+                    employer :{
+                        text : 'Employer',
                         value : '',
+                        tag : 'select',
+                        options : {
+                            0:{
+                                value: 'yes',
+                                display: 'Yes'
+                            },
+                            1:{
+                                value: 'no',
+                                display: 'No'
+                            }
+                        },
+                        size: '12'
+                    },
+                    comaker :{
+                        text : 'Comaker',
+                        value : '',
+                        tag : 'select',
+                        options : {
+                            0:{
+                                value: 'yes',
+                                display: 'Yes'
+                            },
+                            1:{
+                                value: 'no',
+                                display: 'No'
+                            }
+                        },
                         size: '8'
                     },
                     numberofloans :{
@@ -131,13 +250,6 @@ var app = new Vue({
                         value : '',
                         type : 'number',
                         size: '4'
-                    },
-                    employer :{
-                        text : 'Employer',
-                        value : '',
-                        tag : 'select',
-                        options : {},
-                        size: '12'
                     }
                 }
             },
@@ -225,25 +337,28 @@ var app = new Vue({
                 fields: {
                     incomeorsalary :{
                         text : 'Income Or Salary',
-                        value : 0,
+                        value : "",
                         size : '6',
                         type : 'number'
                     },
                     otherincome :{
                         text : 'Other Income',
-                        value : 0,
+                        value : "",
                         size : '6',
                         type : 'number'
                     },
                     otherincomedetails :{
                         text : 'Other Income Details',
-                        value : ''
+                        value : "",
+                        size : '12'
                     },
                     netincome :{
                         text : '[Total Income (0.00) - Total Expenses (0.00)] =',
-                        value : 0,
+                        value : "",
                         placeholder: 'Net Income',
-                        disabled : true
+                        disabled : true,
+                        required: false,
+                        size : '12'
                     }
                 }
             },
@@ -252,38 +367,38 @@ var app = new Vue({
                 fields: {
                     food :{
                         text : 'Food',
-                        value : 0,
+                        value : "",
                         type: 'number',
                         size: '6'
                     },
                     bills :{
                         text : 'Bills',
-                        value : 0,
+                        value : "",
                         placeholder: 'Electricity, Internet etc.',
                         type: 'number',
                         size: '6'
                     },
                     education :{
                         text : 'Education',
-                        value : 0,
+                        value : "",
                         type: 'number',
                         size: '6'
                     },
                     rentals :{
                         text : 'Rentals',
-                        value : 0,
+                        value : "",
                         type: 'number',
                         size: '6'
                     },
                     repairormaintenance :{
                         text : 'Repair Or Maintenance',
-                        value : 0,
+                        value : "",
                         type: 'number',
                         size: '6'
                     },
                     miscellaneous :{
                         text : 'Miscellaneous',
-                        value : 0,
+                        value : "",
                         type: 'number',
                         size: '6'
                     }
@@ -291,29 +406,5 @@ var app = new Vue({
             }
         }
     }
-    },
-    computed: {
-        netIncome: function(){
-            totalIncome = Number(this.contents.income.fields.incomeorsalary.value) + Number(this.contents.income.fields.otherincome.value)
-
-            totalExpenses = Number(this.contents.expense.fields.food.value) + Number(this.contents.expense.fields.bills.value) + Number(this.contents.expense.fields.education.value) + Number(this.contents.expense.fields.rentals.value) + Number(this.contents.expense.fields.repairormaintenance.value) + Number(this.contents.expense.fields.miscellaneous.value)
-
-            this.contents.income.fields.netincome.text = `[Total Income (${totalIncome}.00) - Total Expenses (${totalExpenses}.00)] =`
-            this.contents.income.fields.netincome.value = Number(totalIncome) - Number(totalExpenses)
-        }
-    },
-    methods: {
-        setUpWatchers(array,name) {
-            for (let i in array) {
-                let key = `contents.${name}.fields.${i}.value`;
-                this.$watch(key, function() {
-                    this.netIncome
-                });
-            }
-        }
-    },
-    created() {
-        this.setUpWatchers(this.contents.income.fields,'income');
-        this.setUpWatchers(this.contents.expense.fields,'expense');
     }
 })

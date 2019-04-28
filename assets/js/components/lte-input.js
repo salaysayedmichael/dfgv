@@ -10,7 +10,7 @@ Vue.component('lte-input', {
         default: ''
       },
       size: {
-        default: '12'
+        default: '4'
       },
       placeholder: {
         default: ''
