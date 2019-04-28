@@ -108,6 +108,7 @@
 <!-- AdminLTE App -->
 <script src="assets/dist/js/adminlte.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 <script src="assets/js/dfgv_2.js"></script>
 <script src="assets/js/dfgv.js"></script>
 <script src="assets/js/dfgv_table.js"></script>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2019 at 11:25 AM
+-- Generation Time: Apr 29, 2019 at 01:40 AM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
 
@@ -185,6 +185,17 @@ CREATE TABLE `borrower` (
   `borrower_deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `borrower`
+--
+
+INSERT INTO `borrower` (`borrowerID`, `fName`, `mName`, `lName`, `bDay`, `civilStatus`, `gender`, `presentAddr`, `homeAddr`, `ownHouse`, `renting`, `lengthOfStay`, `noOfChildren`, `occupation`, `contactNo`, `validID`, `loanCount`, `empID`, `comakerID`, `borrower_deleted`) VALUES
+(1, 'Joe', 'Montemor', 'Labajo', '1998-05-15', 'single', 'male', 'Labangon', 'Tisa', 'yes', 'no', '20', 0, 'Programmer', '+639435240801', 'Alumni', 2, 1, 1, 0),
+(2, '1', '1', '1', '2019-04-05', 'married', 'female', '1', '1', 'no', 'no', '1', 1, '1', '1', '1', 1, 1, 1, 0),
+(3, '1', '1', '1', '2019-04-05', 'married', 'female', '1', '1', 'no', 'no', '1', 1, '1', '1', '1', 1, 2, 1, 0),
+(4, '1', '1', '1', '2019-04-13', 'married', 'female', '1', '11', 'no', 'yes', '1', 1, '1', '1', '1', 1, 1, 1, 0),
+(5, '1', '1', '1', '2019-04-20', 'single', 'male', '1', '1', 'yes', 'yes', '1', 1, '1', '1', '1', 1, 1, 1, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -263,6 +274,13 @@ CREATE TABLE `comaker` (
   `comaker_deleted` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `comaker`
+--
+
+INSERT INTO `comaker` (`comakerID`, `fName`, `midName`, `lName`, `bDay`, `civilStatus`, `contactNo`, `presentAddr`, `homeAddr`, `occupation`, `salaryOrIncome`, `employerID`, `comaker_deleted`) VALUES
+(1, 'Gina', 'Taan', 'Sabaw', '2019-04-03', 'Complicated', '+999 555 666 44', 'Labangon', 'Punta', 'Teacher', '50000.00', 1, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -308,6 +326,14 @@ CREATE TABLE `employer` (
   `contactNo` varchar(15) DEFAULT NULL,
   `employer_deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `employer`
+--
+
+INSERT INTO `employer` (`employerID`, `name`, `address`, `contactNo`, `employer_deleted`) VALUES
+(1, 'John Doe', 'France', '+111 222 333 44', 0),
+(2, 'Juan Dela Cruz', 'Pasay ', '+639 11 22', 0);
 
 -- --------------------------------------------------------
 
@@ -375,7 +401,7 @@ CREATE TABLE `loan_requirements` (
 --
 
 CREATE TABLE `spouse` (
-  `comakerID` int(11) NOT NULL,
+  `borrowerID` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `bDay` date NOT NULL,
   `civilStatus` varchar(25) NOT NULL,
@@ -530,7 +556,7 @@ ALTER TABLE `loan_requirements`
 -- Indexes for table `spouse`
 --
 ALTER TABLE `spouse`
-  ADD PRIMARY KEY (`comakerID`),
+  ADD PRIMARY KEY (`borrowerID`),
   ADD KEY `employerID` (`employerID`);
 
 --
@@ -635,7 +661,7 @@ ALTER TABLE `loan_requirements`
 -- Constraints for table `spouse`
 --
 ALTER TABLE `spouse`
-  ADD CONSTRAINT `spouse_ibfk_1` FOREIGN KEY (`comakerID`) REFERENCES `comaker` (`comakerID`),
+  ADD CONSTRAINT `spouse_ibfk_1` FOREIGN KEY (`borrowerID`) REFERENCES `comaker` (`comakerID`),
   ADD CONSTRAINT `spouse_ibfk_2` FOREIGN KEY (`employerID`) REFERENCES `employer` (`employerID`);
 
 --

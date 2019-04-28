@@ -29,38 +29,38 @@ var app = new Vue({
             }
             return true
         },
-        addBorrower(){
-            this.proceedText = "Adding borrower.."
-            this.proceedDisabled = true
+        checkBeforeProceed(){
+            string = this.turn.toLowerCase()
+            if(string == 'spouse'&&this.spouse == false){
+                return true
+            }
+            if(string == 'incomeexpense'){
+                array = ['income','expense']
+            }else{
+                array = [string]
+            }
+            for(key in array){
+                if(!this.checkTheRequireds(array[key])){
+                    alertify.notify("Required Fields should be filled in.","error")
+                    return false
+                }
+            }
+            return true
         },
         next(){
+            if(!this.checkBeforeProceed()){
+                return
+            }
             if(this.turn == 'Borrower'){
-                if(this.checkTheRequireds('borrower')){
-                    this.turn = 'Spouse'
-                    this.proceedText = "Next"
-                }else{
-                    alertify.notify("You need to fill in the required fields.","error")
-                }
+                this.turn = 'Spouse'
+                this.proceedText = "Next"
             }else
             if(this.turn == 'Spouse'){
-                if(this.spouse){
-                    if(this.checkTheRequireds('spouse')){
-                        this.turn = 'IncomeExpense'
-                        this.proceedText = "Finish";
-                    }else{
-                        alertify.notify("You need to fill in the required fields.","error")
-                    }
-                }else{
-                    this.turn = 'IncomeExpense'
-                    this.proceedText = "Finish"
-                }
+                this.turn = 'IncomeExpense'
+                this.proceedText = "Finish"
             }else 
             if(this.turn == 'IncomeExpense'){
-                if(this.checkTheRequireds('income')&&this.checkTheRequireds('expense')){
-                    this.addBorrower()
-                }else{
-                    alertify.notify("You need to fill in the required fields.","error")
-                }
+                this.addBorrower()
             }
         },
         back(){
@@ -76,11 +76,41 @@ var app = new Vue({
                 this.turn = 'IncomeExpense'
                 this.proceedText = "Finish";
             }
+        },
+        getToInsertSelect(what,array){
+            axios.post(`application/controllers/borrower.controller.php`, 
+            {
+                type: `get-${what}-data`
+            }).then(response => {
+                for(i in array){
+                    this["contents"][array[i]]["fields"][what]["options"] = response.data
+                }
+                this["contents"][array[i]]["fields"][what]["options"].unshift({value:'',display:`Select ${what}`})
+            })
+        },
+        addBorrower(){
+            this.proceedText = "Adding borrower.."
+            this.proceedDisabled = true
+            contents = this.contents
+            axios.post(`application/controllers/borrower.controller.php`, 
+            {
+                type: `add-data`,
+                contents : contents
+            }).then(response => {
+                
+            })
         }
     },
     created() {
         this.setUpWatchers(this.contents.income.fields,'income');
         this.setUpWatchers(this.contents.expense.fields,'expense');
+        this.getToInsertSelect('employer',['borrower','spouse'])
+        this.getToInsertSelect('comaker',['borrower'])
+    },
+    watch: {
+        spouse : function(){
+            this.contents.spouse.insert = this.spouse
+        }
     },
     data: function (){
         return {
@@ -95,22 +125,25 @@ var app = new Vue({
                     firstname :{
                         text : 'First Name',
                         value : '',
-                        db: ''
+                        db: 'fName'
                     },
                     middlename :{
                         text : 'Middle Name',
-                        value : ''
+                        value : '',
+                        db: 'mName'
                     },
                     lastname :{
                         text : 'Last Name',
-                        value : ''
+                        value : '',
+                        db: 'lName'
                     },
                     birthdate :{
                         text : 'Birthdate',
                         value : '',
                         placeholder: 'YYYY-MM-DD',
                         type : 'date',
-                        size: '3'
+                        size: '3',
+                        db: 'bDay'
                     },
                     gender :{
                         text : 'Gender',
@@ -126,7 +159,8 @@ var app = new Vue({
                                 display: 'Female'
                             }
                         },
-                        size: '2'
+                        size: '2',
+                        db: 'gender'
                     },
                     civilstatus :{
                         text : 'Civil Status',
@@ -146,16 +180,19 @@ var app = new Vue({
                                 display: 'Widow'
                             }
                         },
-                        size: '3'
+                        size: '3',
+                        db: 'civilStatus'
                     },
                     presentaddress :{
                         text : 'Present Address',
                         value : '',
-                        size: '4'
+                        size: '4',
+                        db: 'presentAddr'
                     },
                     homeaddress :{
                         text : 'Home Address',
-                        value : ''
+                        value : '',
+                        db: 'homeAddr'
                     },
                     houseowner :{
                         text : 'House Owner',
@@ -171,7 +208,8 @@ var app = new Vue({
                                 display: 'No'
                             }
                         },
-                        size: '2'
+                        size: '2',
+                        db: 'ownHouse'
                     },
                     renting :{
                         text : 'Renting?',
@@ -187,108 +225,79 @@ var app = new Vue({
                                 display: 'No'
                             }
                         },
-                        size: '2'
+                        size: '2',
+                        db: 'renting'
                     },
                     lengthofstay :{
                         text : 'Length Of Stay',
                         value : '',
                         type : 'number',
-                        size: '2'
+                        size: '2',
+                        db: 'lengthOfStay'
                     },
                     numberofchildren :{
                         text : 'Number Of Children',
                         value : '',
                         type : 'number',
-                        size: '2'
+                        size: '2',
+                        db: 'noOfChildren'
                     },
                     occupation :{
                         text : 'Occupation',
-                        value : ''
+                        value : '',
+                        db: 'occupation'
                     },
                     validid :{
                         text : 'Valid ID',
-                        value : ''
+                        value : '',
+                        db: 'validID'
                     },
                     contactnumber :{
                         text : 'Contact Number',
-                        value : ''
+                        value : '',
+                        db: 'contactNo'
                     },
                     employer :{
                         text : 'Employer',
                         value : '',
                         tag : 'select',
-                        options : {
-                            0:{
-                                value: 'yes',
-                                display: 'Yes'
-                            },
-                            1:{
-                                value: 'no',
-                                display: 'No'
-                            }
-                        },
-                        size: '12'
+                        options : {},
+                        size: '12',
+                        db: 'empID'
                     },
                     comaker :{
                         text : 'Comaker',
                         value : '',
                         tag : 'select',
-                        options : {
-                            0:{
-                                value: 'yes',
-                                display: 'Yes'
-                            },
-                            1:{
-                                value: 'no',
-                                display: 'No'
-                            }
-                        },
-                        size: '8'
+                        options : {},
+                        size: '8',
+                        db: 'comakerID'
                     },
                     numberofloans :{
                         text : 'Number Of Loans',
                         value : '',
                         type : 'number',
-                        size: '4'
+                        size: '4',
+                        db: 'loanCount'
                     }
                 }
             },
             spouse : {
                 display: `Spouse's Information`,
+                insert: false,
                 fields: {
                     name :{
                         text : 'Name of Spouse',
-                        value : ''
+                        value : '',
+                        db: 'name'
                     },
                     birthdate :{
                         text : 'Birthdate',
                         value : '',
                         placeholder: 'YYYY-MM-DD',
                         type : 'date',
-                        size: '12'
-                    },
-                    birthdate :{
-                        text : 'Birthdate',
-                        value : '',
-                        placeholder: 'YYYY-MM-DD',
-                        type : 'date',
-                        size: '12'
-                    },
-                    gender :{
-                        text : 'Gender',
-                        value : '',
-                        tag : 'select',
-                        options : {
-                            0:{
-                                value: 'male',
-                                display: 'Male'
-                            },
-                            1:{
-                                value: 'female',
-                                display: 'Female'
-                            }
-                        },
-                        size: '6'
+                        size: '12',
+                        db: 'bDay'
                     },
                     civilstatus :{
                         text : 'Civil Status',
@@ -308,49 +317,73 @@ var app = new Vue({
                                 display: 'Widow'
                             }
                         },
-                        size: '6'
+                        size: '6',
+                        db: 'civilStatus'
                     },
                     presentaddress :{
                         text : 'Present Address',
-                        value : ''
+                        value : '',
+                        db: 'presentAddr'
                     },
                     homeaddress :{
                         text : 'Home Address',
-                        value : ''
+                        value : '',
+                        db: 'homeAddr'
                     },
                     occupation :{
                         text : 'Occupation',
-                        value : ''
+                        value : '',
+                        db: 'occupation'
+                    },
+                    salaryorincome :{
+                        text : 'Salary Or Income',
+                        value : '',
+                        type: 'number',
+                        db: 'salaryOrIncome'
                     },
                     validid :{
                         text : 'Valid ID',
-                        value : ''
+                        value : '',
+                        db : 'validID'
                     },
                     contactnumber :{
                         text : 'Contact Number',
-                        value : ''
+                        value : '',
+                        db : 'contactNo'
+                    },
+                    employer :{
+                        text : 'Employer',
+                        value : '',
+                        tag : 'select',
+                        options : {},
+                        size: '12',
+                        db: 'employerID'
                     }
                 }
             },
             income : {
                 display: `Source Of Income`,
+                db: 'borrower_income',
                 fields: {
                     incomeorsalary :{
                         text : 'Income Or Salary',
                         value : "",
                         size : '6',
-                        type : 'number'
+                        type : 'number',
+                        db: 'incomeOrSalary'
                     },
                     otherincome :{
                         text : 'Other Income',
                         value : "",
                         size : '6',
-                        type : 'number'
+                        type : 'number',
+                        db: 'otherIncome'
                     },
                     otherincomedetails :{
                         text : 'Other Income Details',
                         value : "",
-                        size : '12'
+                        size : '12',
+                        db: 'otherIncome'
                     },
                     netincome :{
                         text : '[Total Income (0.00) - Total Expenses (0.00)] =',
@@ -358,18 +391,21 @@ var app = new Vue({
                         placeholder: 'Net Income',
                         disabled : true,
                         required: false,
-                        size : '12'
+                        size : '12',
+                        db: 'netIncome'
                     }
                 }
             },
             expense : {
                 display: `Expenses`,
+                db: 'borrower_expense',
                 fields: {
                     food :{
                         text : 'Food',
                         value : "",
                         type: 'number',
-                        size: '6'
+                        size: '6',
+                        db: 'food'
                     },
                     bills :{
                         text : 'Bills',
