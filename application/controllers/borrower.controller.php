@@ -14,10 +14,6 @@ switch ($_POST['type']) {
         if(isset($_POST['contents'])){
             foreach($_POST['contents'] as $tableName => $table){
                 $insert = isset($table['insert'])?$table['insert']:true;
-                if($tableName == "spouse"){
-                    var_dump($table);
-                    die;
-                }
                 if($insert){
                     if(isset($table['fields'])){
                         $nameOfTable = isset($table['db'])?$table['db']:$tableName;

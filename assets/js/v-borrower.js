@@ -19,6 +19,9 @@ var app = new Vue({
                 });
             }
         },
+        viewBorrowers(){
+            window.location.replace("?p=borrower");
+        },
         checkTheRequireds(string){
             for (var key in this["contents"][string]["fields"]) {
                 if(this["contents"][string]["fields"][key]["required"] != false){
@@ -48,6 +51,9 @@ var app = new Vue({
             return true
         },
         next(){
+            if(this.turn == 'Success'){
+                this.viewBorrowers()
+            }else
             if(!this.checkBeforeProceed()){
                 return
             }
@@ -97,7 +103,24 @@ var app = new Vue({
                 type: `add-data`,
                 contents : contents
             }).then(response => {
-                
+                data = response.data
+                success = []
+                if(data.borrower){
+                    success.push("Borrower successfully added.")
+                }
+                if(data.spouse){
+                    success.push("Spouse successfully inserted.")
+                }
+                if(data.borrower_income){
+                    success.push("Borrower's income successfully inserted.")
+                }
+                if(data.borrower_expense){
+                    success.push("Borrower's expense successfully inserted.")
+                }
+                this.proceedText = "View all Borrowers"
+                this.proceedDisabled = false
+                this.turn = 'Success'
+                this.success_message = success
             })
         }
     },
@@ -114,6 +137,7 @@ var app = new Vue({
     },
     data: function (){
         return {
+        success_message:[],
         spouse:false,
         turn: 'Borrower',
         proceedText: 'Next',
@@ -130,7 +154,8 @@ var app = new Vue({
                     middlename :{
                         text : 'Middle Name',
                         value : '',
-                        db: 'mName'
+                        db: 'mName',
+                        required: false
                     },
                     lastname :{
                         text : 'Last Name',
@@ -278,7 +303,8 @@ var app = new Vue({
                         value : '',
                         type : 'number',
                         size: '4',
-                        db: 'loanCount'
+                        db: 'loanCount',
+                        required: false
                     }
                 }
             },
@@ -383,7 +409,7 @@ var app = new Vue({
                         text : 'Other Income Details',
                         value : "",
                         size : '12',
-                        db: 'otherIncome'
+                        db: 'otherIncomeDetails'
                     },
                     netincome :{
                         text : '[Total Income (0.00) - Total Expenses (0.00)] =',
@@ -424,19 +450,22 @@ var app = new Vue({
                         text : 'Rentals',
                         value : "",
                         type: 'number',
-                        size: '6'
+                        size: '6',
+                        db: 'rental'
                     },
                     repairormaintenance :{
                         text : 'Repair Or Maintenance',
                         value : "",
                         type: 'number',
-                        size: '6'
+                        size: '6',
+                        db: 'repairMaintenance'
                     },
                     miscellaneous :{
                         text : 'Miscellaneous',
                         value : "",
                         type: 'number',
-                        size: '6'
+                        size: '6',
+                        db: 'misc'
                     }
                 }
             }
