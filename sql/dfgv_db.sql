@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.6.5.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2019 at 01:40 AM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.2
+-- Generation Time: Apr 29, 2019 at 04:36 AM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -184,17 +182,6 @@ CREATE TABLE `borrower` (
   `comakerID` int(11) NOT NULL,
   `borrower_deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `borrower`
---
-
-INSERT INTO `borrower` (`borrowerID`, `fName`, `mName`, `lName`, `bDay`, `civilStatus`, `gender`, `presentAddr`, `homeAddr`, `ownHouse`, `renting`, `lengthOfStay`, `noOfChildren`, `occupation`, `contactNo`, `validID`, `loanCount`, `empID`, `comakerID`, `borrower_deleted`) VALUES
-(1, 'Joe', 'Montemor', 'Labajo', '1998-05-15', 'single', 'male', 'Labangon', 'Tisa', 'yes', 'no', '20', 0, 'Programmer', '+639435240801', 'Alumni', 2, 1, 1, 0),
-(2, '1', '1', '1', '2019-04-05', 'married', 'female', '1', '1', 'no', 'no', '1', 1, '1', '1', '1', 1, 1, 1, 0),
-(3, '1', '1', '1', '2019-04-05', 'married', 'female', '1', '1', 'no', 'no', '1', 1, '1', '1', '1', 1, 2, 1, 0),
-(4, '1', '1', '1', '2019-04-13', 'married', 'female', '1', '11', 'no', 'yes', '1', 1, '1', '1', '1', 1, 1, 1, 0),
-(5, '1', '1', '1', '2019-04-20', 'single', 'male', '1', '1', 'yes', 'yes', '1', 1, '1', '1', '1', 1, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -581,7 +568,6 @@ ALTER TABLE `weekly_payment`
 --
 ALTER TABLE `employee`
   MODIFY `empID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 --
 -- Constraints for dumped tables
 --
@@ -605,18 +591,6 @@ ALTER TABLE `borrower`
 ALTER TABLE `borrower_employee_relationship`
   ADD CONSTRAINT `borrower_employee_relationship_ibfk_1` FOREIGN KEY (`borrowerID`) REFERENCES `borrower` (`borrowerID`),
   ADD CONSTRAINT `borrower_employee_relationship_ibfk_2` FOREIGN KEY (`empID`) REFERENCES `employee` (`empID`);
-
---
--- Constraints for table `borrower_expense`
---
-ALTER TABLE `borrower_expense`
-  ADD CONSTRAINT `borrower_expense_ibfk_1` FOREIGN KEY (`borrowerID`) REFERENCES `borrower` (`borrowerID`);
-
---
--- Constraints for table `borrower_income`
---
-ALTER TABLE `borrower_income`
-  ADD CONSTRAINT `borrower_income_ibfk_1` FOREIGN KEY (`borrowerID`) REFERENCES `borrower` (`borrowerID`);
 
 --
 -- Constraints for table `collector_assignment`
@@ -661,7 +635,6 @@ ALTER TABLE `loan_requirements`
 -- Constraints for table `spouse`
 --
 ALTER TABLE `spouse`
-  ADD CONSTRAINT `spouse_ibfk_1` FOREIGN KEY (`borrowerID`) REFERENCES `comaker` (`comakerID`),
   ADD CONSTRAINT `spouse_ibfk_2` FOREIGN KEY (`employerID`) REFERENCES `employer` (`employerID`);
 
 --
@@ -670,7 +643,6 @@ ALTER TABLE `spouse`
 ALTER TABLE `weekly_payment`
   ADD CONSTRAINT `weekly_payment_ibfk_1` FOREIGN KEY (`borrowerID`) REFERENCES `borrower` (`borrowerID`),
   ADD CONSTRAINT `weekly_payment_ibfk_2` FOREIGN KEY (`applicationNo`) REFERENCES `loan` (`applicationNo`);
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
