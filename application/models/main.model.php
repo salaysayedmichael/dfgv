@@ -49,14 +49,25 @@ class main
 		$stmt = $this->conn->prepare($query);
 		return $stmt->execute($data);
 	}
+	public function perfBind($query,$data){ //added by Joe Apr 16, 2019
+		$stmt = $this->conn->prepare($query);
+		foreach($data as $key => $value){
+			$bindName = str_replace(" ", '', $key);
+			$stmt->bindValue(":$bindName", $value);
+		}
+		return $stmt->execute();
+	}
 	public function login($user_id, $password)
 	{
 		try
 		{
 			$result = false;
-			$sql = $this->conn->prepare('SELECT * FROM users WHERE userID = ? AND password = ?');
-			$sql->bindParam(1, $user_id);
-			$sql->bindParam(2, $password);
+			$sql = $this->conn->prepare('SELECT * FROM users WHERE userID = ? AND password = ? AND users_deleted = 0');
+			$columns = array();
+			$data = array(1=>$user_id, 2=>$password);
+			foreach($data as $key => $value) {
+				$sql->bindValue($key, $value);
+			}
 			$sql->execute();
 			$row = $sql->fetch(PDO::FETCH_ASSOC);
 			if($sql->rowCount() > 0)
@@ -73,26 +84,10 @@ class main
 		}
 	}
 
-	public function knowUserType()
-	{
-		switch ($_SESSION['user_type']) {
-			case 1:
-				# code...
-			    return 'admin';
-				break;
-			case 2:
-				#code
-				return 'teller';
-				break;
-			default:
-				# code...
-				header('Location: ?logout=1');
-				break;
-		}
-	}
 
-	public function getUser($user_id)
+	public function getUser($user_id) //added by Dave, day one
 	{
+		$result = [];
 		try
 		{
 			$result = array();
@@ -112,16 +107,16 @@ class main
 		}
 	}
 
-	public function getAllEmployees()
+	public function getAllEmployees($type) //added by Dave, day one
 	{
+		$result = [];
 		try
 		{	
-
+			$collector = 'SELECT * FROM employee WHERE position = "collector" AND employee_deleted = 0 ORDER BY created DESC';
+			$allEmp = 'SELECT * FROM employee WHERE employee_deleted = 0 ORDER BY created DESC';
+			$stmt = $type == "all_emp"? $type = $allEmp : $type = $collector;
 			$result = array();
-			$sql = $this->conn->prepare('SELECT * FROM employee WHERE deleted = 0 ORDER BY created DESC');
-
-			$sql = $this->conn->prepare('SELECT * FROM employee WHERE deleted = 0');
-
+			$sql = $this->conn->prepare("$stmt");
 			$sql->execute();
 			if(!empty($sql->rowCount()))
 			{
@@ -141,7 +136,7 @@ class main
 	{
 		try
 		{	
-			$sql = $this->conn->prepare('SELECT * FROM borrower');
+			$sql = $this->conn->prepare('SELECT * FROM borrower WHERE borrower_deleted != 1');
 			$sql->execute();
 			$result = [];
 			if(!empty($sql->rowCount()))
@@ -163,6 +158,27 @@ class main
 		try
 		{	
 			$sql = $this->conn->prepare('SELECT * FROM comaker');
+			$sql->execute();
+			$result = [];
+			if(!empty($sql->rowCount()))
+			{
+				while($row = $sql->fetch(PDO::FETCH_ASSOC))
+				{
+					$result[] = $row;
+				}
+			}
+			return $result;
+		}
+		catch(PDOException $e)
+		{
+			echo 'Something went wrong!<br> Error: '.$e->getMessage();
+		}
+	}
+	public function getAllEmployers()
+	{
+		try
+		{	
+			$sql = $this->conn->prepare('SELECT * FROM employer');
 			$sql->execute();
 			$result = [];
 			if(!empty($sql->rowCount()))

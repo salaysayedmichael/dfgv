@@ -1,5 +1,7 @@
-<?php require_once('application/views/modals/editBorrower.modal.php');?>
-<?php require_once('application/views/modals/addBorrower.modal.php');?>
+<?php 
+// require_once('application/views/modals/editBorrower.modal.php');
+// require_once('application/views/modals/addBorrower.modal.php');
+?>
 <section class="content">
 	<div class="box box-info">
 		<div class="box-header with-border">
@@ -7,7 +9,7 @@
 		</div>
 		<div class="box-body">
 			<div class="table-responsive">
-				<table id="tbl-empList" class="table no-margin responsive display nowrap dataTable dtr-inline collapsed">
+				<table id="borrowerTbl" class="table no-margin responsive display nowrap dataTable dtr-inline collapsed">
 					<thead>
 						<tr>
 							<th>#</th>
@@ -42,7 +44,7 @@
 			</div>
 		</div>
 		<div class="box-footer clearfix">
-			<a href="#add-borrower-modal" data-toggle="modal" class="btn btn-info btn-lg float-right btn-flat">
+			<a href="?p=addBorrower" class="btn btn-info btn-lg float-right btn-flat">
             	<i class="fa fa-user-plus"></i> Borrower
           	</a>
 		</div>

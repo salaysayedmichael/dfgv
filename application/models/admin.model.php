@@ -59,12 +59,49 @@ class admin extends main
 		}
 	}
 	
+	public function updateEmployee($user = array(), $employee = array()) {
+		try {
+			$result = false;
+			$sql = $this->conn->prepare("UPDATE `employee` SET `fName` = ?, `mName` = ?,
+												`lName` = ?, `gender` = ?, `position` = ?,
+												`address` = ?, `email` = ?, `birthdate` = ?,
+												`marital_status` = ?, `home_phone` = ?, 
+												`personal_phone` = ? WHERE `employee`.`userID` = ?");
+
+			$sql2 = $this->conn->prepare("UPDATE `users` SET `password` = ? WHERE `users`.`userID` = ?");
+			$sql->bindParam(1, $employee['fName']);
+			$sql->bindParam(2, $employee['mName']);
+			$sql->bindParam(3, $employee['lName']);
+			$sql->bindParam(4, $employee['gender']);
+			$sql->bindParam(5, $employee['position']);
+			$sql->bindParam(6, $employee['address']);
+			$sql->bindParam(7, $employee['email']);
+			$sql->bindParam(8, $employee['birthdate']);
+			$sql->bindParam(9, $employee['mStatus']);
+			$sql->bindParam(10, $employee['home_phone']);
+			$sql->bindParam(11, $employee['per_phone']);
+			$sql->bindParam(12, $employee['user_id']); 	
+			$sql2->bindParam(1, $user['password']);
+			$sql2->bindParam(2, $user['user_id']);
+			$exe = $sql->execute();
+			$exe2 = $sql2->execute();
+
+			if($exe && $exe2)
+			{
+				$result = true;
+			}
+
+			return $result;
+		} catch(PDOException $e) {
+			echo 'Something went wrong!<br>Error:'.$e->getMessage();
+		}
+	}
 	public function checkUserDupli($user_id)
 	{
 		try
 		{
 			$result = false;
-			$sql = $this->conn->prepare('SELECT * FROM users WHERE userID = ?');
+			$sql = $this->conn->prepare('SELECT * FROM users WHERE userID = ? AND users_deleted = 0');
 			$sql->bindParam(1, $user_id);
 			$sql->execute();
 			$row = $sql->fetch(PDO::FETCH_ASSOC);
@@ -85,10 +122,13 @@ class admin extends main
 		try
 		{
 			$result = false;
-			$sql = $this->conn->prepare('UPDATE employee SET deleted = 1 WHERE userID = ?');
+			$sql = $this->conn->prepare('UPDATE employee SET employee_deleted = 1 WHERE empID = ?');
+			$sql2 = $this->conn->prepare('UPDATE users SET users_deleted = 1 WHERE userID = ?');
 			$sql->bindParam(1,$user_id);
+			$sql2->bindParam(1,$user_id);
 			$exe = $sql->execute();
-			if($exe)
+			$exe2 = $sql2->execute();
+			if($exe && $exe2)
 			{
 				$result = true;
 			}
@@ -103,8 +143,9 @@ class admin extends main
 	public function showEditEmployee($edit)
 	{
 		$result = array();
-		$sql = $this->conn->prepare("SELECT * FROM employee e INNER JOIN users u USING(userID) WHERE u.userID = ?");
-		$sql->bindParam(1, $edit);
+		$sql = $this->conn->prepare("SELECT * FROM employee e LEFT JOIN users u USING(userID) WHERE e.empID = ?");
+		$decode_edit = base64_decode($edit);
+		$sql->bindParam(1, $decode_edit);
 		$sql->execute();
 		if(!empty($sql->rowCount()))
 		{

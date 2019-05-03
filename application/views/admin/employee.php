@@ -17,8 +17,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php if(!empty($main->getAllEmployees())):?>
-						<?php foreach($main->getAllEmployees() as $key => $employee) :?>
+						<?php if(!empty($main->getAllEmployees('all_emp'))):?>
+						<?php foreach($main->getAllEmployees('all_emp') as $key => $employee) :?>
 						<tr>
 							<td><?php echo ($key+1)?></td>
 							<td><?php echo ucfirst($employee['fName']).' '.mb_substr($employee['mName'], 0, 1, 'utf-8').'. '.' '.ucfirst($employee['lName'])?></td>
@@ -26,23 +26,19 @@
 							<td><?php echo ucfirst($employee['address'])?></td>
 							<td><?php echo (!empty($employee['email']) || $employee == null ? $employee['email'] : 'Not given')?></td>
 							<td class="text-center">
-								<a href="?editEmployee=<?php echo $employee['userID'];?>" class="empEdit" id="<?php echo $employee['userID'];?>" data-toggle="modal"> <i class="fa fa-edit fa-lg"></i></a> 
+								<a href="?p=editEmployee&empID=<?php echo base64_encode($employee['empID']);?>" class="empEdit" id="<?php echo $employee['empID'];?>" data-toggle="modal"> <i class="fa fa-edit fa-lg"></i></a> 
 								&nbsp;| &nbsp;
-								<a href="javascript:;" class="empDel" id="<?php echo $employee['userID'];?>"> <i class="fa fa-trash fa-lg text-danger"></i></a>
+								<a href="javascript:;" class="empDel" id="<?php echo $employee['empID'];?>"> <i class="fa fa-trash fa-lg text-danger"></i></a>
 							</td>
 						</tr>
 						<?php endforeach;?>
-						<?php else:?>
-							<tr>
-								<td colspan="6"> No data available.</td>
-							</tr>
 						<?php endif; ?>
 					</tbody>
 				</table>
 			</div>
 		</div>
 		<div class="box-footer clearfix">
-			<a class="btn btn-info btn-lg float-right btn-flat" href="?addEmployee">
+			<a class="btn btn-info btn-lg float-right btn-flat" href="?p=addEmployee">
             	<i class="fa fa-user-plus"></i> Employee
           	</a>
 		</div>

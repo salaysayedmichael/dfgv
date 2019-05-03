@@ -1,0 +1,10 @@
+.v-required{
+    border-color: rgb(231, 79, 71);
+    border-style: solid;
+    color:rgb(231, 79, 71);
+}
+.v-required:focus{
+    border-color: rgb(231, 79, 71);
+    border-style: solid;
+    color:rgb(231, 79, 71);
+}

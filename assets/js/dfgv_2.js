@@ -31,42 +31,33 @@ $(document).ready(function(){
 			alertify.alert(title, message);
 		}
 	}
-	function lazyData(columns, parent){
-		data = {}
-		errors = []
-		$.each(columns,function(index,val){
-			placeholder = $(`${parent} #${val}`).attr("placeholder")
-			type = $(`${parent} #${val}`).attr("type")
-			value = $(`${parent} #${val}`).val()
-			if(type!="date"){
-				if(type=="text"){
-					if(value.trim()==="" || value.trim()===null){
-						errors.push(placeholder)
-						return false;
-					}
-				}else{
-					if(value === "" || value === null){
-						errors.push(placeholder)
-						return false;
-					}
-				}
-				
-			}else{
-				if (!Date.parse(value)) {
-					errors.push(placeholder)
-					return false;
-				}
-			}
-			data[val] = value;
-		})
-		if (errors.length !== 0) {
-			alert(`${errors.join()} field should be set.`)
-			return {}
-		}
-		return data
-	}
-	$('#login').on('click',function(e){
-		e.preventDefault();
+	
+	//Show password
+	$('i#sw-password').on('click',function(){
+		$('#password,#edit-password').prop('type','text');
+		$('#hd-password').removeClass('hide');
+		$(this).addClass('hide');
+	});
+	$('i#sw-cpassword').on('click',function(){
+		$('#cpassword,#edit-cpassword').prop('type','text');
+		$('#hd-cpassword').removeClass('hide');
+		$(this).addClass('hide');
+	});
+
+	//Hide Password
+	$('i#hd-password').on('click',function(){
+		$('#password,#edit-password').prop('type','password');
+		$('#sw-password').removeClass('hide');
+		$(this).addClass('hide');
+	});
+	$('i#hd-cpassword').on('click',function(){
+		$('#cpassword,#edit-cpassword').prop('type','password');
+		$('#sw-cpassword').removeClass('hide');
+		$(this).addClass('hide');
+	});
+
+	//Login 
+	function login(){ //modified by Joe Apr 24 2019 (so that we can reuse the login function)
 		var user_id  = $('#user-id').val();
 		var password = $('#password').val();
 		var data     = {'user_id' :user_id,
@@ -76,7 +67,6 @@ $(document).ready(function(){
 
 		$.when(returnAJAX('POST', url, data)).done(function(response){
 			data = JSON.parse(response);
-			console.log(data);
 			if(!data.error)
 			{
 				$('#login').val('Please wait....');
@@ -86,10 +76,34 @@ $(document).ready(function(){
 			}
 			else
 			{
-				alert(data.message);
+				alertify.error(data.message);
 			}
 		});
+	}
+	$('#login-form input').on('keypress',function(e){
+		if(e.which == 13) {
+			login()
+		}
 	});
+	$('#login').on('click',function(e){
+		e.preventDefault();
+		login()
+	});
+
+	//Disabling Login details when employee is collector
+	$('#edit-position,#position').on('change',function(){
+		if($('#edit-position,#position').val() == "collector") {
+			$(".login-tab").hide().fadeOut();
+		} else {
+			$(".login-tab").show().fadeIn();
+		}
+	});
+
+	if($('#edit-position').val() == "collector") {
+		$(".login-tab").hide().fadeOut();
+	} else {
+		$(".login-tab").show().fadeIn();
+	}
 
 	//Add Employee
 	$('#btn-addEmployee').on('click',function(e){
@@ -143,7 +157,7 @@ $(document).ready(function(){
 				},function(){
 					alertify.success('Redirecting to employee list...');
 					setTimeout(function(){
-						location.href = "?employee";
+						location.href = "?p=employee";
 					},2000);
 				});
 				
@@ -153,10 +167,62 @@ $(document).ready(function(){
 	});
 
 	//Update Employee info
-	$('body').on('click','.empEdit',function(){
-		var id = $(this).attr('id');
-		$('#lName').val(id);
+	$('#btn-editEmployee').on('click',function(e){
+		e.preventDefault();
+		var lName         = $('#edit-lName').val();
+		var fName         = $('#edit-fName').val();
+		var mName         = $('#edit-mName').val();
+		var address       = $('#edit-address').val();
+		var email         = $('#edit-email').val();
+		var per_phone     = $('#edit-personal-phone').val();
+		var home_phone    = $('#edit-home-phone').val();
+		var position      = $('#edit-position').val();
+		var birthdate     = $('#edit-birthdate').val();
+		var gender        = $('#edit-gender').val();
+		var status        = $('#edit-status').val();
+		var user_id       = $('#edit-user-id').val();
+		var password      = $('#edit-password').val();
+		var cpassword     = $('#edit-cpassword').val();
+		var url           = 'application/controllers/admin.controller.php';
+		var data          = {
+						  	'lName':lName, 'fName':fName, 'mName':mName,
+		                  	'address':address, 'email':email, 'per_phone':per_phone,
+		                  	'home_phone':home_phone, 'position':position, 'birthdate':birthdate,
+		                  	'gender':gender, 'status':status, 'user_id':user_id,
+		                  	'password':password, 'cpassword':cpassword, 'action':'editEmployee'
+		                    };
+		$.when(returnAJAX('POST', url, data)).done(function(response) {
+			result = JSON.parse(response);
+			if(result.error)
+			{
+				// dfgvAlert('<i class="fa fa-warning"></i> Warning', 'alert', '<div class="alert alert-warning">'+result.message+'</div>');
+				alertify.error(result.message);
+				if(result.type == 'personal_info')
+				{
+					$('a[href="#personal-info"]').addClass('shake animated');
+				}
+				else if(result.type == 'login_details')
+				{
+					$('a[href="#login-details"]').addClass('shake animated');
+				}
+				setTimeout(function(){
+					$('a[href="#login-details"],a[href="#personal-info"]').removeClass('shake animated');
+				},1000);
+			}
+			else
+			{
+				alertify.alert('<i class="fa fa-check"></i> Success', '<div class="alert alert-success">'+result.message+'</div>',function(){
+					alertify.success('Redirecting to employee list...');
+					setTimeout(function(){
+						location.href = "?p=employee";
+					},2000);
+				});
+				
+			}
+		});
+
 	});
+
 	//Soft Delete Employee
 	$('body').on('click','.empDel',function(){
 		var id   = $(this).attr('id');
@@ -164,37 +230,143 @@ $(document).ready(function(){
 		var url  = 'application/controllers/admin.controller.php';
 
 		alertify.confirm('<i class="fa fa-check"></i> Warning','<div class="alert alert-warning">Do you really want to delete this employee?</div>',function(){
-			$.when(returnAJAX('POST', url, data)).done(function(respsonse){
+			$.when(returnAJAX('POST', url, data)).done(function(response){
 				result = JSON.parse(response);
+				alertify.notify('Deleting Employee...');
+				setTimeout(function(){
+					if(!result.error)
+					{
+						alertify.alert('<i class="fa fa-check"></i> Success','<div class="alert alert-success">'+result.message+'</div>',function() {
+							alertify.success('Refreshing...');
+							setTimeout(function(){
+								location.reload();
+							},1500);
+						});
+					}else {
+						alertify.alert('<i class="fa fa-check"></i> Danger','<div class="alert alert-danger">'+result.message+'</div>',function() {
+							alertify.success('Refreshing...');
+							setTimeout(function(){
+								location.reload();
+							},1500);
+						});
+					}
+				},1500);
+				
 			});
 		},function(){
 			alertify.notify('Cancel');
 		});
 		
 	});
-	$('#addBorrower').on('click',function(e){
+
+	function lazyData(element,getError = false){
+		data = {}
+		errors = []
+		tobeReturned = []
+		$(`${element} .form-control`).each(function(){
+			placeholder = $(this).parent().children("span").text()
+			type = $(this).attr("type")
+			value = $(this).val()
+			if(type!="date"){
+				if(type=="text"){
+					if(value.trim()==="" || value.trim()===null){
+						errors.push(placeholder)
+						return false;
+					}
+				}else{
+					if(value === "" || value === null){
+						errors.push(placeholder)
+						return false;
+					}
+				}
+				
+			}else{
+				if (!Date.parse(value)) {
+					errors.push(placeholder)
+					return false;
+				}
+			}
+			data[placeholder] = value;
+		})
+		if (errors.length !== 0) {
+			if(getError){
+				tobeReturned.error = `${errors.join()} field should be set.`
+				tobeReturned.data = {}
+				return tobeReturned
+			}
+			alert(`${errors.join()} field should be set.`)
+			return {}
+		}
+		if(getError){
+			tobeReturned.data = data
+			return tobeReturned
+		}
+		return data
+	}
+	$("#addComakerModalBtn").on("click",function(e){
 		e.preventDefault();
-		var columns = [`fName`, `mName`, `lName`, `bDay`, `civilStatus`, `gender`, `presentAddr`, `homeAddr`, `ownHouse`, `renting`, `lengthOfStay`, `noOfChildren`, `occupation`, `contactNo`, `validID`, `loanCount`, `comakerID`]
-		data = lazyData(columns,'#add-borrower-modal')
-		if($.isEmptyObject(data)){
+		$("#add-comaker-modal").modal("show")
+	})
+	$('#addComakerBtn').on('click',function(e){
+		e.preventDefault();
+		arrayOfData = {}
+		arrayOfData["comaker"] = lazyData("#add-comaker-modal #comakerInfo")
+		if($.isEmptyObject(arrayOfData["comaker"])){
 			return
 		}
-		data["action"] = "addBorrower";
+		arrayOfData["action"] = "addComaker";
 		url      = 'application/controllers/main.controller.php';
-		$('#addBorrower').prop("disabled",true)
-		$('#addBorrower').text("Adding..")
-		$.when(returnAJAX('POST', url, data)).done(function(response){
+		$('#addComakerBtn').prop("disabled",true)
+		$('#addComakerBtn').text("Adding..")
+		$.when(returnAJAX('POST', url, arrayOfData)).done(function(response){
 			response = JSON.parse(response);
-			if(response){
-				alert("Borrower successfully added!");
+			if(response.success){
+				alert("Comaker successfully added!");
 			}else{
 				alert("Error occured!");
 			}
-			$('#addBorrower').prop("disabled",false)
-			$('#addBorrower').text("Add Borrower")
-			setTimeout(() => {
-				location.reload();
-			}, 2000);
+			$('#addComakerBtn').prop("disabled",false)
+			$('#addComakerBtn').text("Add Comaker")
+			$("#add-comaker-modal").modal("hide")
+			$("#addBorrower span:contains('Comaker')").parent().children(".form-control").append(`
+				<option value="${response.id}">${response.name}</option>
+			`)
+		});
+	});
+	$('#addBorrowerBtn').on('click',function(e){
+		e.preventDefault();
+		arrayOfData = {}
+		getData = []
+		categories = ['borrower','income','expenses','comaker']
+		error = ""
+		$.each(categories,function(index,val){
+			getData[`${val}`] = lazyData(`#addBorrower #${val}Info`,true)
+			arrayOfData[`${val}`] = getData[`${val}`]["data"]
+			if(getData[`${val}`]["error"] !== undefined){
+				error += getData[`${val}`]["error"]+"\r\n";
+			}
+		})
+		isThereEmpty = ($.isEmptyObject(arrayOfData["borrower"]))||($.isEmptyObject(arrayOfData["income"]))||($.isEmptyObject(arrayOfData["expenses"]))||($.isEmptyObject(arrayOfData["comaker"]))
+		if($("#addBorrower #spouseInfo [placeholder='Name of Spouse']").val()!=""){
+			getData["spouse"] = lazyData("#addBorrower #spouseInfo",true)
+			arrayOfData["spouse"] = getData["spouse"]["data"]
+			if(getData[`spouse`]["error"] !== undefined){
+				error += getData[`spouse`]["error"];
+			}
+			isThereEmpty = ($.isEmptyObject(arrayOfData["borrower"]))||($.isEmptyObject(arrayOfData["income"]))||($.isEmptyObject(arrayOfData["expenses"]))||($.isEmptyObject(arrayOfData["comaker"]))||($.isEmptyObject(arrayOfData["spouse"]))
+		}
+		if(isThereEmpty){
+			alert(error)
+			return
+		}
+		arrayOfData["action"] = "addBorrower";
+		url      = 'application/controllers/main.controller.php';
+		console.log(arrayOfData)
+		$('#addBorrowerBtn').prop("disabled",true)
+		$('#addBorrowerBtn').text("Adding..")
+		$.when(returnAJAX('POST', url, arrayOfData)).done(function(response){
+			response = JSON.parse(response);
+			window.location.replace("?p=borrowers");
 		});
 	});
 	$('.editBorrowerBtn').on('click',function(e){
@@ -235,7 +407,7 @@ $(document).ready(function(){
 	$('#saveBorrower').on('click',function(e){
 		e.preventDefault();
 		var columns = [`borrowerID`,`fName`, `mName`, `lName`, `bDay`, `civilStatus`, `gender`, `presentAddr`, `homeAddr`, `ownHouse`, `renting`, `lengthOfStay`, `noOfChildren`, `occupation`, `contactNo`, `validID`, `loanCount`, `comakerID`]
-		data = lazyData(columns,'#edit-borrower-modal')
+		data = lazyData(columns,'#edit-borrower-modal');
 		if($.isEmptyObject(data)){
 			return
 		}
@@ -257,6 +429,48 @@ $(document).ready(function(){
 			}, 2000);
 		});
 	});
+	function calculate(){
+		totalIncome = 0
+		totalExpenses = 0
+		$("#incomeInfo input[type=number]:not(#netIncome)").each(function(){
+			val = $(this).val()
+			if(val == ""){
+				val = 0
+			}
+			totalIncome = totalIncome + parseInt(val)
+		})
+		$("#expensesInfo input[type=number]").each(function(){
+			val = $(this).val()
+			if(val == ""){
+				val = 0
+			}
+			totalExpenses = totalExpenses + parseInt(val)
+		})
+		netIncome = Number(totalIncome - totalExpenses)
+		$("#totalExpensesText").text("")
+		$("#totalExpensesText").text(totalExpenses)
+		$("#totalIncomeText").text("")
+		$("#totalIncomeText").text(totalIncome)
+		$("#netIncome").val("")
+		$("#netIncome").val(netIncome)
+	}
+	$("#incomeInfo input[type=number]").each(function(){
+		$(this).on('keyup',function(){
+			calculate()
+		})
+	})
+	$("#expensesInfo input[type=number]").each(function(){
+		$(this).on('keyup',function(){
+			calculate()
+		})
+	})
+
 	$('#tbl-empList').DataTable();
+	$.fn.dataTable.ext.errMode = 'none';
+	$('#borrowerTbl')
+		.on( 'error.dt', function ( e, settings, techNote, message ) {
+			console.log( 'An error has been reported by DataTables: ', message );
+		} )
+		.DataTable();
 });
 //Tables

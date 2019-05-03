@@ -13,6 +13,7 @@ switch ($action) {
 						  'password'  =>trim($_POST['password']),
 						  'position'  =>trim($_POST['position']),
 						  'cpassword' =>trim($_POST['cpassword']));
+
 		$empData = array('fName'      =>trim($_POST['fName']),
 						 'mName'      =>trim($_POST['mName']),
 					     'lName'      =>trim($_POST['lName']),
@@ -37,8 +38,8 @@ switch ($action) {
 				if($userDupli)
 				{
 					$result['message'] = ucfirst($userData['user_id']).' is already taken.<br>Kindly, choose something else';
-					$result['type'] = 'login_details';
-				}
+					$result['type']    = 'login_details';
+			}
 				else
 		{
 			$user = $admin->addUser($userData);
@@ -61,6 +62,18 @@ switch ($action) {
 				$result['message'] = 'Failed to add employee. If you think this is wrong, please do contact the System Administrator.';
 			}
 		}
+		} elseif (empty($_POST["userID"]) && $_POST['position'] == "collector") {
+			$employee = $admin->addEmployee($empData);
+				if($employee)
+				{
+					$result['message'] = ucfirst($empData['lName']).', '.ucfirst($empData['fName']).' '.mb_substr($empData['mName'], 0, 1, 'utf-8').'.'.' is now an offical employee of DFGV.';
+					$result['error'] = false;
+				}
+				else
+				{
+					$result['message'] = 'Failed to add employee. If you think this is wrong, please do contact the System Administrator.';
+					$removeUser = $admin->removeUser($userData['user_id']);
+				}
 		}
 		
 
@@ -69,22 +82,61 @@ switch ($action) {
 
 	case 'deleteEmp':
 		# code...
-		$result = array();
+		$result            = array();
 		$result['message'] = 'Error occured while deleting employee. Please contact the system administrator.';
-		$result['error'] = true;
-		$userID = $_POST['userID'];
-		$result['remove'] = $admin->removeUser($userID);
+		$result['error']   = true;
+		$userID            = $_POST['userID'];
+		$result['remove']  = $admin->removeUser($userID);
 		if($result['remove'])
 		{
 			$result['message'] = 'Successfully deleted employee.';
-			$result['error'] = false;
+			$result['error']   = false;
 		}
 		echo json_encode($result);
 		break;
 
-	case '':
-	
-		break;
+	case 'editEmployee':
+			# code...
+			$result = array();
+			$result['message']  = 'Error occured while updating employee. Please contact the system administrator.';
+			$result['error'] = true;
+			$userData = array('user_id'   =>trim($_POST['user_id']),
+									  	'password'  =>trim($_POST['password']),
+									  	'position'  =>trim($_POST['position']),
+									  	'cpassword' =>trim($_POST['cpassword']));
+
+			$empData = array('fName'      =>trim($_POST['fName']),
+									   'mName'      =>trim($_POST['mName']),
+								       'lName'      =>trim($_POST['lName']),
+								       'gender'     =>trim($_POST['gender']),
+								 	   'position'   =>trim($_POST['position']),
+								 	   'address'    =>trim($_POST['address']),
+								 	   'email'      =>trim($_POST['email']),
+								 	   'birthdate'  =>trim($_POST['birthdate']),
+								 	   'mStatus'    =>trim($_POST['status']),
+								 	   'home_phone' =>trim($_POST['home_phone']),
+								 	   'per_phone'  =>trim($_POST['per_phone']),
+								 	   'user_id'    =>trim($_POST['user_id']));
+			$checkFields = checkEmptyFields($empData , $userData);
+			
+			if(!empty($checkFields)) {
+				$result['message'] = $checkFields['message'];
+				$result['type'] = $checkFields['type'];
+			} else {
+				$updateEmployee = $admin->updateEmployee($userData, $empData);
+				if($updateEmployee) {
+					$result['message'] = ucfirst($empData['lName']).", ".ucfirst($empData['fName'])." ".mb_substr($empData['mName'], 0, 1, 'utf-8')."."."'s information is updated successfully.";
+					$result['error'] = false;
+				}
+				else
+				{
+					$result['message'] = "Failed to update employee, please contact the system administrator.";
+				}
+			}
+
+			echo json_encode($result);
+
+			break;
 	default:
 		# code...
 		break;
@@ -95,7 +147,7 @@ switch ($action) {
 	{
 		$result = array();
 		
-		if(empty($empData['lName']) && empty($empData['fName']))
+		if(empty($empData['lName']) || empty($empData['fName']))
 		{
 			$result['message'] = 'Names are required.';
 			$result['type'] = 'personal_info';
@@ -135,29 +187,33 @@ switch ($action) {
 			$result['message'] = 'Status is required.';
 			$result['type'] = 'personal_info';
 		}
-		elseif(empty($userData['user_id']))
+		elseif($empData["position"] != "collector")
 		{
-			$result['message'] = 'User ID is required.';
-			$result['type'] = 'login_details';
-		}
-		elseif(empty($userData['password']))
-		{
-			$result['message'] = 'Password is required.';
-			$result['type'] = 'login_details';
-		}
-		elseif(empty($userData['cpassword']))
-		{
-			$result['message'] = 'Confirm Password is required.';
-			$result['type'] = 'login_details';
-		}
-		elseif(!empty($userData['password']))
-		{
-			if($userData['password'] != $userData['cpassword'])
+			if(empty($userData['user_id']))
 			{
-				$result['message'] = 'Password does not match.';
+				$result['message'] = 'User ID is required.';
 				$result['type'] = 'login_details';
 			}
+			elseif(empty($userData['password']))
+			{
+				$result['message'] = 'Password is required.';
+				$result['type'] = 'login_details';
+			}
+			elseif(empty($userData['cpassword']))
+			{
+				$result['message'] = 'Confirm Password is required.';
+				$result['type'] = 'login_details';
+			}
+			elseif(!empty($userData['password']))
+			{
+				if($userData['password'] != $userData['cpassword'])
+				{
+					$result['message'] = 'Password does not match.';
+					$result['type'] = 'login_details';
+				}
+			}
 		}
+		
 		return $result;
 	}
 ?>
