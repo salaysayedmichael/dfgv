@@ -14,22 +14,31 @@ switch ($_POST['type']) {
         if(isset($_POST['contents'])){
             foreach($_POST['contents'] as $tableName => $table){
                 $insert = isset($table['insert'])?$table['insert']:true;
+                $parent = isset($table['parent'])?$table['parent']:false;
+                $nameOfTable = isset($table['db'])?$table['db']:$tableName;
                 if($insert){
                     if(isset($table['fields'])){
-                        $nameOfTable = isset($table['db'])?$table['db']:$tableName;
-                        $columns = []; $values = []; $qmarks = [];
-                        $lastId = $main->getOne("SELECT borrowerID FROM borrower ORDER BY borrowerID DESC",array());
-                        $borrowerID = (is_numeric($lastId)?$lastId:0) + 1;
-                        $values[] = $borrowerID;
-                        $columns[] = "borrowerID";
-                        $qmarks[] = "?";
-                        foreach($table['fields'] as $fieldName => $field){
-                            $columns[] = isset($field["db"])?$field['db']:$fieldName;
-                            $values[] = isset($field["value"])?$field['value']:"";
-                            $qmarks[] = "?";
+                        if($parent){
+                            $execution = $main->insertInto($nameOfTable,$table['fields'],true);
+                            if($execution!=0){
+                                $columnParent = $main->getOne("SHOW COLUMNS FROM `$nameOfTable`;");
+                                $columnValue = $execution;
+                                $data[$nameOfTable] = true;
+                            }else{
+                                $data[$nameOfTable] = false;
+                            }
+                        }else{
+                            if(isset($columnParent)&&isset($columnValue)){
+                                $table['fields']['parentid']['db'] = $columnParent;
+                                $table['fields']['parentid']['value'] = $columnValue;
+                            }
+                            $get = isset($_POST['get'])?$_POST['get']:'';
+                            if($get=='id'){
+                                $data[$nameOfTable] = $main->insertInto($nameOfTable,$table['fields'],true);
+                            }else{
+                                $data[$nameOfTable] = $main->insertInto($nameOfTable,$table['fields']);
+                            }
                         }
-                        $query = "INSERT INTO `$nameOfTable` (".implode(",",$columns).") VALUES(".implode(",",$qmarks).")";
-                        $data[$nameOfTable] = $main->perf($query,$values);
                     }
                 }
             }

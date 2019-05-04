@@ -40,7 +40,6 @@
       <?php if(!empty($main->getUser($_SESSION['uid']))):?>
         <?php $a = array();?>
         <?php $a = $main->getUser($_SESSION['uid']);?>
-          <?php if($a[0]["position"] == "admin"):?>
             <?php $actions = array('employee'=>'fa-black-tie','borrower'=>'fa-users','collector'=>'fa-truck');
             foreach($actions as $action => $fa):
               $p = isset($_GET['p'])?$_GET['p']:'';
@@ -67,7 +66,7 @@
               </ul>
             </li>
             <?php else:?>
-              <?php $actions = array('borrowers'=>'fa-users','collector'=>'fa-truck');?>
+              <?php $actions = array('borrower'=>'fa-users','collector'=>'fa-truck');?>
             <?php foreach($actions as $action => $fa):?>
             <li  class="<?= isset($_GET["$action"])?"active":"" ?>">
               <a href="?p=<?= $action;?>">
@@ -86,7 +85,6 @@
                   <li><a href="?">Link in level 2</a></li>
                 </ul>
               </li>
-            <?php endif;?>
           <?php endif;?>
     </ul>
     <!-- /.sidebar-menu -->

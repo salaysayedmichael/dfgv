@@ -49,6 +49,13 @@ class main
 		$stmt = $this->conn->prepare($query);
 		return $stmt->execute($data);
 	}
+	public function perfGetId($query,$data){ //added by Joe Apr 6, 2019
+		$stmt = $this->conn->prepare($query);
+		if($stmt->execute($data)){
+			return $this->conn->lastInsertId();
+		}
+		return 0;
+	}	
 	public function perfBind($query,$data){ //added by Joe Apr 16, 2019
 		$stmt = $this->conn->prepare($query);
 		foreach($data as $key => $value){
@@ -56,6 +63,20 @@ class main
 			$stmt->bindValue(":$bindName", $value);
 		}
 		return $stmt->execute();
+	}
+	public function insertInto($nameOfTable,$fields,$isParent = false){
+		$columns = []; $values = []; $qmarks = [];
+		foreach($fields as $fieldName => $field){
+			$dbFieldName = isset($field["db"])?$field['db']:$fieldName;
+			$columns[] = $dbFieldName;
+			$qmarks[] = "?";
+			$values[] = isset($field["value"])?$field['value']:"";
+		}
+		$query = "INSERT INTO `$nameOfTable` (".implode(",",$columns).") VALUES(".implode(",",$qmarks).")";
+		if($isParent){
+			return $this->perfGetId($query,$values);
+		}
+		return $this->perf($query,$values);
 	}
 	public function login($user_id, $password)
 	{

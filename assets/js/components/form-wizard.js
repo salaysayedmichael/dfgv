@@ -41,6 +41,10 @@ Vue.component('form-wizard', {
       text: {
         immediate: true, 
         handler () {}
+      },
+      contents: {
+        immediate: true, 
+        handler () {}
       }
     },
     methods: {
