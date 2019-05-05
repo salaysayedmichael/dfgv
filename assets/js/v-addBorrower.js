@@ -362,7 +362,8 @@
                                 text : 'Other Income Details',
                                 value : "",
                                 size : '12',
-                                db: 'otherIncomeDetails'
+                                db: 'otherIncomeDetails',
+                                required: false,
                             },
                             netincome :{
                                 text : '[Total Income (0.00) - Total Expenses (0.00)] =',

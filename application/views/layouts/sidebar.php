@@ -41,7 +41,7 @@
         <!-- <?php print_r($main->getUser($_SESSION['uid']));?> -->
         <?php $a = array();?>
         <?php $a = $main->getUser($_SESSION['uid']);?>
-            <?php $actions = array('employee'=>'fa-black-tie','borrower'=>'fa-users','collector'=>'fa-truck');
+            <?php $actions = array('employee'=>'fa-black-tie','borrower'=>'fa-users','collector'=>'fa-truck','loans'=>'fa-money');
             foreach($actions as $action => $fa):
               $p = isset($_GET['p'])?$_GET['p']:'';
               $isCurrentPage = false;

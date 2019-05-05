@@ -137,7 +137,31 @@ switch ($action) {
 			echo json_encode($result);
 
 			break;
-	default:
+			case 'addLoanApplication':
+				$borrwowerID  = isset($_POST['borrwowerID'])?$_POST['borrwowerID']:0;
+				$userID = $_SESSION['uid'];
+				$interestRate = isset($_POST['interestRate'])?floatval($_POST['interestRate']):0;
+				$purpose      = isset($_POST['purpose'])?trim($_POST['purpose']):0;
+				$loanType     = isset($_POST['loanType'])?trim($_POST['loanType']):0;
+				$LoanAmount     = isset($_POST['LoanAmount'])?floatval($_POST['LoanAmount']):0;
+				$loanStatus = 1;
+				$submitted =  date('Y-m-d');
+				$totalPayable = $LoanAmount+($LoanAmount*($interestRate/100));
+				$loanData = array('borrwowerID'=>$borrwowerID,'userID'=>$userID,'interestRate'=>$interestRate,'purpose'=>$purpose,'loanType'=>$loanType,'LoanAmount'=>$LoanAmount,'loanStatus'=>$loanStatus,'submitted'=>$submitted,'totalPayable'=>$totalPayable);
+				$addLoan = $admin->addLoanApplication($loanData);
+				if(!empty($addLoan))
+				{
+					$result['success'] = true;
+					$result['message'] = "New Loan Application has been updated. <br />Loan Application ID: <strong>".$addLoan."</strong>";
+				}
+				else
+				{
+					$result['success'] = false;
+					$result['message'] = "There was an error while adding new loan application. Please try again or contact system admin.";
+				}
+				echo json_encode($result);
+			break;
+		default:
 		# code...
 		break;
 }

@@ -27,7 +27,10 @@
 							<td class="text-center">
 								<a data-id="<?= $borrower['borrowerID'] ?>" class="editBorrowerBtn" > <i class="fa fa-edit fa-lg"></i></a> 
 								&nbsp;| &nbsp;
-								<a data-id="<?= $borrower['borrowerID'] ?>" class="deleteBorrowerBtn"> <i class="fa fa-trash fa-lg text-danger"></i></a>
+								<!-- NOTE: Don't allow deletion of borrower if borrower has an existing record in loan, collection_info tables -->
+								<a data-id="<?= $borrower['borrowerID'] ?>" class="deleteBorrowerBtn" title="Delete Borrower"> <i class="fa fa-trash fa-lg text-danger"></i></a>
+								&nbsp;| &nbsp;
+								<a data-id="<?= $borrower['borrowerID'] ?>" class="addLoanBtn" title="Add Loan Application" href="?p=addLoan&borrowerID=<?= $borrower['borrowerID'] ?>"> <i class="fa fa-plus fa-lg text-success"></i></a>
 							</td>
 						</tr>
 						<?php endforeach;?>

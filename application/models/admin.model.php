@@ -157,9 +157,23 @@ class admin extends main
 		
 		return $result;
 	}
-	public function getCollectionDetails($empID) {
+	public function addLoanApplication($ld) {
 		try {
 			$result = array();
+			
+			$sql = $this->conn->prepare("INSERT INTO `loan`(`borrowerID`,`empID`,`percentage`,`purpose`,`loan_type`,`loanAmount`,`loanStatus`,`submitted`,`totalPayable`)
+										 VALUES(?,?,?,?,?,?,?,?,?)");
+			$exe = $sql->execute(array($ld['borrwowerID'],$ld['userID'],$ld['interestRate'],$ld['purpose'],$ld['loanType'],$ld['LoanAmount'],$ld['loanStatus'],$ld['submitted'],$ld['totalPayable']));
+			$id = $this->conn->lastInsertId();
+			return $id;
+		}catch(PDOException $e) {
+			echo "Error: ".$e->getMessage();
+		}
+	}
+	public function getCollectionDetails($empID)
+	{
+		try{
+		$result = array();
 			$sql = $this->conn->prepare("SELECT 
 									    `e`.`empID`,
 									    `e`.`fName` AS `eFname`,
@@ -204,6 +218,7 @@ class admin extends main
 			echo "Error: ".$e->getMessage();
 		}
 	}
+	
 }
 
 $admin = new admin;
