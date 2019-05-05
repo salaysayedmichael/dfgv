@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2019 at 04:06 PM
+-- Generation Time: May 05, 2019 at 08:22 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.1.28
 
@@ -119,6 +119,14 @@ CREATE TABLE `collection_info` (
   `collection_date` date NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `collection_info`
+--
+
+INSERT INTO `collection_info` (`collection_id`, `collector_id`, `borrower_id`, `application_no`, `collection_amount`, `comment`, `collection_date`) VALUES
+(1, 6, 4, 5, 500, '', '2019-05-01'),
+(2, 6, 4, 5, 600, '', '2019-05-04');
+
 -- --------------------------------------------------------
 
 --
@@ -226,7 +234,7 @@ INSERT INTO `employer` (`employerID`, `name`, `address`, `contactNo`, `employer_
 --
 
 CREATE TABLE `loan` (
-  `applicationNo` int(11) NOT NULL,
+  `applicationNo` int(8) UNSIGNED ZEROFILL NOT NULL,
   `tradeReference` varchar(100) DEFAULT NULL,
   `loanAmount` decimal(8,2) NOT NULL,
   `purpose` varchar(100) NOT NULL,
@@ -250,14 +258,14 @@ CREATE TABLE `loan` (
 --
 
 INSERT INTO `loan` (`applicationNo`, `tradeReference`, `loanAmount`, `purpose`, `paymentMod`, `term`, `lastLoan`, `finesPaid`, `percentage`, `totalPayable`, `monthsPrepaid`, `submitted`, `processed`, `loanStatus`, `borrowerID`, `empID`, `loan_type`) VALUES
-(1, NULL, '2000.00', '', '', '', '100.00', '100.00', '1', 0, 1, NULL, NULL, 'IGP', 1, 6, 0),
-(2, NULL, '2000.00', '', '', '', '100.00', '100.00', '1', 0, 1, NULL, NULL, 'Expired', 2, 6, 0),
-(4, NULL, '100000.00', 'secret', '', '', '0.00', '0.00', '5', 0, 0, '0000-00-00 00:00:00', NULL, '1', 3, 0, 1),
-(5, NULL, '500500.00', 'sample', '', '', '0.00', '0.00', '5', 0, 0, '0000-00-00 00:00:00', NULL, '1', 4, 0, 1),
-(6, NULL, '500.00', 'asdfasfd', '', '', '0.00', '0.00', '5', 525, 0, '2019-05-05 00:00:00', NULL, '1', 1, 123, 2),
-(7, NULL, '300000.00', 'secret', '', '', '0.00', '0.00', '10', 330000, 0, '2019-05-05 00:00:00', NULL, '1', 2, 123, 1),
-(8, NULL, '700000.00', 'Hospital Bills', '', '', '0.00', '0.00', '5', 735000, 0, '2019-05-05 00:00:00', NULL, '1', 4, 123, 2),
-(9, NULL, '780000.00', 'Personal', '', '', '0.00', '0.00', '5', 819000, 0, '2019-05-05 00:00:00', NULL, '1', 2, 123, 2);
+(00000001, NULL, '2000.00', '', '', '', '100.00', '100.00', '1', 0, 1, NULL, NULL, 'IGP', 1, 6, 0),
+(00000002, NULL, '2000.00', '', '', '', '100.00', '100.00', '1', 0, 1, NULL, NULL, 'Expired', 2, 6, 0),
+(00000004, NULL, '100000.00', 'secret', '', '', '0.00', '0.00', '5', 0, 0, '0000-00-00 00:00:00', NULL, '1', 3, 0, 1),
+(00000005, NULL, '500500.00', 'sample', '', '', '0.00', '0.00', '5', 0, 0, '0000-00-00 00:00:00', NULL, '1', 4, 0, 1),
+(00000006, NULL, '500.00', 'asdfasfd', '', '', '0.00', '0.00', '5', 525, 0, '2019-05-05 00:00:00', NULL, '1', 1, 123, 2),
+(00000007, NULL, '300000.00', 'secret', '', '', '0.00', '0.00', '10', 330000, 0, '2019-05-05 00:00:00', NULL, '1', 2, 123, 1),
+(00000008, NULL, '700000.00', 'Hospital Bills', '', '', '0.00', '0.00', '5', 735000, 0, '2019-05-05 00:00:00', NULL, '1', 4, 123, 2),
+(00000009, NULL, '780000.00', 'Personal', '', '', '0.00', '0.00', '5', 819000, 0, '2019-05-05 00:00:00', NULL, '1', 2, 123, 2);
 
 -- --------------------------------------------------------
 
@@ -483,7 +491,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `collection_info`
 --
 ALTER TABLE `collection_info`
-  MODIFY `collection_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `collection_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `employee`
@@ -495,7 +503,7 @@ ALTER TABLE `employee`
 -- AUTO_INCREMENT for table `loan`
 --
 ALTER TABLE `loan`
-  MODIFY `applicationNo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `applicationNo` int(8) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
