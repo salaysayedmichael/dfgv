@@ -1,4 +1,4 @@
-
+</section><!--End of sidebar.php .content-header-->
 <?php
     include_once("application/views/modals/addEmployer.modal.php");
 ?>

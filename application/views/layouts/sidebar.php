@@ -38,6 +38,7 @@
       <li class="header">HEADER</li>
       <!-- Optionally, you can add icons to the links -->
       <?php if(!empty($main->getUser($_SESSION['uid']))):?>
+        <!-- <?php print_r($main->getUser($_SESSION['uid']));?> -->
         <?php $a = array();?>
         <?php $a = $main->getUser($_SESSION['uid']);?>
             <?php $actions = array('employee'=>'fa-black-tie','borrower'=>'fa-users','collector'=>'fa-truck');
@@ -93,4 +94,3 @@
 </aside>
 <div class="content-wrapper" style="min-height: 959.8px;">
 <section class="content-header">
-</section> 
