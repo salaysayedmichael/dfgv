@@ -1,6 +1,10 @@
 </section><!--End of sidebar.php .content-header-->
+<?php
+include_once("application/views/modals/showLoanDetails.modal.php");
+?>
 <section class="content">
 	<?php
+
 		$sql = "SELECT 
 				    l.applicationNo,
 				    concat(b.fName, ' ', b.lName) as `borrower_name`,
@@ -31,18 +35,18 @@
 		</div>
 		<div class="box-body">
 			<div class="table-responsive">
-				<table id="tbl-empList" class="table no-margin responsive display nowrap dataTable dtr-inline collapsed">
+				<table id="tbl-LoanList" class="table no-margin responsive display nowrap dataTable dtr-inline collapsed">
 					<thead>
 						<tr>
-							<th>#</th>
-							<th>Loan Number</th>
-							<th>Borrower Name</th>
-							<th>Loan Amount</th>
-							<th>interest %</th>
-							<th>Total Payable</th>
-							<th>Loan Status</th>
-							<th>Loan Type</th>
-							<th>Processor</th>
+							<th class="wd-5">#</th>
+							<th class="wd-10">Loan Number</th>
+							<th class="wd-15">Borrower Name</th>
+							<th class="wd-10">Loan Amount</th>
+							<th class="wd-10">Interest (%)</th>
+							<th class="wd-10">Total Payable</th>
+							<th class="wd-10">Loan Status</th>
+							<th class="wd-10">Loan Type</th>
+							<th class="wd-15">Processor</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -51,13 +55,13 @@
 						{
 							$ctr = 1;
 							foreach ($loans as $l) {
-								echo "<tr>";  
+								echo "<tr class='loan-row-click' id='".$l['applicationNo']."'>";  
 								echo "<td>".$ctr++."</td>";  
 								echo "<td>".$l['applicationNo']."</td>";  
 								echo "<td>".$l['borrower_name']."</td>";  
-								echo "<td>".$l['loanAmount']."</td>";  
-								echo "<td>".$l['percentage']."</td>";  
-								echo "<td>".$l['totalPayable']."</td>";  
+								echo "<td class='text-right'>".$l['loanAmount']."</td>";  
+								echo "<td class='text-right'>".$l['percentage']."%</td>";  
+								echo "<td class='text-right'>".$l['totalPayable']."</td>";  
 								echo "<td>".$l['loan_status']."</td>";  
 								echo "<td>".$l['loan_type']."</td>";  
 								echo "<td>".$l['Processor']."</td>";  

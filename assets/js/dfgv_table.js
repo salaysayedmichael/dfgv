@@ -1,5 +1,5 @@
 //List of Employee Table
-$('#tbl-empList,#tbl-collector,#tbl-collections,#tbl-collectionInfo').DataTable();
+$('#tbl-empList,#tbl-collector,#tbl-collections,#tbl-collectionInfo,#tbl-LoanList').DataTable();
 //List of datepickers
 $('#birthdate,#edit-birthdate,#collection-date').datepicker({
 	format: "yyyy-mm-dd"

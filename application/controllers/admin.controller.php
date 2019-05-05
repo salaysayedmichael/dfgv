@@ -136,33 +136,32 @@ switch ($action) {
 
 			echo json_encode($result);
 
-			break;
+	break;
 
-			case 'addLoanApplication':
-				$borrwowerID  = isset($_POST['borrwowerID'])?$_POST['borrwowerID']:0;
-				$userID = $_SESSION['uid'];
-				$interestRate = isset($_POST['interestRate'])?floatval($_POST['interestRate']):0;
-				$purpose      = isset($_POST['purpose'])?trim($_POST['purpose']):0;
-				$loanType     = isset($_POST['loanType'])?trim($_POST['loanType']):0;
-				$LoanAmount     = isset($_POST['LoanAmount'])?floatval($_POST['LoanAmount']):0;
-				$loanStatus = 1;
-				$submitted =  date('Y-m-d');
-				$totalPayable = $LoanAmount+($LoanAmount*($interestRate/100));
-				$loanData = array('borrwowerID'=>$borrwowerID,'userID'=>$userID,'interestRate'=>$interestRate,'purpose'=>$purpose,'loanType'=>$loanType,'LoanAmount'=>$LoanAmount,'loanStatus'=>$loanStatus,'submitted'=>$submitted,'totalPayable'=>$totalPayable);
-				$addLoan = $admin->addLoanApplication($loanData);
-				if(!empty($addLoan))
-				{
-					$result['success'] = true;
-					$result['message'] = "New Loan Application has been updated. <br />Loan Application ID: <strong>".$addLoan."</strong>";
-				}
-				else
-				{
-					$result['success'] = false;
-					$result['message'] = "There was an error while adding new loan application. Please try again or contact system admin.";
-				}
-				echo json_encode($result);
-			break;
-
+	case 'addLoanApplication':
+		$borrwowerID  = isset($_POST['borrwowerID'])?$_POST['borrwowerID']:0;
+		$userID = $_SESSION['uid'];
+		$interestRate = isset($_POST['interestRate'])?floatval($_POST['interestRate']):0;
+		$purpose      = isset($_POST['purpose'])?trim($_POST['purpose']):0;
+		$loanType     = isset($_POST['loanType'])?trim($_POST['loanType']):0;
+		$LoanAmount     = isset($_POST['LoanAmount'])?floatval($_POST['LoanAmount']):0;
+		$loanStatus = 1;
+		$submitted =  date('Y-m-d');
+		$totalPayable = $LoanAmount+($LoanAmount*($interestRate/100));
+		$loanData = array('borrwowerID'=>$borrwowerID,'userID'=>$userID,'interestRate'=>$interestRate,'purpose'=>$purpose,'loanType'=>$loanType,'LoanAmount'=>$LoanAmount,'loanStatus'=>$loanStatus,'submitted'=>$submitted,'totalPayable'=>$totalPayable);
+		$addLoan = $admin->addLoanApplication($loanData);
+		if(!empty($addLoan))
+		{
+			$result['success'] = true;
+			$result['message'] = "New Loan Application has been updated. <br />Loan Application ID: <strong>".$addLoan."</strong>";
+		}
+		else
+		{
+			$result['success'] = false;
+			$result['message'] = "There was an error while adding new loan application. Please try again or contact system admin.";
+		}
+		echo json_encode($result);
+	break;
 	case 'get_collection':
 		$result = array();
 		$result["message"] = 'Error occured, please contact system admin.';
@@ -198,9 +197,59 @@ switch ($action) {
 		}
 		echo json_encode($result);
 	break;
-	
-	default:
+		case 'loadLoanData':
+			$applicationID = isset($_POST['applicationID'])?$_POST['applicationID']:0;
+			$loan = $admin->getLoanDetails($applicationID);
+			if(!empty($loan))
+			{
+				$result['purpose']       = $loan['purpose'];
+				$result['borrower_name'] = $loan['borrower_name'];
+				$result['loanAmount']    = number_format($loan['loanAmount'],2);
+				$result['interest_rate'] = $loan['percentage'];
+				$result['totalPayable']  = number_format($loan['totalPayable'],2);
+				$result['loan_status']   = $loan['loan_status'];
+				$result['loan_type']     = $loan['loan_type'];
+				$result['purpose']       = $loan['purpose'];
+				$result['processor']     = $loan['processor'];
+				$result['collected']     = number_format($loan['collected'],2);
+				$collectible             = $loan['totalPayable']-$loan['collected'];
+				$result['collectible']   = number_format($collectible,2);
+				$result['success'] = true;
+			}
+			else
+			{
+				$result['success'] = false;
+			}
+			echo json_encode($result);
 
+		break;
+		case 'loadCollectionInfoByApplication':
+		$applicationNo = isset($_POST['applicationNo'])?$_POST['applicationNo']:0;
+		$collectionInfo = $admin->getCollectionInfo($applicationNo);
+		$result['html'] = "";
+		if(!empty($collectionInfo))
+		{
+			$ctr = 1;
+			foreach ($collectionInfo as $c) {
+				$result['html'] .= "<tr>";
+				$result['html'] .= "<td>".$ctr++."</td>";
+				$result['html'] .= "<td>".$c['collection_date']."</td>";
+				$result['html'] .= "<td>".$c['collector']."</td>";
+				$result['html'] .= "<td class='text-right'>".number_format($c['collection_amount'],2)."</td>";
+				$result['html'] .= "<td >".$c['comment']."</td>";
+				$result['html'] .= "</tr>";
+			}
+		}
+		else
+		{
+			$result['html'] .= "<tr>";
+				$result['html'] .= "<td colspan='5'>No Collection Data Available</td>";
+				$result['html'] .= "</tr>";
+		}
+		$result['success'] = true;
+		echo json_encode($result);
+		break;
+		default:
 		# code...
 		break;
 }

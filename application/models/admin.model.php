@@ -163,7 +163,16 @@ class admin extends main
 		try {
 			$result = array();
 			
-			$sql = $this->conn->prepare("INSERT INTO `loan`(`borrowerID`,`empID`,`percentage`,`purpose`,`loan_type`,`loanAmount`,`loanStatus`,`submitted`,`totalPayable`)
+			$sql = $this->conn->prepare("INSERT INTO 
+											`loan`( `borrowerID`,
+													`empID`,
+													`percentage`,
+													`purpose`,
+													`loan_type`,
+													`loanAmount`,
+													`loanStatus`,
+													`submitted`,
+													`totalPayable`)
 										 VALUES(?,?,?,?,?,?,?,?,?)");
 			$exe = $sql->execute(array($ld['borrwowerID'],$ld['userID'],$ld['interestRate'],$ld['purpose'],$ld['loanType'],$ld['LoanAmount'],$ld['loanStatus'],$ld['submitted'],$ld['totalPayable']));
 			$id = $this->conn->lastInsertId();
@@ -190,11 +199,11 @@ class admin extends main
 									    `l`.`percentage` AS `interest`,
 									    SUM(`ci`.`collection_amount`) AS `collection_amount`
 									FROM
-									    `employee` `e`
+									    `borrower` `b`
 									        INNER JOIN
-									    `borrower` `b` USING (`empID`)
-									        INNER JOIN
-									    `loan` `l` USING (`borrowerID`)
+										`loan` `l` using(borrowerID)
+											LEFT JOIN
+									    `employee` `e` on e.`userID`= l.empid
 									    	LEFT JOIN 
 									    `collection_info` `ci` ON `ci`.`application_no` = `l`.`applicationNo`
 									    GROUP BY `ci`.`application_no`, `l`.`applicationNo`
@@ -209,6 +218,60 @@ class admin extends main
 		}catch(PDOException $e) {
 			echo "Error: ".$e->getMessage();
 		}
+	}
+	public function getLoanDetails($applicationID)
+	{
+			try {
+				$result = array();
+				
+				$sql = $this->conn->prepare("SELECT 
+											    l.applicationNo,
+											    concat(b.fName, ' ', b.lName) as `borrower_name`,
+											    l.loanAmount,
+											    l.percentage,
+											    l.totalPayable,
+											    l.purpose,
+											    e.userID,
+											    ls.ls_Label as `loan_status`,
+											    lt.lt_Label as `loan_type`,
+											    concat(e.fName, ' ', e.lName) as `processor`,
+												(SELECT if(isnull(SUM(collection_amount)),0,SUM(collection_amount)) FROM collection_info WHERE application_no = l.applicationNo)as `collected`
+											FROM
+											    loan l
+											        inner join
+											    borrower b USING (borrowerID)
+											        inner join
+											    employee e ON e.userID = l.empID
+											        inner join
+											    loan_status ls ON ls.ls_id = l.loanStatus
+											        inner join
+											    loan_type lt ON lt.lt_id = l.loan_type
+											WHERE
+												l.applicationNo = ?");
+				$exe = $sql->execute(array($applicationID));
+				$row = $sql->fetch(PDO::FETCH_ASSOC);
+				return $row;
+			}catch(PDOException $e) {
+				echo "Error: ".$e->getMessage();
+			}
+	}
+
+	public function getCollectionInfo($applicationNo)
+	{
+		try {
+				$result = array();
+				
+				$sql = $this->conn->prepare("SELECT c.collection_id, c.collector_id, c.borrower_id, c.application_no, c.collection_amount, c.comment, date_format(c.collection_date, '%M %m,%Y')as `collection_date`, concat(e.fName,' ',e.lName) as `collector`
+											FROM collection_info c
+											INNER JOIN employee e on e.empID = c.collector_id
+											WHERE c.application_no = ?
+											ORDER BY collection_date ASC;");
+				$exe = $sql->execute(array($applicationNo));
+				$row = $sql->fetchAll(PDO::FETCH_ASSOC);
+				return $row;
+			}catch(PDOException $e) {
+				echo "Error: ".$e->getMessage();
+			}
 	}
 	
 
