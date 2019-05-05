@@ -157,6 +157,53 @@ class admin extends main
 		
 		return $result;
 	}
+	public function getCollectionDetails($empID) {
+		try {
+			$result = array();
+			$sql = $this->conn->prepare("SELECT 
+									    `e`.`empID`,
+									    `e`.`fName` AS `eFname`,
+									    `e`.`mName` AS `eMname`,
+									    `e`.`lName` AS `eLname`,
+									    `e`.`position` AS `position`,
+									    `e`.`email` AS `email`,
+									    `e`.`personal_phone` AS `phone`,
+									    `e`.`gender` AS `gender`,
+									    `b`.`borrowerID`,
+									    `b`.`fName` AS `bFname`,
+									    `b`.`mName` AS `bMname`,
+									    `b`.`lName` AS `bLname`,
+									    `l`.`applicationNo` AS `appNo`,
+									    `l`.`loanAmount` AS `amount`,
+									    `l`.`loanStatus` AS `status`
+									FROM
+									    `employee` `e`
+									        INNER JOIN
+									    `borrower` `b` USING (`empID`)
+									        INNER JOIN
+									    `loan` `l` USING (`borrowerID`)
+									WHERE
+									    `e`.`empID` = ?
+									        AND `e`.`position` = 'collector'
+									        AND `b`.`empID` = ?
+									        AND `l`.`empID` = ?");
+			$decode_id = base64_decode($empID);
+			$sql->bindParam(1, $decode_id);
+			$sql->bindParam(2, $decode_id);
+			$sql->bindParam(3, $decode_id);
+			$exe = $sql->execute();
+			if(!empty($sql->rowCount()))
+			{
+				while($row = $sql->fetch(PDO::FETCH_ASSOC))
+					{
+						$result[] = $row;
+					}
+			}
+			return $result;
+		}catch(PDOException $e) {
+			echo "Error: ".$e->getMessage();
+		}
+	}
 }
 
 $admin = new admin;

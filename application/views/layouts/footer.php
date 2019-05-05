@@ -114,10 +114,10 @@
 <script src="assets/js/dfgv_table.js"></script>
 <script src="assets/js/dfgv_validate.js"></script>
 
-<!-- <script src="assets/js/components/lte-input.js"></script> -->
 <script src="assets/js/components/form-wizard.js"></script>
+<script src="assets/js/components/lte-input.js"></script>
 <script src="assets/js/directives/v-required.js"></script>
-<script src="assets/js/v-borrower.js"></script>
+<script src="assets/js/v-addBorrower.js"></script>
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->

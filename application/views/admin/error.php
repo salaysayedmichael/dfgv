@@ -1,3 +1,4 @@
+</section><!--End of sidebar.php .content-header-->
 <section class="content">
 	<div class="error-page">
         <h2 class="headline text-yellow"> 404</h2>

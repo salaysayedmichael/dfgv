@@ -1,50 +1,4 @@
-Vue.component('lte-input', {
-    props:{
-      type: {
-        default: 'text'
-      },
-      value: {
-        default: ''
-      },
-      text: {
-        default: ''
-      },
-      size: {
-        default: '4'
-      },
-      placeholder: {
-        default: ''
-      },
-      tag: {
-        default: 'input'
-      },
-      options: {
-        default: {}
-      },
-      required: {
-        default : true
-      },
-      disabled: {
-        default : false
-      }
-    },
-    template: `
-      <div :class="gridSize">
-          {{text}}
-          <input :type="type" v-if="tag === 'input'" v-required:is="required" class="form-control" v-bind:value="value" 
-                v-on:input="$emit('input', $event.target.value)" :placeholder="placeholder" :disabled="disabled">
-          <select  v-if="tag === 'select'" :disabled="disabled" v-required:is="required" class="form-control" v-bind:value="value"
-                v-on:input="$emit('input', $event.target.value)">
-              <option v-for="option in options" :value="option.value">{{option.display}}</option>
-          </select>
-      </div>
-    `,
-    computed: {
-      gridSize : function(){
-        return `col-md-${this.size}`
-      }
-    }
-})
+
 Vue.component('form-wizard', {
     props:[
         'title',
@@ -68,7 +22,7 @@ Vue.component('form-wizard', {
               <div :class="containerSize(name)" v-for="orderName in order">
                 <h4>{{contents[orderName].display}}</h4>
                 <button @click="toggleInsert(orderName)" class="btn btn-primary pull-right" v-if="handlerCheck(contents[orderName].handler)" >{{insertoggletext}}</button>
-                <lte-input v-if="insertable(contents[orderName].insert)" v-for="field in contents[orderName].fields" :size="field.size" :placeholder="field.placeholder"  :text="field.text" :type="field.type" :required="field.required" :tag="field.tag" :options="field.options" :disabled="field.disabled" v-model="field.value"></lte-input>
+                <lte-input v-if="insertable(contents[orderName].insert)" v-for="field in contents[orderName].fields" :size="field.size" :placeholder="field.placeholder" :addable="field.addable"  :text="field.text" :type="field.type" :required="field.required" :tag="field.tag" :options="field.options" :disabled="field.disabled" v-model="field.value"></lte-input>
               </div>
             </div>
         </div>
@@ -85,6 +39,10 @@ Vue.component('form-wizard', {
     },
     watch: {
       text: {
+        immediate: true, 
+        handler () {}
+      },
+      contents: {
         immediate: true, 
         handler () {}
       }
@@ -145,6 +103,13 @@ Vue.component('form-wizard', {
             }
           }
           return false
+        },
+        beforeEnter: function (el) {
+          el.style.opacity = 0
+        },
+        enter: function (el, done) {
+          Velocity(el, { opacity: 1, fontSize: '1.4em' }, { duration: 300 })
+          Velocity(el, { fontSize: '1em' }, { complete: done })
         },
         next(){
             if(this.checkRequireds()){
