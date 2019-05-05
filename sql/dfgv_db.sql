@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: May 05, 2019 at 07:34 AM
--- Server version: 5.7.24
--- PHP Version: 7.2.14
+-- Host: 127.0.0.1
+-- Generation Time: May 05, 2019 at 04:06 PM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.1.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,148 +25,10 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `arawan_payment`
---
-
-DROP TABLE IF EXISTS `arawan_payment`;
-CREATE TABLE IF NOT EXISTS `arawan_payment` (
-  `borrowerID` int(11) NOT NULL,
-  `applicationNo` int(11) NOT NULL,
-  `dateGranted` date DEFAULT NULL,
-  `perWeekPayment` decimal(8,2) NOT NULL,
-  `loanCycle` int(11) DEFAULT NULL,
-  `dayPmt1` decimal(8,2) DEFAULT NULL,
-  `datePaid1` date DEFAULT NULL,
-  `dayPmt2` decimal(8,2) DEFAULT NULL,
-  `datePaid2` date DEFAULT NULL,
-  `dayPmt3` decimal(8,2) DEFAULT NULL,
-  `datePaid3` date DEFAULT NULL,
-  `dayPmt4` decimal(8,2) DEFAULT NULL,
-  `datePaid4` date DEFAULT NULL,
-  `dayPmt5` decimal(8,2) DEFAULT NULL,
-  `datePaid5` date DEFAULT NULL,
-  `dayPmt6` decimal(8,2) DEFAULT NULL,
-  `datePaid6` date DEFAULT NULL,
-  `dayPmt7` decimal(8,2) DEFAULT NULL,
-  `datePaid7` date DEFAULT NULL,
-  `dayPmt8` decimal(8,2) DEFAULT NULL,
-  `datePaid8` date DEFAULT NULL,
-  `dayPmt9` decimal(8,2) DEFAULT NULL,
-  `datePaid9` date DEFAULT NULL,
-  `dayPmt10` decimal(8,2) DEFAULT NULL,
-  `datePaid10` date DEFAULT NULL,
-  `dayPmt11` decimal(8,2) DEFAULT NULL,
-  `datePaid11` date DEFAULT NULL,
-  `dayPmt12` decimal(8,2) DEFAULT NULL,
-  `datePaid12` date DEFAULT NULL,
-  `dayPmt13` decimal(8,2) DEFAULT NULL,
-  `datePaid13` date DEFAULT NULL,
-  `dayPmt14` decimal(8,2) DEFAULT NULL,
-  `datePaid14` date DEFAULT NULL,
-  `dayPmt15` decimal(8,2) DEFAULT NULL,
-  `datePaid15` date DEFAULT NULL,
-  `dayPmt16` decimal(8,2) DEFAULT NULL,
-  `datePaid16` date DEFAULT NULL,
-  `dayPmt17` decimal(8,2) DEFAULT NULL,
-  `datePaid17` date DEFAULT NULL,
-  `dayPmt18` decimal(8,2) DEFAULT NULL,
-  `datePaid18` date DEFAULT NULL,
-  `dayPmt19` decimal(8,2) DEFAULT NULL,
-  `datePaid19` date DEFAULT NULL,
-  `dayPmt20` decimal(8,2) DEFAULT NULL,
-  `datePaid20` date DEFAULT NULL,
-  `dayPmt21` decimal(8,2) DEFAULT NULL,
-  `datePaid21` date DEFAULT NULL,
-  `dayPmt22` decimal(8,2) DEFAULT NULL,
-  `datePaid22` date DEFAULT NULL,
-  `dayPmt23` decimal(8,2) DEFAULT NULL,
-  `datePaid23` date DEFAULT NULL,
-  `dayPmt24` decimal(8,2) DEFAULT NULL,
-  `datePaid24` date DEFAULT NULL,
-  `dayPmt25` decimal(8,2) DEFAULT NULL,
-  `datePaid25` date DEFAULT NULL,
-  `dayPmt26` decimal(8,2) DEFAULT NULL,
-  `datePaid26` date DEFAULT NULL,
-  `dayPmt27` decimal(8,2) DEFAULT NULL,
-  `datePaid27` date DEFAULT NULL,
-  `dayPmt28` decimal(8,2) DEFAULT NULL,
-  `datePaid28` date DEFAULT NULL,
-  `dayPmt29` decimal(8,2) DEFAULT NULL,
-  `datePaid29` date DEFAULT NULL,
-  `dayPmt30` decimal(8,2) DEFAULT NULL,
-  `datePaid30` date DEFAULT NULL,
-  `dayPmt31` decimal(8,2) DEFAULT NULL,
-  `datePaid31` date DEFAULT NULL,
-  `dayPmt32` decimal(8,2) DEFAULT NULL,
-  `datePaid32` date DEFAULT NULL,
-  `dayPmt33` decimal(8,2) DEFAULT NULL,
-  `datePaid33` date DEFAULT NULL,
-  `dayPmt34` decimal(8,2) DEFAULT NULL,
-  `datePaid34` date DEFAULT NULL,
-  `dayPmt35` decimal(8,2) DEFAULT NULL,
-  `datePaid35` date DEFAULT NULL,
-  `dayPmt36` decimal(8,2) DEFAULT NULL,
-  `datePaid36` date DEFAULT NULL,
-  `dayPmt37` decimal(8,2) DEFAULT NULL,
-  `datePaid37` date DEFAULT NULL,
-  `dayPmt38` decimal(8,2) DEFAULT NULL,
-  `datePaid38` date DEFAULT NULL,
-  `dayPmt39` decimal(8,2) DEFAULT NULL,
-  `datePaid39` date DEFAULT NULL,
-  `dayPmt40` decimal(8,2) DEFAULT NULL,
-  `datePaid40` date DEFAULT NULL,
-  `dayPmt41` decimal(8,2) DEFAULT NULL,
-  `datePaid41` date DEFAULT NULL,
-  `dayPmt42` decimal(8,2) DEFAULT NULL,
-  `datePaid42` date DEFAULT NULL,
-  `dayPmt43` decimal(8,2) DEFAULT NULL,
-  `datePaid43` date DEFAULT NULL,
-  `dayPmt44` decimal(8,2) DEFAULT NULL,
-  `datePaid44` date DEFAULT NULL,
-  `dayPmt45` decimal(8,2) DEFAULT NULL,
-  `datePaid45` date DEFAULT NULL,
-  `dayPmt46` decimal(8,2) DEFAULT NULL,
-  `datePaid46` date DEFAULT NULL,
-  `dayPmt47` decimal(8,2) DEFAULT NULL,
-  `datePaid47` date DEFAULT NULL,
-  `dayPmt48` decimal(8,2) DEFAULT NULL,
-  `datePaid48` date DEFAULT NULL,
-  `dayPmt49` decimal(8,2) DEFAULT NULL,
-  `datePaid49` date DEFAULT NULL,
-  `dayPmt50` decimal(8,2) DEFAULT NULL,
-  `datePaid50` date DEFAULT NULL,
-  `dayPmt51` decimal(8,2) DEFAULT NULL,
-  `datePaid51` date DEFAULT NULL,
-  `dayPmt52` decimal(8,2) DEFAULT NULL,
-  `datePaid52` date DEFAULT NULL,
-  `dayPmt53` decimal(8,2) DEFAULT NULL,
-  `datePaid53` date DEFAULT NULL,
-  `dayPmt54` decimal(8,2) DEFAULT NULL,
-  `datePaid54` date DEFAULT NULL,
-  `dayPmt55` decimal(8,2) DEFAULT NULL,
-  `datePaid55` date DEFAULT NULL,
-  `dayPmt56` decimal(8,2) DEFAULT NULL,
-  `datePaid56` date DEFAULT NULL,
-  `dayPmt57` decimal(8,2) DEFAULT NULL,
-  `datePaid57` date DEFAULT NULL,
-  `dayPmt58` decimal(8,2) DEFAULT NULL,
-  `datePaid58` date DEFAULT NULL,
-  `dayPmt59` decimal(8,2) DEFAULT NULL,
-  `datePaid59` date DEFAULT NULL,
-  `dayPmt60` decimal(8,2) DEFAULT NULL,
-  `datePaid60` date DEFAULT NULL,
-  PRIMARY KEY (`borrowerID`,`applicationNo`),
-  KEY `applicationNo` (`applicationNo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `borrower`
 --
 
-DROP TABLE IF EXISTS `borrower`;
-CREATE TABLE IF NOT EXISTS `borrower` (
+CREATE TABLE `borrower` (
   `borrowerID` int(11) NOT NULL,
   `fName` varchar(50) NOT NULL,
   `mName` varchar(50) DEFAULT NULL,
@@ -186,9 +48,7 @@ CREATE TABLE IF NOT EXISTS `borrower` (
   `loanCount` int(11) DEFAULT NULL,
   `empID` int(11) NOT NULL,
   `comakerID` int(11) NOT NULL,
-  `borrower_deleted` tinyint(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`borrowerID`),
-  KEY `comakerID` (`comakerID`)
+  `borrower_deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -198,7 +58,8 @@ CREATE TABLE IF NOT EXISTS `borrower` (
 INSERT INTO `borrower` (`borrowerID`, `fName`, `mName`, `lName`, `bDay`, `civilStatus`, `gender`, `presentAddr`, `homeAddr`, `ownHouse`, `renting`, `lengthOfStay`, `noOfChildren`, `occupation`, `contactNo`, `validID`, `loanCount`, `empID`, `comakerID`, `borrower_deleted`) VALUES
 (1, 'Wen', 'Dyl', 'Mancia', '2019-05-01', 'Single', 'Male', 'Maghaway', 'Maghaway', 'Yes', 'No', '30', 0, 'Web Dev', '09090090', '23123', 10, 6, 1, 0),
 (2, 'John', 'Carlo', 'Inajada', '2019-05-01', 'Single', 'Male', 'Maghaway', 'Maghaway', 'Yes', 'No', '30', 0, 'Web Dev', '09090090', '23123', 10, 6, 1, 0),
-(3, 'Jervey', 'Luna', 'Barba', '2019-05-01', 'Single', 'Male', 'Maghaway', 'Maghaway', 'Yes', 'No', '30', 0, 'Web Dev', '09090090', '23123', 10, 6, 1, 0);
+(3, 'Jervey', 'Luna', 'Barba', '2019-05-01', 'Single', 'Male', 'Maghaway', 'Maghaway', 'Yes', 'No', '30', 0, 'Web Dev', '09090090', '23123', 10, 6, 1, 0),
+(4, 'Elaine', 'Lopez', 'Geli', '1990-01-01', 'single', 'female', 'Cebu City', 'Cebu City', 'yes', 'no', '20', 3, 'Developer', '0111', '112233', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -206,13 +67,10 @@ INSERT INTO `borrower` (`borrowerID`, `fName`, `mName`, `lName`, `bDay`, `civilS
 -- Table structure for table `borrower_employee_relationship`
 --
 
-DROP TABLE IF EXISTS `borrower_employee_relationship`;
-CREATE TABLE IF NOT EXISTS `borrower_employee_relationship` (
+CREATE TABLE `borrower_employee_relationship` (
   `borrowerID` int(11) NOT NULL,
   `empID` int(11) NOT NULL,
-  `relationship` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`borrowerID`,`empID`),
-  KEY `empID` (`empID`)
+  `relationship` varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -221,16 +79,14 @@ CREATE TABLE IF NOT EXISTS `borrower_employee_relationship` (
 -- Table structure for table `borrower_expense`
 --
 
-DROP TABLE IF EXISTS `borrower_expense`;
-CREATE TABLE IF NOT EXISTS `borrower_expense` (
+CREATE TABLE `borrower_expense` (
   `borrowerID` int(11) NOT NULL,
   `food` decimal(6,2) NOT NULL,
   `bills` decimal(6,2) NOT NULL,
   `education` decimal(8,2) NOT NULL,
   `rental` decimal(8,2) NOT NULL,
   `repairMaintenance` decimal(6,2) NOT NULL,
-  `misc` decimal(8,2) NOT NULL,
-  PRIMARY KEY (`borrowerID`)
+  `misc` decimal(8,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -239,14 +95,12 @@ CREATE TABLE IF NOT EXISTS `borrower_expense` (
 -- Table structure for table `borrower_income`
 --
 
-DROP TABLE IF EXISTS `borrower_income`;
-CREATE TABLE IF NOT EXISTS `borrower_income` (
+CREATE TABLE `borrower_income` (
   `borrowerID` int(11) NOT NULL,
   `incomeOrSalary` decimal(10,2) NOT NULL,
   `otherIncome` decimal(8,2) NOT NULL,
   `otherIncomeDetails` varchar(100) DEFAULT NULL,
-  `netIncome` decimal(10,2) NOT NULL,
-  PRIMARY KEY (`borrowerID`)
+  `netIncome` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -255,16 +109,14 @@ CREATE TABLE IF NOT EXISTS `borrower_income` (
 -- Table structure for table `collection_info`
 --
 
-DROP TABLE IF EXISTS `collection_info`;
-CREATE TABLE IF NOT EXISTS `collection_info` (
-  `collection_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `collection_info` (
+  `collection_id` int(11) NOT NULL,
   `collector_id` int(11) NOT NULL,
   `borrower_id` int(11) NOT NULL,
   `application_no` int(11) NOT NULL,
   `collection_amount` double NOT NULL,
   `comment` varchar(100) NOT NULL,
-  `collection_date` date NOT NULL,
-  PRIMARY KEY (`collection_id`)
+  `collection_date` date NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -273,16 +125,12 @@ CREATE TABLE IF NOT EXISTS `collection_info` (
 -- Table structure for table `collector_assignment`
 --
 
-DROP TABLE IF EXISTS `collector_assignment`;
-CREATE TABLE IF NOT EXISTS `collector_assignment` (
+CREATE TABLE `collector_assignment` (
   `empID` int(11) NOT NULL,
   `borrowerID` int(11) DEFAULT NULL,
   `applicationNo` int(11) DEFAULT NULL,
   `dateAssigned` date DEFAULT NULL,
-  `dateReAssigned` date DEFAULT NULL,
-  PRIMARY KEY (`empID`),
-  KEY `borrowerID` (`borrowerID`),
-  KEY `applicationNo` (`applicationNo`)
+  `dateReAssigned` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -291,8 +139,7 @@ CREATE TABLE IF NOT EXISTS `collector_assignment` (
 -- Table structure for table `comaker`
 --
 
-DROP TABLE IF EXISTS `comaker`;
-CREATE TABLE IF NOT EXISTS `comaker` (
+CREATE TABLE `comaker` (
   `comakerID` int(11) NOT NULL,
   `fName` varchar(50) NOT NULL,
   `midName` varchar(50) DEFAULT NULL,
@@ -305,9 +152,7 @@ CREATE TABLE IF NOT EXISTS `comaker` (
   `occupation` varchar(50) DEFAULT NULL,
   `salaryOrIncome` decimal(10,2) DEFAULT NULL,
   `employerID` int(11) NOT NULL,
-  `comaker_deleted` tinyint(4) NOT NULL,
-  PRIMARY KEY (`comakerID`),
-  KEY `employerID` (`employerID`)
+  `comaker_deleted` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -315,6 +160,7 @@ CREATE TABLE IF NOT EXISTS `comaker` (
 --
 
 INSERT INTO `comaker` (`comakerID`, `fName`, `midName`, `lName`, `bDay`, `civilStatus`, `contactNo`, `presentAddr`, `homeAddr`, `occupation`, `salaryOrIncome`, `employerID`, `comaker_deleted`) VALUES
+(0, 'Ed Michael', 'Lastimoso', 'Salaysay', '1994-02-05', 'single', '011', 'cebu', 'cebu', 'developer', '23000.00', 1, 0),
 (1, 'Gina', 'Taan', 'Sabaw', '2019-04-03', 'Complicated', '+999 555 666 44', 'Labangon', 'Punta', 'Teacher', '50000.00', 1, 0);
 
 -- --------------------------------------------------------
@@ -323,9 +169,8 @@ INSERT INTO `comaker` (`comakerID`, `fName`, `midName`, `lName`, `bDay`, `civilS
 -- Table structure for table `employee`
 --
 
-DROP TABLE IF EXISTS `employee`;
-CREATE TABLE IF NOT EXISTS `employee` (
-  `empID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `employee` (
+  `empID` int(11) NOT NULL,
   `fName` varchar(50) NOT NULL,
   `mName` varchar(50) DEFAULT NULL,
   `lName` varchar(50) NOT NULL,
@@ -339,10 +184,8 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `personal_phone` varchar(15) DEFAULT NULL,
   `userID` varchar(50) NOT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `employee_deleted` tinyint(2) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`empID`),
-  KEY `userID` (`userID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+  `employee_deleted` tinyint(2) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `employee`
@@ -359,14 +202,12 @@ INSERT INTO `employee` (`empID`, `fName`, `mName`, `lName`, `gender`, `position`
 -- Table structure for table `employer`
 --
 
-DROP TABLE IF EXISTS `employer`;
-CREATE TABLE IF NOT EXISTS `employer` (
+CREATE TABLE `employer` (
   `employerID` int(11) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `address` varchar(100) DEFAULT NULL,
   `contactNo` varchar(15) DEFAULT NULL,
-  `employer_deleted` tinyint(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`employerID`)
+  `employer_deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -374,6 +215,7 @@ CREATE TABLE IF NOT EXISTS `employer` (
 --
 
 INSERT INTO `employer` (`employerID`, `name`, `address`, `contactNo`, `employer_deleted`) VALUES
+(0, 'Patrick Achache', 'Cebu City', '0111', 0),
 (1, 'John Doe', 'France', '+111 222 333 44', 0),
 (2, 'Juan Dela Cruz', 'Pasay ', '+639 11 22', 0);
 
@@ -383,8 +225,7 @@ INSERT INTO `employer` (`employerID`, `name`, `address`, `contactNo`, `employer_
 -- Table structure for table `loan`
 --
 
-DROP TABLE IF EXISTS `loan`;
-CREATE TABLE IF NOT EXISTS `loan` (
+CREATE TABLE `loan` (
   `applicationNo` int(11) NOT NULL,
   `tradeReference` varchar(100) DEFAULT NULL,
   `loanAmount` decimal(8,2) NOT NULL,
@@ -393,26 +234,30 @@ CREATE TABLE IF NOT EXISTS `loan` (
   `term` varchar(30) NOT NULL,
   `lastLoan` decimal(8,2) NOT NULL,
   `finesPaid` decimal(8,2) NOT NULL,
-  `percentage` decimal(4,2) NOT NULL,
+  `percentage` decimal(4,0) NOT NULL,
   `totalPayable` double NOT NULL,
   `monthsPrepaid` int(11) NOT NULL,
   `submitted` datetime DEFAULT NULL,
   `processed` datetime DEFAULT NULL,
-  `loanStatus` varchar(15) NOT NULL,
+  `loanStatus` varchar(15) NOT NULL COMMENT '1=processing; 2=approved; 3= rejected; 4=completed',
   `borrowerID` int(11) DEFAULT NULL,
   `empID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`applicationNo`),
-  KEY `borrowerID` (`borrowerID`),
-  KEY `empID` (`empID`)
+  `loan_type` int(11) NOT NULL COMMENT '1 = arawan; 2= weekly'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `loan`
 --
 
-INSERT INTO `loan` (`applicationNo`, `tradeReference`, `loanAmount`, `purpose`, `paymentMod`, `term`, `lastLoan`, `finesPaid`, `percentage`, `totalPayable`, `monthsPrepaid`, `submitted`, `processed`, `loanStatus`, `borrowerID`, `empID`) VALUES
-(1, NULL, '2000.00', '', '', '', '100.00', '100.00', '1.00', 0, 1, NULL, NULL, 'IGP', 1, 6),
-(2, NULL, '2000.00', '', '', '', '100.00', '100.00', '1.00', 0, 1, NULL, NULL, 'Expired', 2, 6);
+INSERT INTO `loan` (`applicationNo`, `tradeReference`, `loanAmount`, `purpose`, `paymentMod`, `term`, `lastLoan`, `finesPaid`, `percentage`, `totalPayable`, `monthsPrepaid`, `submitted`, `processed`, `loanStatus`, `borrowerID`, `empID`, `loan_type`) VALUES
+(1, NULL, '2000.00', '', '', '', '100.00', '100.00', '1', 0, 1, NULL, NULL, 'IGP', 1, 6, 0),
+(2, NULL, '2000.00', '', '', '', '100.00', '100.00', '1', 0, 1, NULL, NULL, 'Expired', 2, 6, 0),
+(4, NULL, '100000.00', 'secret', '', '', '0.00', '0.00', '5', 0, 0, '0000-00-00 00:00:00', NULL, '1', 3, 0, 1),
+(5, NULL, '500500.00', 'sample', '', '', '0.00', '0.00', '5', 0, 0, '0000-00-00 00:00:00', NULL, '1', 4, 0, 1),
+(6, NULL, '500.00', 'asdfasfd', '', '', '0.00', '0.00', '5', 525, 0, '2019-05-05 00:00:00', NULL, '1', 1, 123, 2),
+(7, NULL, '300000.00', 'secret', '', '', '0.00', '0.00', '10', 330000, 0, '2019-05-05 00:00:00', NULL, '1', 2, 123, 1),
+(8, NULL, '700000.00', 'Hospital Bills', '', '', '0.00', '0.00', '5', 735000, 0, '2019-05-05 00:00:00', NULL, '1', 4, 123, 2),
+(9, NULL, '780000.00', 'Personal', '', '', '0.00', '0.00', '5', 819000, 0, '2019-05-05 00:00:00', NULL, '1', 2, 123, 2);
 
 -- --------------------------------------------------------
 
@@ -420,18 +265,14 @@ INSERT INTO `loan` (`applicationNo`, `tradeReference`, `loanAmount`, `purpose`, 
 -- Table structure for table `loan_evaluation`
 --
 
-DROP TABLE IF EXISTS `loan_evaluation`;
-CREATE TABLE IF NOT EXISTS `loan_evaluation` (
+CREATE TABLE `loan_evaluation` (
   `applicationNo` int(11) NOT NULL,
   `charEval` varchar(30) DEFAULT NULL,
   `capacity` varchar(30) DEFAULT NULL,
   `capital` varchar(30) DEFAULT NULL,
   `collateral` varchar(30) DEFAULT NULL,
   `approvedByEmpID` int(11) DEFAULT NULL,
-  `processedByEmpID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`applicationNo`),
-  KEY `approvedByEmpID` (`approvedByEmpID`),
-  KEY `processedByEmpID` (`processedByEmpID`)
+  `processedByEmpID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -440,8 +281,7 @@ CREATE TABLE IF NOT EXISTS `loan_evaluation` (
 -- Table structure for table `loan_requirements`
 --
 
-DROP TABLE IF EXISTS `loan_requirements`;
-CREATE TABLE IF NOT EXISTS `loan_requirements` (
+CREATE TABLE `loan_requirements` (
   `applicationNo` int(11) NOT NULL,
   `idNo` varchar(20) NOT NULL,
   `idDateIssued` date NOT NULL,
@@ -451,9 +291,52 @@ CREATE TABLE IF NOT EXISTS `loan_requirements` (
   `serialNo` varchar(50) DEFAULT NULL,
   `purchasePrice` decimal(10,2) DEFAULT NULL,
   `yearPurchased` year(4) DEFAULT NULL,
-  `appraisedValue` decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (`applicationNo`)
+  `appraisedValue` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `loan_status`
+--
+
+CREATE TABLE `loan_status` (
+  `ls_id` int(11) NOT NULL,
+  `ls_label` varchar(50) NOT NULL,
+  `ls_deleted` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `loan_status`
+--
+
+INSERT INTO `loan_status` (`ls_id`, `ls_label`, `ls_deleted`) VALUES
+(1, 'Processing', 0),
+(2, 'Approved', 0),
+(3, 'Rejected', 0),
+(4, 'Completed', 0),
+(5, 'Terminated', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `loan_type`
+--
+
+CREATE TABLE `loan_type` (
+  `lt_id` int(11) DEFAULT NULL,
+  `lt_label` varchar(50) DEFAULT NULL,
+  `lt_status` int(11) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `loan_type`
+--
+
+INSERT INTO `loan_type` (`lt_id`, `lt_label`, `lt_status`) VALUES
+(0, 'Not Set', 0),
+(1, 'Daily (Arawan)', 0),
+(2, 'Weekly', 0);
 
 -- --------------------------------------------------------
 
@@ -461,8 +344,7 @@ CREATE TABLE IF NOT EXISTS `loan_requirements` (
 -- Table structure for table `spouse`
 --
 
-DROP TABLE IF EXISTS `spouse`;
-CREATE TABLE IF NOT EXISTS `spouse` (
+CREATE TABLE `spouse` (
   `borrowerID` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `bDay` date NOT NULL,
@@ -473,9 +355,7 @@ CREATE TABLE IF NOT EXISTS `spouse` (
   `salaryOrIncome` decimal(8,2) DEFAULT NULL,
   `validID` varchar(50) DEFAULT NULL,
   `contactNo` varchar(15) DEFAULT NULL,
-  `employerID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`borrowerID`),
-  KEY `employerID` (`employerID`)
+  `employerID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -484,13 +364,11 @@ CREATE TABLE IF NOT EXISTS `spouse` (
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
+CREATE TABLE `users` (
   `userID` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
   `userType` varchar(50) NOT NULL,
-  `users_deleted` tinyint(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`userID`)
+  `users_deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -501,49 +379,127 @@ INSERT INTO `users` (`userID`, `password`, `userType`, `users_deleted`) VALUES
 ('123', 'password', 'admin', 0),
 ('456', 'password', 'teller', 0);
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `weekly_payment`
+-- Indexes for dumped tables
 --
 
-DROP TABLE IF EXISTS `weekly_payment`;
-CREATE TABLE IF NOT EXISTS `weekly_payment` (
-  `borrowerID` int(11) NOT NULL,
-  `applicationNo` int(11) NOT NULL,
-  `dateGranted` date DEFAULT NULL,
-  `perWeekPayment` decimal(8,2) NOT NULL,
-  `loanCycle` int(11) DEFAULT NULL,
-  `wkPmt1` decimal(8,2) DEFAULT NULL,
-  `datePaid1` date DEFAULT NULL,
-  `wkPmt2` decimal(8,2) DEFAULT NULL,
-  `datePaid2` date DEFAULT NULL,
-  `wkPmt3` decimal(8,2) DEFAULT NULL,
-  `datePaid3` date DEFAULT NULL,
-  `wkPmt4` decimal(8,2) DEFAULT NULL,
-  `datePaid4` date DEFAULT NULL,
-  `wkPmt5` decimal(8,2) DEFAULT NULL,
-  `datePaid5` date DEFAULT NULL,
-  `wkPmt6` decimal(8,2) DEFAULT NULL,
-  `datePaid6` date DEFAULT NULL,
-  `wkPmt7` decimal(8,2) DEFAULT NULL,
-  `datePaid7` date DEFAULT NULL,
-  `wkPmt8` decimal(8,2) DEFAULT NULL,
-  `datePaid8` date DEFAULT NULL,
-  PRIMARY KEY (`borrowerID`,`applicationNo`),
-  KEY `applicationNo` (`applicationNo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+--
+-- Indexes for table `borrower`
+--
+ALTER TABLE `borrower`
+  ADD PRIMARY KEY (`borrowerID`),
+  ADD KEY `comakerID` (`comakerID`);
+
+--
+-- Indexes for table `borrower_employee_relationship`
+--
+ALTER TABLE `borrower_employee_relationship`
+  ADD PRIMARY KEY (`borrowerID`,`empID`),
+  ADD KEY `empID` (`empID`);
+
+--
+-- Indexes for table `borrower_expense`
+--
+ALTER TABLE `borrower_expense`
+  ADD PRIMARY KEY (`borrowerID`);
+
+--
+-- Indexes for table `borrower_income`
+--
+ALTER TABLE `borrower_income`
+  ADD PRIMARY KEY (`borrowerID`);
+
+--
+-- Indexes for table `collection_info`
+--
+ALTER TABLE `collection_info`
+  ADD PRIMARY KEY (`collection_id`);
+
+--
+-- Indexes for table `collector_assignment`
+--
+ALTER TABLE `collector_assignment`
+  ADD PRIMARY KEY (`empID`);
+
+--
+-- Indexes for table `comaker`
+--
+ALTER TABLE `comaker`
+  ADD PRIMARY KEY (`comakerID`),
+  ADD KEY `employerID` (`employerID`);
+
+--
+-- Indexes for table `employee`
+--
+ALTER TABLE `employee`
+  ADD PRIMARY KEY (`empID`),
+  ADD KEY `userID` (`userID`);
+
+--
+-- Indexes for table `employer`
+--
+ALTER TABLE `employer`
+  ADD PRIMARY KEY (`employerID`);
+
+--
+-- Indexes for table `loan`
+--
+ALTER TABLE `loan`
+  ADD PRIMARY KEY (`applicationNo`),
+  ADD KEY `borrowerID` (`borrowerID`);
+
+--
+-- Indexes for table `loan_evaluation`
+--
+ALTER TABLE `loan_evaluation`
+  ADD PRIMARY KEY (`applicationNo`),
+  ADD KEY `approvedByEmpID` (`approvedByEmpID`),
+  ADD KEY `processedByEmpID` (`processedByEmpID`);
+
+--
+-- Indexes for table `loan_requirements`
+--
+ALTER TABLE `loan_requirements`
+  ADD PRIMARY KEY (`applicationNo`);
+
+--
+-- Indexes for table `spouse`
+--
+ALTER TABLE `spouse`
+  ADD PRIMARY KEY (`borrowerID`),
+  ADD KEY `employerID` (`employerID`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`userID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `collection_info`
+--
+ALTER TABLE `collection_info`
+  MODIFY `collection_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `employee`
+--
+ALTER TABLE `employee`
+  MODIFY `empID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `loan`
+--
+ALTER TABLE `loan`
+  MODIFY `applicationNo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `arawan_payment`
---
-ALTER TABLE `arawan_payment`
-  ADD CONSTRAINT `arawan_payment_ibfk_1` FOREIGN KEY (`borrowerID`) REFERENCES `borrower` (`borrowerID`),
-  ADD CONSTRAINT `arawan_payment_ibfk_2` FOREIGN KEY (`applicationNo`) REFERENCES `loan` (`applicationNo`);
 
 --
 -- Constraints for table `borrower`
@@ -562,8 +518,7 @@ ALTER TABLE `borrower_employee_relationship`
 -- Constraints for table `collector_assignment`
 --
 ALTER TABLE `collector_assignment`
-  ADD CONSTRAINT `collector_assignment_ibfk_1` FOREIGN KEY (`borrowerID`) REFERENCES `borrower` (`borrowerID`),
-  ADD CONSTRAINT `collector_assignment_ibfk_2` FOREIGN KEY (`applicationNo`) REFERENCES `loan` (`applicationNo`);
+  ADD CONSTRAINT `collector_assignment_ibfk_1` FOREIGN KEY (`borrowerID`) REFERENCES `borrower` (`borrowerID`);
 
 --
 -- Constraints for table `comaker`
@@ -575,33 +530,7 @@ ALTER TABLE `comaker`
 -- Constraints for table `loan`
 --
 ALTER TABLE `loan`
-  ADD CONSTRAINT `loan_ibfk_2` FOREIGN KEY (`empID`) REFERENCES `employee` (`empID`);
-
---
--- Constraints for table `loan_evaluation`
---
-ALTER TABLE `loan_evaluation`
-  ADD CONSTRAINT `loan_evaluation_ibfk_1` FOREIGN KEY (`approvedByEmpID`) REFERENCES `employee` (`empID`),
-  ADD CONSTRAINT `loan_evaluation_ibfk_2` FOREIGN KEY (`processedByEmpID`) REFERENCES `employee` (`empID`);
-
---
--- Constraints for table `loan_requirements`
---
-ALTER TABLE `loan_requirements`
-  ADD CONSTRAINT `loan_requirements_ibfk_1` FOREIGN KEY (`applicationNo`) REFERENCES `loan` (`applicationNo`);
-
---
--- Constraints for table `spouse`
---
-ALTER TABLE `spouse`
-  ADD CONSTRAINT `spouse_ibfk_2` FOREIGN KEY (`employerID`) REFERENCES `employer` (`employerID`);
-
---
--- Constraints for table `weekly_payment`
---
-ALTER TABLE `weekly_payment`
-  ADD CONSTRAINT `weekly_payment_ibfk_1` FOREIGN KEY (`borrowerID`) REFERENCES `borrower` (`borrowerID`),
-  ADD CONSTRAINT `weekly_payment_ibfk_2` FOREIGN KEY (`applicationNo`) REFERENCES `loan` (`applicationNo`);
+  ADD CONSTRAINT `loan_ibfk_1` FOREIGN KEY (`borrowerID`) REFERENCES `borrower` (`borrowerID`) ON DELETE SET NULL ON UPDATE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
