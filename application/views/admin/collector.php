@@ -2,7 +2,7 @@
 <section class="content">
 	<div class="box box-info">
 		<div class="box-header with-border">
-			<h3 class="box-title">List of Collector</h3>
+			<h3 class="box-title">List of Collectors</h3>
 		</div>
 		<div class="box-body">
 			<div class="table-responsive">
@@ -23,13 +23,13 @@
 						<?php foreach($main->getAllEmployees('collector') as $key => $collector):?>
 						<tr>
 							<td><?php echo ($key+1); ?></td>
-							<td><?php echo ucfirst($collector['fName']).' '.mb_substr($collector['mName'], 0, 1, 'utf-8').'. '.' '.ucfirst($collector['lName']); ?></td>
+							<td><?php echo ucfirst($collector['fName']).' '.mb_substr($collector['mName'], 0, 1, 'utf-8').'. '.ucfirst($collector['lName']); ?></td>
 							<td><?php echo ucfirst($collector['gender']); ?></td>
 							<td><?php echo ucfirst($collector['address']); ?></td>
 							<td><?php echo ucfirst($collector['birthdate']); ?></td>
 							<td><?php echo ucfirst($collector['personal_phone']); ?></td>
 							<td class="text-center">
-								<a href="?p=collection&cid=<?php echo base64_encode($collector['empID']);?>">
+								<a href="?p=collectionInfo&cid=<?php echo base64_encode($collector['empID']);?>">
 
 									<i class="fa fa-info-circle fa-lg"></i>
 								</a>

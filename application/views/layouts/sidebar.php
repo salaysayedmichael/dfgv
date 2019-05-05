@@ -38,18 +38,19 @@
       <li class="header">HEADER</li>
       <!-- Optionally, you can add icons to the links -->
       <?php if(!empty($main->getUser($_SESSION['uid']))):?>
-        <!-- <?php print_r($main->getUser($_SESSION['uid']));?> -->
         <?php $a = array();?>
         <?php $a = $main->getUser($_SESSION['uid']);?>
-            <?php $actions = array('employee'=>'fa-black-tie','borrower'=>'fa-users','collector'=>'fa-truck','loans'=>'fa-money');
+        <?php if($a[0]["position"] == "admin"):?>
+            <?php $actions = array('employee'=>'fa-black-tie','borrower'=>'fa-users','collection'=>'fa-money','collector'=>'fa-truck','loans'=>'fa-money');
+
             foreach($actions as $action => $fa):
-              $p = isset($_GET['p'])?$_GET['p']:'';
-              $isCurrentPage = false;
-              if(strpos(strtolower($p),$action)!==false){
-                $isCurrentPage = true;
-              }
+              // $p = isset($_GET['p'])?$_GET['p']:'';
+              // $isCurrentPage = false;
+              // if(strpos(strtolower($p),$action)!==false){
+              //   $isCurrentPage = true;
+              // }
             ?>
-            <li  class="<?= $isCurrentPage?"active":"" ?>">
+            <li  class="">
               <a href="?p=<?= $action;?>">
                 <i class="fa <?= $fa?>"></i> <span><?= ucfirst($action);?></span>
               </a>
@@ -67,7 +68,7 @@
               </ul>
             </li>
             <?php else:?>
-              <?php $actions = array('borrower'=>'fa-users','collector'=>'fa-truck');?>
+              <?php $actions = array('borrower'=>'fa-users','collection'=>'fa-money','collector'=>'fa-truck');?>
             <?php foreach($actions as $action => $fa):?>
             <li  class="<?= isset($_GET["$action"])?"active":"" ?>">
               <a href="?p=<?= $action;?>">
@@ -86,6 +87,7 @@
                   <li><a href="?">Link in level 2</a></li>
                 </ul>
               </li>
+          <?php endif;?>
           <?php endif;?>
     </ul>
     <!-- /.sidebar-menu -->

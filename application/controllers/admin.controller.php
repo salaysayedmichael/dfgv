@@ -137,6 +137,7 @@ switch ($action) {
 			echo json_encode($result);
 
 			break;
+
 			case 'addLoanApplication':
 				$borrwowerID  = isset($_POST['borrwowerID'])?$_POST['borrwowerID']:0;
 				$userID = $_SESSION['uid'];
@@ -161,7 +162,45 @@ switch ($action) {
 				}
 				echo json_encode($result);
 			break;
-		default:
+
+	case 'get_collection':
+		$result = array();
+		$result["message"] = 'Error occured, please contact system admin.';
+		$result["error"]   = true;
+		$app_no            = isset($_POST["app_no"]) ? $_POST["app_no"] : "";
+		$result["data"][]  = $admin->getCollection($app_no);
+
+		if($result["data"]) {
+			$result["message"] = "";
+			$result["error"]   = false;
+		}
+		echo json_encode($result);
+		break;
+	case "insert_collection":
+		$result = array();
+		$result["message"] = "Error occured, please contact system admin.";
+		$result["error"] = true;
+		$data = array("collector" => $_POST["collector"],
+					  "borrower"  => $_POST["borrower"],
+					  "app_no"	  => $_POST["app_no"],
+					  "received"  => $_POST["received"],
+					  "comment"   => $_POST["comment"],
+					  "date"      => $_POST["date"]
+					);
+		if(empty($_POST["received"]) || empty($_POST["collector"]) || empty($_POST["date"])) {
+			$result["message"] = "Please fill in required fields.";
+		}else {
+			$inserted = $admin->insertCollection($data);
+			if($inserted) {
+				$result["message"] = "Successfully received amount.";
+				$result["error"]   = false;
+			}
+		}
+		echo json_encode($result);
+	break;
+	
+	default:
+
 		# code...
 		break;
 }

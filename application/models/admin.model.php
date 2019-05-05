@@ -157,7 +157,9 @@ class admin extends main
 		
 		return $result;
 	}
+
 	public function addLoanApplication($ld) {
+
 		try {
 			$result = array();
 			
@@ -170,7 +172,7 @@ class admin extends main
 			echo "Error: ".$e->getMessage();
 		}
 	}
-	public function getCollectionDetails($empID)
+	public function showAllCollections()
 	{
 		try{
 		$result = array();
@@ -179,39 +181,29 @@ class admin extends main
 									    `e`.`fName` AS `eFname`,
 									    `e`.`mName` AS `eMname`,
 									    `e`.`lName` AS `eLname`,
-									    `e`.`position` AS `position`,
-									    `e`.`email` AS `email`,
-									    `e`.`personal_phone` AS `phone`,
-									    `e`.`gender` AS `gender`,
 									    `b`.`borrowerID`,
 									    `b`.`fName` AS `bFname`,
 									    `b`.`mName` AS `bMname`,
 									    `b`.`lName` AS `bLname`,
 									    `l`.`applicationNo` AS `appNo`,
-									    `l`.`loanAmount` AS `amount`,
-									    `l`.`loanStatus` AS `status`
+									    `l`.`loanAmount` AS `loan_amount`,
+									    `l`.`percentage` AS `interest`,
+									    SUM(`ci`.`collection_amount`) AS `collection_amount`
 									FROM
 									    `employee` `e`
 									        INNER JOIN
 									    `borrower` `b` USING (`empID`)
 									        INNER JOIN
 									    `loan` `l` USING (`borrowerID`)
-									WHERE
-									    `e`.`empID` = ?
-									        AND `e`.`position` = 'collector'
-									        AND `b`.`empID` = ?
-									        AND `l`.`empID` = ?");
-			$decode_id = base64_decode($empID);
-			$sql->bindParam(1, $decode_id);
-			$sql->bindParam(2, $decode_id);
-			$sql->bindParam(3, $decode_id);
-			$exe = $sql->execute();
-			if(!empty($sql->rowCount()))
-			{
-				while($row = $sql->fetch(PDO::FETCH_ASSOC))
-					{
-						$result[] = $row;
-					}
+									    	LEFT JOIN 
+									    `collection_info` `ci` ON `ci`.`application_no` = `l`.`applicationNo`
+									    GROUP BY `ci`.`application_no`, `l`.`applicationNo`
+									");
+			$sql->execute();
+			if(!empty($sql->rowCount())) {
+				while($row = $sql->fetch(PDO::FETCH_ASSOC)) {
+					$result[] = $row;
+				}
 			}
 			return $result;
 		}catch(PDOException $e) {
@@ -219,6 +211,77 @@ class admin extends main
 		}
 	}
 	
+
+	public function getCollection($app_no) {
+		try {
+			$result = array();
+			$sql = $this->conn->prepare("SELECT `applicationNo`,`fName`,`mName`,`lName`,`borrowerID` 
+										FROM `loan` INNER JOIN `borrower` 
+										USING(`borrowerID`) WHERE `applicationNo` = ?");
+			$sql->bindParam(1, $app_no);
+			$sql->execute();
+			if(!empty($sql->rowCount())) {
+				while($row = $sql->fetch(PDO::FETCH_ASSOC)) {
+					$result[] = $row;
+				}
+			}
+			return $result;
+		}catch(PDOException $e) {
+			echo "Error: ".$e->getMessage();
+		}
+	}
+
+	public function insertCollection($data = array()) {
+		try {
+			$success = false;
+			$sql = $this->conn->prepare("INSERT INTO `collection_info` 
+										(`collector_id`, `borrower_id`, `application_no`, `collection_amount`, `comment`, `collection_date`) 
+										VALUES (?, ?, ?, ?, ?, ?)");
+			$sql->bindParam(1,$data["collector"]);
+			$sql->bindParam(2,$data["borrower"]);
+			$sql->bindParam(3,$data["app_no"]);
+			$sql->bindParam(4,$data["received"]);
+			$sql->bindParam(5,$data["comment"]);
+			$sql->bindParam(6,$data["date"]);
+			$exe = $sql->execute();
+			if($exe) {
+				$success = true;
+			}
+			return $success;
+		}catch(PDOException $e) {
+			echo "Error: ".$e->getMessage();
+		}
+	}
+
+	public function getCollectionDetails($collector) {
+		try {
+			$result = array();
+			$sql 	= $this->conn->prepare("SELECT `e`.`fname` AS `eFname`, `e`.`mname` AS `eMname`, `e`.`lname` AS `eLname`,
+											`e`.`gender` AS `gender`,`e`.`position` AS `position`,`e`.`email` AS `email`,`e`.`personal_phone` AS `phone`,
+										   `b`.`fname` AS `bFname`, `b`.`mname` AS `bMname`, `b`.`lname` AS `bLname`, `ci`.`application_no` AS `appNo`, 
+										   `ci`.`collection_amount` AS `amount`, `ci`.`comment` AS `comment`, `ci`.`collection_date` AS `date`
+										   FROM `collection_info` `ci` 
+										   INNER JOIN `borrower` `b` 
+											   ON `ci`.`borrower_id` = `b`.`borrowerID` 
+										   INNER JOIN `employee` `e` 
+											   ON `ci`.`collector_id` = `e`.`empID` 
+										   WHERE `ci`.`collector_id` = ? 
+										   ");
+			$decoded = base64_decode($collector);
+			$sql->bindParam(1,$decoded);
+			$sql->execute();
+			if(!empty($sql->rowCount())) {
+				while($row = $sql->fetch(PDO::FETCH_ASSOC)) {
+					$result[] = $row;
+				}
+			}
+			return $result;
+		}catch(PDOException $e) {
+			echo "Error: ".$e->getMessage();   
+		}
+	}
+
 }
 
 $admin = new admin;
+// print_r($admin->getCollectionDetails(6));

@@ -1,5 +1,7 @@
 $(document).ready(function(){
-	
+	function URL() {
+		return 'application/controllers/admin.controller.php';
+	};
 	function returnAJAX(method, url, data)
 	{
 		return $.ajax({
@@ -259,6 +261,49 @@ $(document).ready(function(){
 		
 	});
 
+	//Get collection
+	$('body').on('click','.get-collection',function() {
+		var id   = $(this).attr("id");
+		var data = {'app_no':id,'action':'get_collection'};
+		var url  = 'application/controllers/admin.controller.php';
+		$.when(returnAJAX('POST', url, data)).done(function(response) {
+			result = JSON.parse(response);
+			if(!result.error) {
+				$('#application-no').val(result.data[0][0]["applicationNo"]);
+				$('#borrower-name').val(result.data[0][0]["fName"]+" "+result.data[0][0]["mName"].charAt(0).toUpperCase()+". "+result.data[0][0]["lName"]);
+				$('#borrower-name').attr("borrower-id",result.data[0][0]["borrowerID"])
+			}
+		});
+		
+	});
+
+	//Insert Collection
+	$('#insert-collection').on('click',function() {
+		var data = {"app_no"   : $("#application-no").val(),
+					"borrower" : $("#borrower-name").attr("borrower-id"),
+					"collector": $("#collector").val(),
+					"received" : $("#collection-receive").val(),
+					"date"     :$("#collection-date").val(),
+					"comment"  : $("#comment").val(),
+					"action"   :"insert_collection"
+				};
+		$.when(returnAJAX('POST', URL(), data)).done(function(response) {
+			result = JSON.parse(response);
+			if(!result.error) {
+				alertify.alert("Success","<div class='alert alert-success'>"+result.message+"</div>",function(){
+					$("#collection-modal").modal("hide");
+					alertify.success("Refreshing page...");
+					setTimeout(function(){
+						location.reload();
+					},1500);
+				});
+			}
+			else {
+				dfgvAlert("Error", "alert", "<div class='alert alert-danger'>"+result.message+"</div>")
+			}
+		});
+
+	});
 	function lazyData(element,getError = false){
 		data = {}
 		errors = []

@@ -68,8 +68,8 @@
 						else
 						{
 							echo "<tr>";  
-								echo "<td>$ctr++</td>";  
-								echo "<td>".$l['applicationNo']."</td>";  
+								echo "<td></td>";  
+								echo "<td></td>";  
 								echo "<td>No Available Data</td>";  
 								echo "<td></td>";  
 								echo "<td></td>";  
