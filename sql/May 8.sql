@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.6.5.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 05, 2019 at 08:22 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.1.28
+-- Generation Time: May 08, 2019 at 05:53 AM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -50,16 +48,6 @@ CREATE TABLE `borrower` (
   `comakerID` int(11) NOT NULL,
   `borrower_deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `borrower`
---
-
-INSERT INTO `borrower` (`borrowerID`, `fName`, `mName`, `lName`, `bDay`, `civilStatus`, `gender`, `presentAddr`, `homeAddr`, `ownHouse`, `renting`, `lengthOfStay`, `noOfChildren`, `occupation`, `contactNo`, `validID`, `loanCount`, `empID`, `comakerID`, `borrower_deleted`) VALUES
-(1, 'Wen', 'Dyl', 'Mancia', '2019-05-01', 'Single', 'Male', 'Maghaway', 'Maghaway', 'Yes', 'No', '30', 0, 'Web Dev', '09090090', '23123', 10, 6, 1, 0),
-(2, 'John', 'Carlo', 'Inajada', '2019-05-01', 'Single', 'Male', 'Maghaway', 'Maghaway', 'Yes', 'No', '30', 0, 'Web Dev', '09090090', '23123', 10, 6, 1, 0),
-(3, 'Jervey', 'Luna', 'Barba', '2019-05-01', 'Single', 'Male', 'Maghaway', 'Maghaway', 'Yes', 'No', '30', 0, 'Web Dev', '09090090', '23123', 10, 6, 1, 0),
-(4, 'Elaine', 'Lopez', 'Geli', '1990-01-01', 'single', 'female', 'Cebu City', 'Cebu City', 'yes', 'no', '20', 3, 'Developer', '0111', '112233', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -217,15 +205,6 @@ CREATE TABLE `employer` (
   `contactNo` varchar(15) DEFAULT NULL,
   `employer_deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `employer`
---
-
-INSERT INTO `employer` (`employerID`, `name`, `address`, `contactNo`, `employer_deleted`) VALUES
-(0, 'Patrick Achache', 'Cebu City', '0111', 0),
-(1, 'John Doe', 'France', '+111 222 333 44', 0),
-(2, 'Juan Dela Cruz', 'Pasay ', '+639 11 22', 0);
 
 -- --------------------------------------------------------
 
@@ -427,7 +406,8 @@ ALTER TABLE `collection_info`
 -- Indexes for table `collector_assignment`
 --
 ALTER TABLE `collector_assignment`
-  ADD PRIMARY KEY (`empID`);
+  ADD PRIMARY KEY (`empID`),
+  ADD KEY `collector_assignment_ibfk_1` (`borrowerID`);
 
 --
 -- Indexes for table `comaker`
@@ -488,35 +468,30 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `collection_info`
---
-ALTER TABLE `collection_info`
-  MODIFY `collection_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT for table `borrower`
 --
 ALTER TABLE `borrower`
   MODIFY `borrowerID` int(11) NOT NULL AUTO_INCREMENT;
-
 --
--- AUTO_INCREMENT for table `comaker`
+-- AUTO_INCREMENT for table `collection_info`
 --
-ALTER TABLE `comaker`
-  MODIFY `comakerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
+ALTER TABLE `collection_info`
+  MODIFY `collection_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
   MODIFY `empID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
+--
+-- AUTO_INCREMENT for table `employer`
+--
+ALTER TABLE `employer`
+  MODIFY `employerID` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `loan`
 --
 ALTER TABLE `loan`
   MODIFY `applicationNo` int(8) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
 --
 -- Constraints for dumped tables
 --
@@ -526,25 +501,6 @@ ALTER TABLE `loan`
 --
 ALTER TABLE `borrower_employee_relationship`
   ADD CONSTRAINT `borrower_employee_relationship_ibfk_2` FOREIGN KEY (`empID`) REFERENCES `employee` (`empID`);
-
---
--- Constraints for table `collector_assignment`
---
-ALTER TABLE `collector_assignment`
-  ADD CONSTRAINT `collector_assignment_ibfk_1` FOREIGN KEY (`borrowerID`) REFERENCES `borrower` (`borrowerID`);
-
---
--- Constraints for table `comaker`
---
-ALTER TABLE `comaker`
-  ADD CONSTRAINT `comaker_ibfk_1` FOREIGN KEY (`employerID`) REFERENCES `employer` (`employerID`);
-
---
--- Constraints for table `loan`
---
-ALTER TABLE `loan`
-  ADD CONSTRAINT `loan_ibfk_1` FOREIGN KEY (`borrowerID`) REFERENCES `borrower` (`borrowerID`) ON DELETE SET NULL ON UPDATE SET NULL;
-COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

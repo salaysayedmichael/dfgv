@@ -21,7 +21,7 @@ switch ($_POST['type']) {
                         if($parent){
                             $execution = $main->insertInto($nameOfTable,$table['fields'],true);
                             if($execution!=0){
-                                $columnParent = $main->getOne("SHOW COLUMNS FROM `$nameOfTable`;");
+                                $columnParent = $main->getOne("SHOW COLUMNS FROM `$nameOfTable`;",array());
                                 $columnValue = $execution;
                                 $data[$nameOfTable] = true;
                             }else{
