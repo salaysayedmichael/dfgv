@@ -15,18 +15,21 @@
 					<div class="tab-pane active" id="personal-info">
 						<div class="row">
 							<div class="col-md-4">
+								<label for="lName">Last Name <span class="text-red font-weight-bold">*</span></label>
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-user"></i></span>
                 					<input type="text" class="form-control" placeholder="Last Name" id="lName">
               					</div>
 							</div>
 							<div class="col-md-4">
+								<label for="fName">First Name <span class="text-red font-weight-bold">*</span></label>
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-user"></i></span>
                 					<input type="text" class="form-control" placeholder="First Name" id="fName">
               					</div>
 							</div>
 							<div class="col-md-4">
+								<label for="mName">Middle Name</label>
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-user"></i></span>
                 					<input type="text" class="form-control" placeholder="Middle" id="mName">
@@ -36,6 +39,7 @@
 						<br>
 						<div class="row">
 							<div class="col-md-12">
+								<label for="address">Address<span class="text-red font-weight-bold"> *</span></label>
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
                 					<input type="text" class="form-control" placeholder="Address" id="address">
@@ -45,18 +49,21 @@
 						<br>
 						<div class="row">
 							<div class="col-md-4">
+								<label for="email">Email<span class="text-red font-weight-bold"> *</span></label>
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
                 					<input type="text" class="form-control" placeholder="Email" id="email">
               					</div>
 							</div>
 							<div class="col-md-4">
+								<label for="personal-phone">Personal Phone<span class="text-red font-weight-bold"> *</span></label>
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-mobile"></i></span>
                 					<input type="number" class="form-control" placeholder="Personal Phone" id="personal-phone">
               					</div>
 							</div>
 							<div class="col-md-4">
+								<label for="personal-phone">Home Phone</label>
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa  fa-phone"></i></span>
                 					<input type="number" class="form-control" placeholder="Home Phone (Optional)" id="home-phone">
@@ -66,9 +73,9 @@
 						<br>
 						<div class="row">
 							<div class="col-md-3">
+								<label for="personal-phone">Position<span class="text-red font-weight-bold"> *</span></label>
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-suitcase"></i></span>
-                					<!-- <input type="text" class="form-control" placeholder="Position" id="position"> -->
                 					<select id="position" class="form-control">
                 						<option value="">Select position...</option>
                 						<option value="admin">Admin</option>
@@ -78,12 +85,14 @@
               					</div>
 							</div>
 							<div class="col-md-3">
+								<label for="personal-phone">Birthdate (YYYY-MM-DD)<span class="text-red font-weight-bold"> *</span></label>
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-birthday-cake"></i></span>
                 					<input type="text" class="form-control" placeholder="Birthdate" id="birthdate">
               					</div>
 							</div>
 							<div class="col-md-3">
+								<label for="personal-phone">Gender<span class="text-red font-weight-bold"> *</span></label>
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-venus-mars"></i></span>
                 					<select id="gender" class="form-control">
@@ -94,9 +103,15 @@
               					</div>
 							</div>
 							<div class="col-md-3">
+								<label for="personal-phone">Civil Status<span class="text-red font-weight-bold"> *</span></label>
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-male"></i></span>
-                					<input type="text" class="form-control" placeholder="Status" id="status">
+                					<select id="status" class="form-control">
+                						<option value="">Select Status...</option>
+                						<option value="single">Single</option>
+                						<option value="married">Married</option>
+                						<option value="widow">Widow</option>
+                					</select>
               					</div>
 							</div>
 						</div>
@@ -114,12 +129,14 @@
 					<div class="tab-pane active" id="login-details">
 						<div class="row">
 							<div class="col-md-4">
+								<label for="personal-phone">User ID<span class="text-red font-weight-bold"> *</span></label>
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-user"></i></span>
                 					<input type="text" class="form-control" placeholder="User ID" id="user-id">
               					</div>
 							</div>
 							<div class="col-md-4">
+								<label for="personal-phone">Password<span class="text-red font-weight-bold"> *</span></label>
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-lock"></i></span>
                 					<input type="password" class="form-control" placeholder="Password" id="password">
@@ -128,6 +145,7 @@
 
 							</div>
 							<div class="col-md-4">
+								<label for="personal-phone">Confirm Password<span class="text-red font-weight-bold"> *</span></label>
 								<div class="input-group">
                 					<span class="input-group-addon"><i class="fa fa-lock"></i></span>
                 					<input type="password" class="form-control" placeholder="Confirm Password" id="cpassword">
@@ -139,8 +157,9 @@
 				</div>
 			</div>
 		</div>
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small class="text-danger">Please be informed to avoid mistake on inputting User ID because it cannot be updated.</small>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>Fields with asterisk(<span class="text-red font-weight-bold">*</span>) are required.</small>
 		<div class="box-footer">
+
 			<div class="col-md-2">
 				<button type="submit" id="btn-addEmployee" class="btn btn-block btn-info btn-flat"><i class="fa fa-user-plus"></i> Employee</button>
 			</div>

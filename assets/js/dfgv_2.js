@@ -1,6 +1,6 @@
 $(document).ready(function(){
-	function URL() {
-		return 'application/controllers/admin.controller.php';
+	function URL(controller) {
+		return "application/controllers/"+controller+".controller.php";
 	};
 	function returnAJAX(method, url, data)
 	{
@@ -71,10 +71,14 @@ $(document).ready(function(){
 			data = JSON.parse(response);
 			if(!data.error)
 			{
-				$('#login').val('Please wait....');
+				$('#login').html('<i class="fa fa-circle-o-notch fa-spin"></i>');
 				$('#login').attr("disabled","true");
-				$('#login').val('Redirecting....');
-				location.reload();
+				setTimeout(function(){
+					alertify.success("Access Granted");
+					setTimeout(function(){
+						location.reload();
+					},1300);
+				},2000);
 			}
 			else
 			{
@@ -95,17 +99,14 @@ $(document).ready(function(){
 	//Disabling Login details when employee is collector
 	$('#edit-position,#position').on('change',function(){
 		if($('#edit-position,#position').val() == "collector") {
+			$(".login-tab #user-id").val("");
+			$(".login-tab #password").val("");
+			$(".login-tab #cpassword").val("");
 			$(".login-tab").hide().fadeOut();
 		} else {
 			$(".login-tab").show().fadeIn();
 		}
 	});
-
-	if($('#edit-position').val() == "collector") {
-		$(".login-tab").hide().fadeOut();
-	} else {
-		$(".login-tab").show().fadeIn();
-	}
 
 	//Add Employee
 	$('#btn-addEmployee').on('click',function(e){
@@ -287,7 +288,8 @@ $(document).ready(function(){
 					"comment"  : $("#comment").val(),
 					"action"   :"insert_collection"
 				};
-		$.when(returnAJAX('POST', URL(), data)).done(function(response) {
+
+		$.when(returnAJAX('POST', URL("admin"), data)).done(function(response) {
 			result = JSON.parse(response);
 			if(!result.error) {
 				alertify.alert("Success","<div class='alert alert-success'>"+result.message+"</div>",function(){
@@ -303,6 +305,29 @@ $(document).ready(function(){
 			}
 		});
 
+	});
+
+	//View Collection Details/Details
+	$("body").on("click",".view-collection",function(){
+		var data = {"id"	 : $(this).attr("id"),
+					"action" : "view_collection"
+				};
+		$.when(returnAJAX("POST", URL("admin"), data)).done(function(response) {
+			result = JSON.parse(response);
+			console.log(result);
+			if(result.success){
+				var borrower 		= result.data["fname"]+" "+result.data["mname"].charAt(0)+". "+result.data["lname"];
+				var collection_left = parseFloat(result.data["totalpayable"]) - parseFloat(result.data["c_mount"]);
+				var collection      = isNaN(collection_left) ? "" : collection_left;
+				$("#view-collection-modal #view-application-no").val(result.data["applicationno"]);
+				$("#view-collection-modal #view-borrower").val(borrower);
+				$("#view-collection-modal #view-loan").val(+result.data["loanAmount"]);
+				$("#view-collection-modal #view-interest").val(result.data["percentage"]+"%");
+				$("#view-collection-modal #view-payables").val(result.data["totalpayable"]);
+				$("#view-collection-modal #view-collection").val(result.data["c_amount"]);
+				$("#view-collection-modal #view-collection-left").val(collection);
+			}
+		});		
 	});
 	function lazyData(element,getError = false){
 		data = {}

@@ -344,7 +344,30 @@ class admin extends main
 		}
 	}
 
+	public function viewCollectionPerBorrower($borrower) {
+		try {
+			$result = array();
+			$sql = $this->conn->prepare("SELECT `fname`,`mname`,`lname`,`applicationno`,`totalpayable`,`l`.`loanAmount`, 
+										SUM(`ci`.`collection_amount`) AS `c_amount`, `l`.`percentage` FROM `borrower` `b` 
+											INNER JOIN `loan` `l` 
+												ON `b`.`borrowerID` = `l`.`borrowerID` 
+											INNER JOIN `collection_info` `ci` 
+												ON `l`.`applicationNo` = `ci`.`application_no` 
+										WHERE `l`.`applicationNo` = ?");
+			$sql->bindParam(1, $borrower);
+			$sql->execute();
+			if(!empty($sql->rowCount())) {
+				while($row = $sql->fetch(PDO::FETCH_ASSOC)) {
+					$result = $row;
+				}
+			}
+			return $result;
+		}catch(PDOException $e) {
+			echo "Error: ".$e->getMessage();
+		}
+	}
+
 }
 
 $admin = new admin;
-// print_r($admin->getCollectionDetails(6));
+// print_r($admin->viewCollectionPerBorrower(1));

@@ -249,6 +249,19 @@ switch ($action) {
 		$result['success'] = true;
 		echo json_encode($result);
 		break;
+		case "view_collection":
+		$id 			   = isset($_POST["id"]) ? $_POST["id"] : ""; 
+		$result 		   = array();
+		$result["message"] = "Error occured, please contact system admin.";
+		$result["success"] = false;
+		
+		$result["data"] = $admin->viewCollectionPerBorrower($id);
+		if($result["data"]){
+			$result["message"] = "";
+			$result["success"] = true;
+			echo json_encode($result);
+		}
+
 		default:
 		# code...
 		break;

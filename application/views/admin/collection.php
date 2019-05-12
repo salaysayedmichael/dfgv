@@ -1,6 +1,7 @@
 </section>
 <?php $collections = $admin->showAllCollections();?>
 <?php include "application/views/modals/getCollection.modal.php"?>
+<?php include "application/views/modals/viewCollection.modal.php"?>
 <section class="content">
 	<div class="box box-info">
 		<div class="box-header with-border">
@@ -17,7 +18,7 @@
 							<th>Borrower</th>
 							<th>Loan Amount</th>
 							<th>Interest</th>
-							<th>Total Collected Amount</th>
+							<th>Total Collected</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -37,7 +38,7 @@
 									<i class="fa fa-money fa-lg"></i>
 								</a>
 								&nbsp; | &nbsp;
-								<a href="">
+								<a href="#view-collection-modal" class="view-collection" id="<?php echo $collection['appNo']?>" data-toggle="modal">
 									<span class="glyphicon glyphicon-eye-open"></span>
 								</a>
 							</td>
