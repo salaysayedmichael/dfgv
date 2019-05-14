@@ -1,5 +1,8 @@
 </section>
-<?php $collections = $admin->showAllCollections();?>
+<?php 
+	$id = isset($_GET['id'])?$_GET['id']:0;
+	$collections = $admin->showAllCollections($id);
+?>
 <?php include "application/views/modals/getCollection.modal.php"?>
 <?php include "application/views/modals/viewCollection.modal.php"?>
 <section class="content">

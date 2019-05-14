@@ -428,6 +428,7 @@
         }
     })
 
+    
     var addModal = function(name,mixin){
         nameCapital = name.charAt(0).toUpperCase() + name.slice(1);
         return new Vue({

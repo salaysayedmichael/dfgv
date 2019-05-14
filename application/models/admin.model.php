@@ -181,10 +181,14 @@ class admin extends main
 			echo "Error: ".$e->getMessage();
 		}
 	}
-	public function showAllCollections()
+	public function showAllCollections($id = 0)
 	{
 		try{
 		$result = array();
+			$where = "";
+			if($id != 0){
+				$where = "WHERE b.borrowerID = $id ";
+			}
 			$sql = $this->conn->prepare("SELECT 
 									    `e`.`empID`,
 									    `e`.`fName` AS `eFname`,
@@ -206,6 +210,7 @@ class admin extends main
 									    `employee` `e` on e.`userID`= l.empid
 									    	LEFT JOIN 
 									    `collection_info` `ci` ON `ci`.`application_no` = `l`.`applicationNo`
+										$where 
 									    GROUP BY `ci`.`application_no`, `l`.`applicationNo`
 									");
 			$sql->execute();

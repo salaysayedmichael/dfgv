@@ -44,6 +44,45 @@ switch ($_POST['type']) {
             }
         }
         break;
+    case 'get-data':
+        if(isset($_POST['id'])){
+            if(isset($_POST['tables'])){
+                if(is_array($_POST['tables'])){
+                    foreach($_POST['tables'] as $table){
+                        $tableName = $table;
+                        if($table == 'expense' || $table == 'income'){
+                            $tableName = 'borrower_'.$table;
+                        }
+                        $data[$table] = $main->getAll("SELECT * FROM `$tableName` WHERE borrowerID = ?;",array($_POST['id']));
+                    }
+                }
+            }
+        }
+        break;
+    case 'save-data':
+        if(isset($_POST['contents'])){
+            if(isset($_POST['contents']['id'])){
+                $id = $_POST['contents']['id'];
+                $db = $_POST['contents']['db'];
+                $where = " WHERE `$db` = $id";
+                foreach($_POST['contents'] as $tableName => $table){
+                    $insert = isset($table['insert'])?$table['insert']:true;
+                    $nameOfTable = isset($table['db'])?$table['db']:$tableName;
+                    if($insert){
+                        if(isset($table['fields'])){
+                            if(count($main->getAll("SELECT * FROM `$nameOfTable` $where ;",array()))>0){
+                                $data[$nameOfTable] = $main->updateInfo($nameOfTable,$table['fields'],$where);
+                            }else{
+                                $table['fields']['parentid']['db'] = $db;
+                                $table['fields']['parentid']['value'] = $id;
+                                $data[$nameOfTable] = $main->insertInto($nameOfTable,$table['fields']);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        break;
     default:
         # code...
         break;

@@ -78,6 +78,18 @@ class main
 		}
 		return $this->perf($query,$values);
 	}
+	
+	public function updateInfo($nameOfTable,$fields,$where){
+		$columns = []; $values = []; $qmarks = [];
+		foreach($fields as $fieldName => $field){
+			$dbFieldName = isset($field["db"])?$field['db']:$fieldName;
+			$columns[] = $dbFieldName." = ?";
+			$values[] = isset($field["value"])?$field['value']:"";
+		}
+		$query = "UPDATE `$nameOfTable` SET ".implode(",",$columns)." $where ;";
+		return $this->perf($query,$values);
+	}
+
 	public function login($user_id, $password)
 	{
 		try

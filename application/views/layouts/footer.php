@@ -118,6 +118,7 @@
 <script src="assets/js/components/lte-input.js"></script>
 <script src="assets/js/directives/v-required.js"></script>
 <script src="assets/js/v-addBorrower.js"></script>
+<script src="assets/js/v-editBorrower.js"></script>
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
