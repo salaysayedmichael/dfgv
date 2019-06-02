@@ -128,7 +128,7 @@ $(document).ready(function(){
 		var url           = 'application/controllers/admin.controller.php';
 		var data          = {
 						  	'lName':lName, 'fName':fName, 'mName':mName,
-		                  	'address':address, 'email':email, 'per_phone':per_phone,
+		                  	'address':address, 'email':email, 'personal_phone':per_phone,
 		                  	'home_phone':home_phone, 'position':position, 'birthdate':birthdate,
 		                  	'gender':gender, 'status':status, 'user_id':user_id,
 		                  	'password':password, 'cpassword':cpassword, 'action':'addEmployee'
@@ -172,6 +172,7 @@ $(document).ready(function(){
 	//Update Employee info
 	$('#btn-editEmployee').on('click',function(e){
 		e.preventDefault();
+		var empid         = $(".box-header input[type='hidden']").attr("id");
 		var lName         = $('#edit-lName').val();
 		var fName         = $('#edit-fName').val();
 		var mName         = $('#edit-mName').val();
@@ -187,13 +188,12 @@ $(document).ready(function(){
 		var password      = $('#edit-password').val();
 		var cpassword     = $('#edit-cpassword').val();
 		var url           = 'application/controllers/admin.controller.php';
-		var data          = {
-						  	'lName':lName, 'fName':fName, 'mName':mName,
-		                  	'address':address, 'email':email, 'per_phone':per_phone,
-		                  	'home_phone':home_phone, 'position':position, 'birthdate':birthdate,
-		                  	'gender':gender, 'status':status, 'user_id':user_id,
-		                  	'password':password, 'cpassword':cpassword, 'action':'editEmployee'
-		                    };
+		var data = {
+			"userID":user_id,"fName":fName,"mName":mName,"lName":lName,"gender":gender,"position":position,"address":address,
+			"email":email,"birthdate":birthdate, "marital_status":status,"home_phone":home_phone,"personal_phone":per_phone,"password":password,
+			"cpassword":cpassword,"empID":empid,"action":"editEmployee"
+		};
+		
 		$.when(returnAJAX('POST', url, data)).done(function(response) {
 			result = JSON.parse(response);
 			if(result.error)
@@ -215,15 +215,9 @@ $(document).ready(function(){
 			else
 			{
 				alertify.alert('<i class="fa fa-check"></i> Success', '<div class="alert alert-success">'+result.message+'</div>',function(){
-					alertify.success('Redirecting to employee list...');
-					setTimeout(function(){
-						location.href = "?p=employee";
-					},2000);
 				});
-				
 			}
 		});
-
 	});
 
 	//Soft Delete Employee

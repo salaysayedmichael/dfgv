@@ -24,7 +24,7 @@ switch ($action) {
 					 	 'birthdate'  =>trim($_POST['birthdate']),
 					 	 'mStatus'    =>trim($_POST['status']),
 					 	 'home_phone' =>trim($_POST['home_phone']),
-					 	 'per_phone'  =>trim($_POST['per_phone']),
+					 	 'personal_phone'  =>trim($_POST['personal_phone']),
 					 	 'user_id'    =>trim($_POST['user_id']));
 		$checkFields = checkEmptyFields($empData, $userData);
 		if(!empty($checkFields))
@@ -97,15 +97,15 @@ switch ($action) {
 
 	case 'editEmployee':
 			# code...
-			$result = array();
-			$result['message']  = 'Error occured while updating employee. Please contact the system administrator.';
-			$result['error'] = true;
-			$userData = array('user_id'   =>trim($_POST['user_id']),
+			$result            = array();
+			$result['message'] = 'Error occured while updating employee. Please contact the system administrator.';
+			$result['error']   = true;
+			$userData = array('user_id'   =>trim($_POST['userID']),
 									  	'password'  =>trim($_POST['password']),
 									  	'position'  =>trim($_POST['position']),
 									  	'cpassword' =>trim($_POST['cpassword']));
 
-			$empData = array('fName'      =>trim($_POST['fName']),
+			$empData = array('fName' =>trim($_POST['fName']),
 									   'mName'      =>trim($_POST['mName']),
 								       'lName'      =>trim($_POST['lName']),
 								       'gender'     =>trim($_POST['gender']),
@@ -113,31 +113,35 @@ switch ($action) {
 								 	   'address'    =>trim($_POST['address']),
 								 	   'email'      =>trim($_POST['email']),
 								 	   'birthdate'  =>trim($_POST['birthdate']),
-								 	   'mStatus'    =>trim($_POST['status']),
+								 	   'mStatus'    =>trim($_POST['marital_status']),
 								 	   'home_phone' =>trim($_POST['home_phone']),
-								 	   'per_phone'  =>trim($_POST['per_phone']),
-								 	   'user_id'    =>trim($_POST['user_id']));
+								 	   'personal_phone'  =>trim($_POST['personal_phone']),
+								 	   'user_id'    =>trim($_POST['userID']));
+
 			$checkFields = checkEmptyFields($empData , $userData);
-			
 			if(!empty($checkFields)) {
 				$result['message'] = $checkFields['message'];
 				$result['type'] = $checkFields['type'];
 			} else {
-				$updateEmployee = $admin->updateEmployee($userData, $empData);
-				if($updateEmployee) {
-					$result['message'] = ucfirst($empData['lName']).", ".ucfirst($empData['fName'])." ".mb_substr($empData['mName'], 0, 1, 'utf-8')."."."'s information is updated successfully.";
-					$result['error'] = false;
-				}
-				else
-				{
-					$result['message'] = "Failed to update employee, please contact the system administrator.";
+				$old = $admin->showEditEmployee($_POST["empID"]);
+				$new = $_POST;
+				$changes = checkChanges($old, $new);
+				if(empty($changes)){
+					$result["message"] = "No changes detected!";
+				}else{
+					$updateEmployee = $admin->updateEmployee($userData, $empData);
+					if($updateEmployee) {
+						$result['message'] = ucfirst($empData['lName']).", ".ucfirst($empData['fName'])." ".mb_substr($empData['mName'], 0, 1, 'utf-8')."."."'s information is updated successfully.";
+						$result['error'] = false;
+					}
+					else
+					{
+						$result['message'] = "Failed to update employee, please contact the system administrator.";
+					}
 				}
 			}
-
 			echo json_encode($result);
-
 	break;
-
 	case 'addLoanApplication':
 		$borrwowerID  = isset($_POST['borrwowerID'])?$_POST['borrwowerID']:0;
 		$userID = $_SESSION['uid'];
@@ -267,6 +271,24 @@ switch ($action) {
 		break;
 }
 
+	function checkChanges($old, $new) {
+		$result = array();
+		if(!empty($old) && !empty($new)) {
+			if(array_key_exists("action", $new)){
+				unset(
+					$new["action"], 
+					$new["empID"],
+					$old[0]["empID"],
+					$old[0]["created"],
+					$old[0]["employee_deleted"],
+					$old[0]["users_deleted"],
+					$old[0]["userType"]
+				);
+				$result = array_diff_assoc($old[0], $new);
+			}
+		}
+		return $result;
+	}
 
 	function checkEmptyFields($empData = array(), $userData = array())
 	{
@@ -287,7 +309,7 @@ switch ($action) {
 			$result['message'] = 'Email is required.';
 			$result['type'] = 'personal_info';
 		}
-		elseif(empty($empData['per_phone']))
+		elseif(empty($empData['personal_phone']))
 		{
 			$result['message'] = 'Phone contact is requred.';
 			$result['type'] = 'personal_info';

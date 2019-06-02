@@ -79,7 +79,7 @@ class admin extends main
 			$sql->bindParam(8, $employee['birthdate']);
 			$sql->bindParam(9, $employee['mStatus']);
 			$sql->bindParam(10, $employee['home_phone']);
-			$sql->bindParam(11, $employee['per_phone']);
+			$sql->bindParam(11, $employee['personal_phone']);
 			$sql->bindParam(12, $employee['user_id']); 	
 			$sql2->bindParam(1, $user['password']);
 			$sql2->bindParam(2, $user['user_id']);
