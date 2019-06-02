@@ -1,7 +1,8 @@
 </section>
 <?php 
 	$id = isset($_GET['id'])?$_GET['id']:0;
-	$collections = $admin->showAllCollections($id);
+	$specificloan = $id!=0;
+	$collections = $specificloan ? $admin->showCollections($id,"loan") : $admin->showAllCollections();
 ?>
 <?php include "application/views/modals/getCollection.modal.php"?>
 <?php include "application/views/modals/viewCollection.modal.php"?>
@@ -11,6 +12,67 @@
 			<h3 class="box-title">List of Collections</h3>
 		</div>
 		<div class="box-body">
+		<?php if($specificloan): ?>
+			<div class="panel-group" id="accordion">
+				<?php foreach($collections as $collection):	
+						$loaninfo = $admin->getLoanInfo($collection["application_no"])[0];
+						// var_dump($loaninfo); die;
+						$loancollections = $admin->showCollections($id,$collection["application_no"]);
+						$count = 1;
+						?>
+						<div class="panel panel-default">
+							<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#collapse<?php echo $collection["application_no"] ?>">Application # 
+								<?= sprintf("%05d", $collection["application_no"]); ?></a>
+							</h4>
+							</div>
+							<div id="collapse<?php echo $collection["application_no"] ?>" class="panel-collapse collapse in">
+							<div class="panel-body">
+								<table>
+									<tr>
+										<td>Name: </td>
+										<td><?php echo $loaninfo["fName"]." ".$loaninfo["mName"]." ".$loaninfo["lName"] ?></td>
+									</tr>
+									<tr>
+										<td>Amount Granted: </td>
+										<td> ₱ <?php echo $loaninfo["loanAmount"] ?></td>
+									</tr>
+									<tr>
+										<td>Type: </td>
+										<td><?php echo $loaninfo["lt_label"] ?></td>
+									</tr>
+									<tr>
+										<td>Total: </td>
+										<td></td>
+									</tr>
+								</table>
+								<table class="table">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>DATE</th>
+											<th>AMOUNT</th>
+											<th>ARREARS</th>
+										</tr>
+									</thead>
+									<tbody>
+									<?php foreach($loancollections as $lc): ?>
+										<tr>
+											<td><?php echo $count++ ?></td>
+											<td><?php echo $lc['collection_date']; ?></td>
+											<td><?php echo $lc['collection_amount']; ?></td>
+											<td><?php echo $lc['arrear']; ?></td>
+										</tr>
+									<?php endforeach; ?>
+									</tbody>
+								</table>
+							</div>
+							</div>
+						</div>
+				<?php endforeach; ?>
+			</div>
+		<?php else: ?>
 			<div class="table-responsive">
 				<table id="tbl-collections" class="table no-margin responsive display nowrap dataTable dtr-inline collapsed">
 					<thead>
@@ -51,6 +113,7 @@
 					</tbody>
 				</table>
 			</div>
+		<?php endif; ?>
 		</div>
 	</div>
 </section>

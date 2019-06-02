@@ -181,14 +181,10 @@ class admin extends main
 			echo "Error: ".$e->getMessage();
 		}
 	}
-	public function showAllCollections($id = 0)
+	public function showAllCollections()
 	{
 		try{
 		$result = array();
-			$where = "";
-			if($id != 0){
-				$where = "WHERE b.borrowerID = $id ";
-			}
 			$sql = $this->conn->prepare("SELECT 
 									    `e`.`empID`,
 									    `e`.`fName` AS `eFname`,
@@ -210,7 +206,6 @@ class admin extends main
 									    `employee` `e` on e.`userID`= l.empid
 									    	LEFT JOIN 
 									    `collection_info` `ci` ON `ci`.`application_no` = `l`.`applicationNo`
-										$where 
 									    GROUP BY `ci`.`application_no`, `l`.`applicationNo`
 									");
 			$sql->execute();
@@ -224,11 +219,35 @@ class admin extends main
 			echo "Error: ".$e->getMessage();
 		}
 	}
+	public function showCollections($id = 0, $by)
+	{
+		try{
+			$result = array();
+			if($by == "loan"){
+				$query = "SELECT * FROM collection_info WHERE borrower_id = ? GROUP BY `application_no`";
+				$data = array($id);
+			}else{
+				$query = "SELECT * FROM collection_info WHERE borrower_id = ? AND `application_no` = ?";
+				$data = array($id,$by);
+			}
+			$sql = $this->conn->prepare($query);
+			$sql->execute($data);
+			return $sql->fetchAll(PDO::FETCH_ASSOC);
+		}catch(PDOException $e) {
+			echo "Error: ".$e->getMessage();
+		}
+	}
+	public function getLoanInfo($id = 0)
+	{
+		$result = array();
+		$query = "SELECT * FROM `loan` LEFT JOIN borrower ON loan.borrowerID = borrower.borrowerID LEFT JOIN loan_type ON loan_type.lt_id = loan.loan_type WHERE applicationNo = ?";
+		$sql = $this->conn->prepare($query);
+		$sql->execute(array($id));
+		return $sql->fetchAll(PDO::FETCH_ASSOC);
+	}
 	public function getLoanDetails($applicationID)
 	{
 			try {
-				$result = array();
-				
 				$sql = $this->conn->prepare("SELECT 
 											    l.applicationNo,
 											    concat(b.fName, ' ', b.lName) as `borrower_name`,
@@ -260,7 +279,7 @@ class admin extends main
 				echo "Error: ".$e->getMessage();
 			}
 	}
-
+	
 	public function getCollectionInfo($applicationNo)
 	{
 		try {
