@@ -1,6 +1,8 @@
 //List of Employee Table
 $('#tbl-empList').DataTable();
 $('#tbl-collector').DataTable();
+$('#tbl-collection').DataTable();
+
 
 //List of datepickers
 $('#birthdate,#edit-birthdate').datepicker({

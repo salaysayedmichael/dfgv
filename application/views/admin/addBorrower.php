@@ -1,4 +1,4 @@
-
+</section><!--End of .content-header-->
 <section class="content" id="addBorrower">
 	<div class="box">
 		<div class="box-header">

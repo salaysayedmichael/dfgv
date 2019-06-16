@@ -1,3 +1,4 @@
+</section><!--End of .content-header-->
 <section class="content">
 	<?php if(!empty($admin->showEditEmployee($_GET['empID']))):?>
 	<?php foreach($admin->showEditEmployee($_GET['empID']) as $employee):?>

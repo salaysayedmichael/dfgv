@@ -157,6 +157,28 @@ class admin extends main
 		
 		return $result;
 	}
+
+	public function getCollectionDetails($cid) {
+		try {
+			$result = array();
+			$sql = $this->conn->prepare("SELECT * FROM `collection_info` `ci` 
+										LEFT JOIN `employee` `e` ON ci.collector_id = e.empID 
+										LEFT JOIN `borrower` `brw` ON ci.collector_id = brw.empID 
+										WHERE ci.collector_id = ?");
+			$id = base64_decode($cid);
+			$sql->bindParam(1, $cid);
+			$sql->execute();
+			if(!empty($sql->rowCount())) {
+				while($row = $sql->fetchAll(PDO::FETCH_ASSOC)) {
+					$result[] = $row;
+				}
+			}
+			print_r($result) ;
+		} catch(PDOException $e) {
+			echo "Something went wrong!<br>Error: ".$e->getMessage();
+		}
+	}
 }
 
 $admin = new admin;
+$admin->getCollectionDetails(2);

@@ -1,4 +1,4 @@
-
+</section><!--End of .content-header-->
 <section class="content">
 	<div class="box">
 		<div class="box-header">

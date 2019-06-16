@@ -1,3 +1,4 @@
+</section><!--End of .content-header-->
 <section class="content">
 	<div class="box box-info">
 		<div class="box-header with-border">
@@ -28,6 +29,7 @@
 							<td><?php echo ucfirst($collector['birthdate']); ?></td>
 							<td><?php echo ucfirst($collector['personal_phone']); ?></td>
 							<td class="text-center">
+								<a href="?p=showCollection&cid=<?php echo base64_encode($collector['empID']);?>"><i class="fa fa-info-circle fa-lg"></i></a> &nbsp;| &nbsp;
 								<a href="?p=editEmployee&empID=<?php echo base64_encode($collector['empID']);?>" class="empEdit" id="<?php echo $collector['empID'];?>" data-toggle="modal"> <i class="fa fa-edit fa-lg"></i></a> 
 								&nbsp;| &nbsp;
 								<a href="javascript:;" class="empDel" id="<?php echo $collector['empID'];?>"> <i class="fa fa-trash fa-lg text-danger"></i></a>
