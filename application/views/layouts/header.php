@@ -88,19 +88,16 @@
                 </li>
                 <!-- Menu Footer-->
                 <li class="user-footer">
-                  <div class="pull-left">
-                    <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  </div>
                   <div class="pull-right">
-                    <a href="?logout=1" class="btn btn-default btn-flat">Sign out</a>
+                    <a href="?logout=1" class="btn btn-default btn-flat"><i class="fa-power-off fa text-red"></i> Sign out</a>
                   </div>
                 </li>
               </ul>
             </li>
             <!-- Control Sidebar Toggle Button -->
-            <li>
+            <!-- <li>
               <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-            </li>
+            </li> -->
           </ul>
         </div>
       </nav>

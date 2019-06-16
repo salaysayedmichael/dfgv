@@ -9,11 +9,11 @@
       <div class="pull-left image">
         <?php if(!empty($main->getUser($_SESSION['uid']))) :?>
         <?php foreach($main->getUser($_SESSION['uid']) as $user) :?>
-        <img src="<?= 'assets/imgs/'.$user['gender'].'.png'?>" class="img-circle" alt="User Image">
+        <img src="<?php echo 'assets/imgs/'.$user['gender'].'.png'?>" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
         
-        <p><?= ucfirst($user['fName']).' '.mb_substr($user['mName'], 0, 1, 'utf-8').'. '.' '.ucfirst($user['lName']);?></p>
+        <p><?php echo ucfirst($user['fName']).' '.mb_substr($user['mName'], 0, 1, 'utf-8').'. '.' '.ucfirst($user['lName']);?></p>
         <?php endforeach;?>
         <?php endif;?>
         <!-- Status -->
@@ -40,18 +40,12 @@
       <?php if(!empty($main->getUser($_SESSION['uid']))):?>
         <?php $a = array();?>
         <?php $a = $main->getUser($_SESSION['uid']);?>
-          <?php if($a[0]["position"] == "admin"):?>
-            <?php $actions = array('employee'=>'fa-black-tie','borrower'=>'fa-users','collector'=>'fa-truck');
-            foreach($actions as $action => $fa):
-              $p = isset($_GET['p'])?$_GET['p']:'';
-              $isCurrentPage = false;
-              if(strpos(strtolower($p),$action)!==false){
-                $isCurrentPage = true;
-              }
-            ?>
-            <li  class="<?= $isCurrentPage?"active":"" ?>">
-              <a href="?p=<?= $action;?>">
-                <i class="fa <?= $fa?>"></i> <span><?= ucfirst($action);?></span>
+        <?php if($a[0]["position"] == "admin"):?>
+            <?php $actions = array('employee'=>'fa-black-tie','borrower'=>'fa-users','collection'=>'fa-money','collector'=>'fa-truck','loans'=>'fa-money');?>
+            <?php foreach($actions as $action => $fa):?>
+            <li  class="">
+              <a href="?p=<?php echo $action; ?>">
+                <i class="fa <?php echo $fa; ?>"></i> <span><?php echo ucfirst($action); ?></span>
               </a>
             </li><!--Employee Menu-->
             <?php endforeach;?>
@@ -67,11 +61,11 @@
               </ul>
             </li>
             <?php else:?>
-              <?php $actions = array('borrowers'=>'fa-users','collector'=>'fa-truck');?>
+              <?php $actions = array('borrower'=>'fa-users','collection'=>'fa-money','collector'=>'fa-truck');?>
             <?php foreach($actions as $action => $fa):?>
-            <li  class="<?= isset($_GET["$action"])?"active":"" ?>">
-              <a href="?p=<?= $action;?>">
-                <i class="fa <?= $fa?>"></i> <span><?= ucfirst($action);?></span>
+            <li  class="<?php echo isset($_GET["$action"]) ? "active":"" ?>">
+              <a href="?p=<?php echo $action;?>">
+                <i class="fa <?php echo $fa?>"></i> <span><?php echo ucfirst($action);?></span>
               </a>
             </li><!--Employee Menu-->
             <?php endforeach;?>
@@ -86,7 +80,7 @@
                   <li><a href="?">Link in level 2</a></li>
                 </ul>
               </li>
-            <?php endif;?>
+          <?php endif;?>
           <?php endif;?>
     </ul>
     <!-- /.sidebar-menu -->
@@ -95,4 +89,3 @@
 </aside>
 <div class="content-wrapper" style="min-height: 959.8px;">
 <section class="content-header">
-<!-- </section>  -->

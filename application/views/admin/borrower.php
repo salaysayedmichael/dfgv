@@ -1,8 +1,4 @@
-<?php 
-// require_once('application/views/modals/editBorrower.modal.php');
-// require_once('application/views/modals/addBorrower.modal.php');
-?>
-</section><!--End of .content-header-->
+</section><!--End of sidebar.php .content-header-->
 <section class="content">
 	<div class="box box-info">
 		<div class="box-header with-border">
@@ -29,9 +25,14 @@
 							<td><?php echo ucfirst($borrower['occupation']);?></td>
 							<td><?php echo ucfirst($borrower['presentAddr'])?></td>
 							<td class="text-center">
-								<a data-id="<?= $borrower['borrowerID'] ?>" class="editBorrowerBtn" > <i class="fa fa-edit fa-lg"></i></a> 
+								<a href="?p=editBorrower&id=<?= $borrower['borrowerID'] ?>" data-id="<?= $borrower['borrowerID'] ?>" class="editBorrowerBtn" > <i class="fa fa-edit fa-lg"></i></a> 
 								&nbsp;| &nbsp;
-								<a data-id="<?= $borrower['borrowerID'] ?>" class="deleteBorrowerBtn"> <i class="fa fa-trash fa-lg text-danger"></i></a>
+								<!-- NOTE: Don't allow deletion of borrower if borrower has an existing record in loan, collection_info tables -->
+								<a data-id="<?= $borrower['borrowerID'] ?>" class="deleteBorrowerBtn" title="Delete Borrower"> <i class="fa fa-trash fa-lg text-danger"></i></a>
+								&nbsp;| &nbsp;
+								<a data-id="<?= $borrower['borrowerID'] ?>" class="addLoanBtn" title="Add Loan Application" href="?p=addLoan&borrowerID=<?= $borrower['borrowerID'] ?>"> <i class="fa fa-plus fa-lg text-success"></i></a>&nbsp;
+								| &nbsp;
+								<a data-id="<?= $borrower['borrowerID'] ?>" class="addLoanBtn" title="View Collections" href="?p=collection&id=<?= $borrower['borrowerID'] ?>"> <i class="fa fa-eye fa-lg text-info"></i></a>
 							</td>
 						</tr>
 						<?php endforeach;?>

@@ -44,7 +44,10 @@
       <div class="row">
         <!-- /.col -->
         <div class="col-xs-4">
-          <input type="submit" id="login" class="btn btn-primary btn-block btn-flat" value="Sign In" />
+          <!-- <input type="submit" id="login" class="btn btn-primary btn-block btn-flat" value="Sign In" /> -->
+          <button id="login" class="btn btn-primary btn-block btn-flat">
+             Sign In
+          </button>
         </div>
         <!-- /.col -->
       </div>

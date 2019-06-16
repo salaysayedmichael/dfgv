@@ -108,14 +108,17 @@
 <!-- AdminLTE App -->
 <script src="assets/dist/js/adminlte.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 <script src="assets/js/dfgv_2.js"></script>
 <script src="assets/js/dfgv.js"></script>
 <script src="assets/js/dfgv_table.js"></script>
 <script src="assets/js/dfgv_validate.js"></script>
 
+<script src="assets/js/components/form-wizard.js"></script>
 <script src="assets/js/components/lte-input.js"></script>
 <script src="assets/js/directives/v-required.js"></script>
-<script src="assets/js/v-borrower.js"></script>
+<script src="assets/js/v-addBorrower.js"></script>
+<script src="assets/js/v-editBorrower.js"></script>
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
