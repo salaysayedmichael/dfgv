@@ -106,3 +106,6 @@
 {
     table-layout: fixed; width: 100%;
 }
+#add-employer-modal{
+    z-index: 1980;
+}

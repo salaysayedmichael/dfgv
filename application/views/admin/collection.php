@@ -19,6 +19,8 @@
 						// var_dump($loaninfo); die;
 						$loancollections = $admin->showCollections($id,$collection["application_no"]);
 						$count = 1;
+						$loanamount = is_numeric($loaninfo["loanAmount"])?$loaninfo["loanAmount"]:0;
+						$withinterest = $loanamount + ($loanamount * ($loaninfo["percentage"]/100));
 						?>
 						<div class="panel panel-default">
 							<div class="panel-heading">
@@ -43,8 +45,8 @@
 										<td><?php echo $loaninfo["lt_label"] ?></td>
 									</tr>
 									<tr>
-										<td>Total: </td>
-										<td></td>
+										<td>Total:  </td>
+										<td> ₱ <?php echo $withinterest ?>.00</td>
 									</tr>
 								</table>
 								<table class="table">

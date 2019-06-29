@@ -178,8 +178,12 @@ var editBorrower = new Vue({
                                     display: 'Married'
                                 },
                                 2:{
-                                    value: 'widow',
-                                    display: 'Widow'
+                                    value: 'separated',
+                                    display: 'Legally Separated'
+                                },
+                                3:{
+                                    value: 'widowed',
+                                    display: 'Widowed'
                                 }
                             },
                             size: '3',
@@ -330,8 +334,12 @@ var editBorrower = new Vue({
                                     display: 'Married'
                                 },
                                 2:{
-                                    value: 'widow',
-                                    display: 'Widow'
+                                    value: 'separated',
+                                    display: 'Legally Separated'
+                                },
+                                3:{
+                                    value: 'widowed',
+                                    display: 'Widowed'
                                 }
                             },
                             size: '2',
