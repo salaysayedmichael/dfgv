@@ -471,6 +471,10 @@
                                 assignValue = function(){
                                     if(name=="employer"){
                                         addBorrower["contents"]["borrower"]["fields"][name]["options"].unshift({value:value,display:`${self.contents[name].fields.name.value}`,selected:true})
+                                        if(typeof addComaker["contents"]["comaker"]["fields"] !== undefined){
+                                            addComaker["contents"]["comaker"]["fields"][name]["options"].unshift({value:value,display:`${self.contents[name].fields.name.value}`,selected:true})
+                                        }
+                                        addBorrower["contents"]["borrower"]["fields"][name]["options"].unshift({value:value,display:`${self.contents[name].fields.name.value}`,selected:true})
                                     }else{
                                         addBorrower["contents"]["borrower"]["fields"][name]["options"].unshift({value:value,display:`${self.contents[name].fields.fname.value} ${self.contents[name].fields.mname.value} ${self.contents[name].fields.lname.value}`,selected:true})
                                     }
