@@ -1,23 +1,15 @@
 -- phpMyAdmin SQL Dump
-<<<<<<< HEAD
 -- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2019 at 11:25 AM
+-- Generation Time: Jul 06, 2019 at 08:05 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 7.3.2
-=======
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: May 08, 2019 at 05:53 AM
--- Server version: 10.1.21-MariaDB
--- PHP Version: 5.6.30
->>>>>>> f0a4ffbb19a7ecfe989eba652b8c9d51f316a70c
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -59,6 +51,14 @@ CREATE TABLE `borrower` (
   `borrower_deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `borrower`
+--
+
+INSERT INTO `borrower` (`borrowerID`, `fName`, `mName`, `lName`, `bDay`, `civilStatus`, `gender`, `presentAddr`, `homeAddr`, `ownHouse`, `renting`, `lengthOfStay`, `noOfChildren`, `occupation`, `contactNo`, `validID`, `loanCount`, `empID`, `comakerID`, `borrower_deleted`) VALUES
+(1, 'Firstname', '', 'Labajo', '2019-05-10', 'married', 'female', 'present', 'home', 'yes', 'no', '23', 23, '23', '23', '23', 0, 1, 0, 1),
+(4, 'Joe June', 'Montemor', 'Labajo', '2019-05-15', 'single', 'male', 'Tisa', 'Labangon', 'no', 'no', '20', 0, 'Programmer', '09225235236', 'Alumni', 3, 1, 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -87,6 +87,14 @@ CREATE TABLE `borrower_expense` (
   `misc` decimal(8,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `borrower_expense`
+--
+
+INSERT INTO `borrower_expense` (`borrowerID`, `food`, `bills`, `education`, `rental`, `repairMaintenance`, `misc`) VALUES
+(1, '10.00', '10.00', '10.00', '10.00', '10.00', '10.00'),
+(2, '2000.00', '2000.00', '2000.00', '2000.00', '2000.00', '2000.00');
+
 -- --------------------------------------------------------
 
 --
@@ -101,6 +109,14 @@ CREATE TABLE `borrower_income` (
   `netIncome` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `borrower_income`
+--
+
+INSERT INTO `borrower_income` (`borrowerID`, `incomeOrSalary`, `otherIncome`, `otherIncomeDetails`, `netIncome`) VALUES
+(1, '6000.00', '6000.00', 'details', '11940.00'),
+(2, '14000.00', '16000.00', 'Other Income Details', '18000.00');
+
 -- --------------------------------------------------------
 
 --
@@ -113,6 +129,7 @@ CREATE TABLE `collection_info` (
   `borrower_id` int(11) NOT NULL,
   `application_no` int(11) NOT NULL,
   `collection_amount` double NOT NULL,
+  `arrear` varchar(50) NOT NULL,
   `comment` varchar(100) NOT NULL,
   `collection_date` date NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -121,9 +138,9 @@ CREATE TABLE `collection_info` (
 -- Dumping data for table `collection_info`
 --
 
-INSERT INTO `collection_info` (`collection_id`, `collector_id`, `borrower_id`, `application_no`, `collection_amount`, `comment`, `collection_date`) VALUES
-(1, 6, 4, 5, 500, '', '2019-05-01'),
-(2, 6, 4, 5, 600, '', '2019-05-04');
+INSERT INTO `collection_info` (`collection_id`, `collector_id`, `borrower_id`, `application_no`, `collection_amount`, `arrear`, `comment`, `collection_date`) VALUES
+(1, 6, 4, 5, 500, '100', '', '2019-05-01'),
+(2, 6, 4, 5, 600, '(200)', '', '2019-05-04');
 
 -- --------------------------------------------------------
 
@@ -216,6 +233,19 @@ CREATE TABLE `employer` (
   `employer_deleted` tinyint(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `employer`
+--
+
+INSERT INTO `employer` (`employerID`, `name`, `address`, `contactNo`, `employer_deleted`) VALUES
+(1, 'New Alchemy', 'Crown', '+11 22 33 44 ', 0),
+(2, 'JJ Labajo', 'Tisa, Cebu City', '123123123123', 0),
+(3, 'JJ Labajo', 'Tisa, Cebu City', '123123123123', 0),
+(4, 'asd', 'asd', 'asd', 0),
+(5, 'asd', 'asda', 'sdasdasdasdasd', 0),
+(6, 'asd', 'asd', 'asd', 0),
+(7, '123123', '12312', '21312312', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -250,7 +280,7 @@ INSERT INTO `loan` (`applicationNo`, `tradeReference`, `loanAmount`, `purpose`, 
 (00000001, NULL, '2000.00', '', '', '', '100.00', '100.00', '1', 0, 1, NULL, NULL, 'IGP', 1, 6, 0),
 (00000002, NULL, '2000.00', '', '', '', '100.00', '100.00', '1', 0, 1, NULL, NULL, 'Expired', 2, 6, 0),
 (00000004, NULL, '100000.00', 'secret', '', '', '0.00', '0.00', '5', 0, 0, '0000-00-00 00:00:00', NULL, '1', 3, 0, 1),
-(00000005, NULL, '500500.00', 'sample', '', '', '0.00', '0.00', '5', 0, 0, '0000-00-00 00:00:00', NULL, '1', 4, 0, 1),
+(00000005, NULL, '15000.00', 'sample', '', '', '0.00', '0.00', '5', 0, 0, '0000-00-00 00:00:00', NULL, '1', 4, 0, 1),
 (00000006, NULL, '500.00', 'asdfasfd', '', '', '0.00', '0.00', '5', 525, 0, '2019-05-05 00:00:00', NULL, '1', 1, 123, 2),
 (00000007, NULL, '300000.00', 'secret', '', '', '0.00', '0.00', '10', 330000, 0, '2019-05-05 00:00:00', NULL, '1', 2, 123, 1),
 (00000008, NULL, '700000.00', 'Hospital Bills', '', '', '0.00', '0.00', '5', 735000, 0, '2019-05-05 00:00:00', NULL, '1', 4, 123, 2),
@@ -354,6 +384,14 @@ CREATE TABLE `spouse` (
   `contactNo` varchar(15) DEFAULT NULL,
   `employerID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `spouse`
+--
+
+INSERT INTO `spouse` (`borrowerID`, `name`, `bDay`, `civilStatus`, `presentAddr`, `homeAddr`, `occupation`, `salaryOrIncome`, `validID`, `contactNo`, `employerID`) VALUES
+(1, 'Spouse', '2019-05-09', 'married', 'Present', 'Home', 'Occupation', '6000.00', 'id', '+44 55 5 56', 1),
+(2, 'Irene Navarro', '2019-05-16', 'married', 'Hipodromo', 'Mabolo', 'Encoder', '10000.00', 'NA', '09446554', 1);
 
 -- --------------------------------------------------------
 
@@ -481,27 +519,32 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `borrower`
 --
 ALTER TABLE `borrower`
-  MODIFY `borrowerID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `borrowerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
 --
 -- AUTO_INCREMENT for table `collection_info`
 --
 ALTER TABLE `collection_info`
   MODIFY `collection_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
   MODIFY `empID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
 --
 -- AUTO_INCREMENT for table `employer`
 --
 ALTER TABLE `employer`
-  MODIFY `employerID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `employerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT for table `loan`
 --
 ALTER TABLE `loan`
   MODIFY `applicationNo` int(8) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
 -- Constraints for dumped tables
 --
@@ -511,6 +554,7 @@ ALTER TABLE `loan`
 --
 ALTER TABLE `borrower_employee_relationship`
   ADD CONSTRAINT `borrower_employee_relationship_ibfk_2` FOREIGN KEY (`empID`) REFERENCES `employee` (`empID`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
