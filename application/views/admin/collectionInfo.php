@@ -1,7 +1,12 @@
 <h1>Collection Details</h1>
 </section> <!--End of sidebar.php .content-header-->
-<?php $collections = $admin->getCollectionDetails($_GET["cid"]);?>
-<?php $empName = ucfirst($collections[0]['eFname'])." ".mb_substr(ucfirst($collections[0]['eMname']), 0, 1, 'utf-8').". ".ucfirst($collections[0]['eLname']);?>
+<?php 
+$collections = $admin->getCollectionDetails($_GET["cid"]);
+$empName = "";
+if(isset($collections[0])){
+	$empName = ucfirst($collections[0]['eFname'])." ".mb_substr(ucfirst($collections[0]['eMname']), 0, 1, 'utf-8').". ".ucfirst($collections[0]['eLname']);
+}
+?>
 <section class="content">
 	<div class="row">
 		<div class="col-md-3">
